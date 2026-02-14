@@ -1,11 +1,12 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for, session
 from datetime import datetime
 
 app = Flask(__name__)
-app.secret_key = "sash_secret_key_1234"   # 로그인 암호키 (아무 문자열 가능)
+app.secret_key = "super_secret_key"   # 로그인 암호키 (아무 문자열 가능)
 
 FILE_NAME = "문의목록.txt"
-ADMIN_PASSWORD = "1234"   # ★ 여기 비밀번호 바꾸면 됨
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD")   # ★ 여기 비밀번호 바꾸면 됨
 
 
 # 메인 페이지
