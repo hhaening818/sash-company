@@ -158,8 +158,8 @@ a.delete {
 <td>{{ i[3] }}</td>
 <td>{{ i[4] }}</td>
 <td>
-    <form action="/delete/{{ i[0] }}" method="POST" style="display:inline;">
-    {{ csrf_token() }}
+<form action="/delete/{{ i[0] }}" method="POST" style="display:inline;">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <button type="submit" class="delete">삭제</button>
 </form>
 </td>
