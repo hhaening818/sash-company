@@ -357,10 +357,6 @@ function toggleStats() {
 
             <td class="message">{{ i[3] }}</td>
 
-            <td style="color:red;">
-                 {{ i[4] }}
-             </td>
-
             <td>
                  {% if i[5] %}
                     <a href="{{ url_for('static', filename='uploads/' + i[5]) }}" target="_blank">
