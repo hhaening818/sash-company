@@ -146,7 +146,7 @@ def admin():
         row = list(row)
         if row[5]:
              try:
-                 row[5] = row[5].strftime('%Y-%m-%d %H:%M')
+                 row[5] = row[5].strftime('%Y년 %m월 %d일 %H:%M')
              except:
                  row[5] = str(row[5])
         data.append(row)
