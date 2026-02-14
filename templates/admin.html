@@ -2,14 +2,17 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>관리자 페이지</title>
+
 <style>
-body { font-family: Arial; background:#f4f4f4; padding:20px; }
-table { width:100%; border-collapse:collapse; background:white; }
-th, td { padding:10px; border:1px solid #ddd; text-align:center; }
-th { background:#1e3a8a; color:white; }
-a.call { color:green; font-weight:bold; text-decoration:none; }
-a.delete { color:red; text-decoration:none; }
+body { 
+    font-family: Arial; 
+    background:#f4f4f4; 
+    padding:20px; 
+    margin:0;
+}
+
 .top-bar {
     display:flex;
     justify-content:space-between;
@@ -29,8 +32,105 @@ a.delete { color:red; text-decoration:none; }
 .logout-btn:hover {
     background:#334155;
 }
+
+/* 기본 테이블 */
+table { 
+    width:100%; 
+    border-collapse:collapse; 
+    background:white; 
+}
+
+th, td { 
+    padding:10px; 
+    border:1px solid #ddd; 
+    text-align:center; 
+    font-size:14px;
+}
+
+th { 
+    background:#1e3a8a; 
+    color:white; 
+}
+
+a.call { 
+    color:green; 
+    font-weight:bold; 
+    text-decoration:none; 
+}
+
+a.delete { 
+    color:red; 
+    font-weight:bold;
+    text-decoration:none; 
+}
+
+/* ========================= */
+/* 📱 모바일 전용 스타일 */
+/* ========================= */
+
+@media (max-width: 768px) {
+
+    body {
+        padding:10px;
+    }
+
+    table, thead, tbody, th, td, tr {
+        display:block;
+    }
+
+    thead {
+        display:none;
+    }
+
+    tr {
+        background:white;
+        margin-bottom:15px;
+        padding:10px;
+        border-radius:10px;
+        box-shadow:0 3px 10px rgba(0,0,0,0.08);
+    }
+
+    td {
+        border:none;
+        text-align:left;
+        padding:6px 0;
+        font-size:14px;
+    }
+
+    td::before {
+        font-weight:bold;
+        display:block;
+        color:#1e3a8a;
+    }
+
+    td:nth-of-type(1)::before { content:"이름"; }
+    td:nth-of-type(2)::before { content:"전화번호"; }
+    td:nth-of-type(3)::before { content:"내용"; }
+    td:nth-of-type(4)::before { content:"시간"; }
+    td:nth-of-type(5)::before { content:"관리"; }
+
+    a.call {
+        display:inline-block;
+        background:#22c55e;
+        color:white;
+        padding:6px 10px;
+        border-radius:6px;
+        margin-top:4px;
+    }
+
+    a.delete {
+        display:inline-block;
+        background:#ef4444;
+        color:white;
+        padding:6px 10px;
+        border-radius:6px;
+        margin-top:4px;
+    }
+}
+
 </style>
 </head>
+
 <body>
 
 <div class="top-bar">
