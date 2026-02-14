@@ -133,38 +133,35 @@ def admin():
     conn = get_connection()
     cur = conn.cursor()
 
-    # 전체 문의 목록
+    # 1️⃣ 문의 목록
     cur.execute("SELECT * FROM inquiries ORDER BY created_at DESC")
     data = cur.fetchall()
 
-    # 오늘 문의 수
+    # 2️⃣ 오늘 문의 수
     today = datetime.now().date()
-    cur.execute("SELECT COUNT(*) FROM inquiries WHERE DATE(created_at) = %s", (today,))
+    cur.execute("""
+        SELECT COUNT(*) FROM inquiries
+        WHERE DATE(created_at) = %s
+    """, (today,))
     today_count = cur.fetchone()[0]
 
-    # 최근 6개월 월별 통계
+    # 3️⃣ 월별 통계
     cur.execute("""
         SELECT TO_CHAR(created_at, 'YYYY-MM') AS month,
                COUNT(*)
         FROM inquiries
         GROUP BY month
-        ORDER BY month DESC
-        LIMIT 6
+        ORDER BY month
     """)
+    results = cur.fetchall()
 
-    result = cur.fetchall()
-
-    # 🔥 여기 중요
-    months = []
-    counts = []
-
-    for row in result:
-        months.append(row[0])
-        counts.append(row[1])
+    months = [row[0] for row in results]
+    counts = [row[1] for row in results]
 
     cur.close()
     conn.close()
 
+    # 🔥 모든 변수 정의 후 render
     return render_template(
         "admin.html",
         inquiries=data,
