@@ -13,6 +13,19 @@ body {
     margin:0;
 }
 
+button {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #dc2626;
+}
+
 .top-bar {
     display:flex;
     justify-content:space-between;
@@ -34,26 +47,39 @@ body {
 }
 
 /* 기본 테이블 */
-table { 
-    width:70%;              /* ← 100% → 70%로 변경 */
-    margin:20px auto;       /* 가운데 정렬 */
-    border-collapse:collapse; 
-    background:white; 
-    font-size:13px;         /* 글자 조금 줄이기 */
+table {
+    width: 100%;
+    max-width: 1000px;
+    margin: 30px auto;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+    font-size: 14px;
 }
 
-
-th, td { 
-    padding:6px 8px;        /* 여백 줄이기 */
-    border:1px solid #ddd; 
-    text-align:center; 
-    font-size:13px;
+th {
+    background: #1e3a8a;
+    color: white;
+    padding: 14px;
+    font-weight: 600;
 }
 
+td {
+    padding: 14px;
+    border-bottom: 1px solid #f0f0f0;
+}
 
-th { 
-    background:#1e3a8a; 
-    color:white; 
+tr:hover {
+    background: #f8fafc;
+}
+
+img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 10px;
 }
 
 a.call { 
@@ -156,13 +182,33 @@ a.delete {
     font-weight:bold;
     margin:10px 0 0;
 }
+.chart-wrapper {
+    max-width: 1000px;
+    margin: 20px auto;
+}
+
+.toggle-btn {
+    background:#1e3a8a;
+    color:white;
+    padding:10px 18px;
+    border-radius:10px;
+    border:none;
+    cursor:pointer;
+    font-weight:500;
+}
+
+.toggle-btn:hover {
+    background:#16327a;
+}
+
 .chart-box {
+    margin-top:20px;
     background:white;
     padding:20px;
-    border-radius:12px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.08);
-    margin-bottom:20px;
+    border-radius:14px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.05);
 }
+
 
 </style>
 </head>
@@ -181,8 +227,14 @@ a.delete {
     </div>
 </div>
 
-<div class="chart-box">
-    <canvas id="monthlyChart"></canvas>
+<div class="chart-wrapper">
+    <button class="toggle-btn" onclick="toggleChart()">
+        📊 월별 통계 보기
+    </button>
+
+    <div id="chartArea" class="chart-box" style="display:none;">
+        <canvas id="monthlyChart"></canvas>
+    </div>
 </div>
 
 <table>
@@ -276,8 +328,13 @@ if (chartDataEl) {
         });
     }
 }
+
+function toggleChart() {
+    const area = document.getElementById("chartArea");
+    area.style.display =
+        area.style.display === "none" ? "block" : "none";
+}
+
 </script>
-
-
 </body>
 </html>
