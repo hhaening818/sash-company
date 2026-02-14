@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>관리자 페이지</title>
+<style>
+body { font-family: Arial; background:#f4f4f4; padding:20px; }
+table { width:100%; border-collapse:collapse; background:white; }
+th, td { padding:10px; border:1px solid #ddd; text-align:center; }
+th { background:#1e3a8a; color:white; }
+a.call { color:green; font-weight:bold; text-decoration:none; }
+a.delete { color:red; text-decoration:none; }
+</style>
+</head>
+<body>
+
+<h1>📋 문의 목록</h1>
+
+<table>
+<tr>
+<th>시간</th>
+<th>이름</th>
+<th>연락처</th>
+<th>내용</th>
+<th>관리</th>
+</tr>
+
+{% for q in inquiries %}
+<tr>
+<td>{{ q.date }}</td>
+<td>{{ q.name }}</td>
+<td><a class="call" href="tel:{{ q.phone }}">{{ q.phone }}</a></td>
+<td>{{ q.message }}</td>
+<td><a class="delete" href="/delete/{{ q.id }}">삭제</a></td>
+</tr>
+{% endfor %}
+
+</table>
+
+</body>
+</html>

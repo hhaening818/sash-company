@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <title>건진창호 | 창호 전문 시공</title>
+    <style>
+        /* 전체 스타일 */
+        body {
+            margin: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+
+        /* 헤더 */
+        header {
+            background-color: #1e3a8a;
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 3em;
+        }
+
+        header p {
+            margin-top: 10px;
+            font-size: 1.2em;
+        }
+
+        /* 네비게이션 */
+        nav {
+            background-color: #111827;
+            text-align: center;
+        }
+
+        nav a {
+            display: inline-block;
+            color: white;
+            padding: 15px 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #2563eb;
+        }
+
+        /* 섹션 카드 */
+        section {
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            margin: 20px auto;
+            width: 70%;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            color: #1e3a8a;
+        }
+
+        input, textarea {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #1e40af;
+        }
+
+        /* 푸터 */
+        footer {
+            background-color: #1e3a8a;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* 반응형 */
+        @media(max-width:768px) {
+            .card { width: 90%; }
+            header h1 { font-size: 2em; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>건진창호</h1>
+    <p>아파트 · 주택 · 상가 창호 전문 시공</p>
+</header>
+
+<nav>
+    <a href="#about">회사소개</a>
+    <a href="#service">시공 분야</a>
+    <a href="#contact">문의하기</a>
+</nav>
+
+<section id="about">
+    <div class="card">
+        <h2>회사소개</h2>
+        <p>20년 경력의 전문가가 직접 시공합니다.<br />
+           최고의 단열, 방음, 내구성 보장</p>
+    </div>
+</section>
+
+<section id="service">
+    <div class="card">
+        <h2>시공 분야</h2>
+        <p>✔ 아파트 샷시 교체<br />
+           ✔ 단독주택 창호<br />
+           ✔ 상가 유리 시공<br />
+           ✔ 베란다 확장</p>
+    </div>
+</section>
+
+<section id="contact">
+    <div class="card">
+        <h2>무료 견적 문의</h2>
+        <form action="/contact" method="post">
+            <input type="text" name="name" placeholder="이름" required /><br />
+            <input type="text" name="phone" placeholder="연락처" required /><br />
+            <textarea name="message" placeholder="문의 내용" rows="4"></textarea><br />
+            <button type="submit">견적 요청하기</button>
+        </form>
+    </div>
+</section>
+
+<footer>
+    📞 010-7137-2313 | 건진창호<br />
+    © 2026 All rights reserved.
+</footer>
+
+</body>
+</html>
