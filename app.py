@@ -121,7 +121,6 @@ def login():
     return render_template("login.html", error=None)
 
 
-
 @app.route("/admin")
 def admin():
     if not session.get("admin"):
@@ -129,46 +128,45 @@ def admin():
 
     conn = get_connection()
     cur = conn.cursor()
-    
+
+    # 전체 문의
     cur.execute("SELECT * FROM inquiries ORDER BY created_at DESC")
     data = cur.fetchall()
 
-    # 오늘 문의 수 계산
-    from datetime import date
-    today = date.today()
-
+    # 오늘 문의 수
     cur.execute("""
-         SELECT COUNT(*) FROM inquiries
-         WHERE DATE(created_at) = %s
-    """, (today,))
+        SELECT COUNT(*) 
+        FROM inquiries 
+        WHERE DATE(created_at) = CURRENT_DATE
+    """)
     today_count = cur.fetchone()[0]
-    
+
+    # 월별 통계 (최근 6개월)
+    cur.execute("""
+        SELECT TO_CHAR(created_at, 'YYYY-MM') AS month,
+               COUNT(*)
+        FROM inquiries
+        GROUP BY month
+        ORDER BY month DESC
+        LIMIT 6
+    """)
+    results = cur.fetchall()
+
+    # 리스트로 변환
+    months = [r[0] for r in results][::-1]
+    counts = [r[1] for r in results][::-1]
+
     cur.close()
     conn.close()
 
     return render_template(
-         "admin.html",
-         inquiries=data,
-         today_count=today_count,
-         months=months,
-         counts=counts
+        "admin.html",
+        inquiries=data,
+        today_count=today_count,
+        months=months,
+        counts=counts
     )
 
-    # 월별 문의 통계 (최근 6개월)
-    cur.execute("""
-         SELECT TO_CHAR(created_at, 'YYYY-MM') AS month,
-                 COUNT(*)
-         FROM inquiries
-         GROUP BY month
-         ORDER BY month DESC
-         LIMIT 6
-     """)
-
-    monthly_data = cur.fetchall()
-    monthly_data.reverse()  # 오래된 달부터 정렬
-
-    months = [row[0] for row in monthly_data]
-    counts = [row[1] for row in monthly_data]
 
 @app.route("/delete/<int:id>", methods=["POST"])
 def delete(id):
