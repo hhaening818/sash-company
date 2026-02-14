@@ -10,6 +10,13 @@ import cloudinary.uploader
 from openpyxl import Workbook
 from flask import send_file
 import io
+import requests
+import json
+import hmac
+import hashlib
+import time
+import base64
+
 
 cloudinary.config(
     cloud_name=os.getenv("CLOUD_NAME"),
@@ -64,6 +71,42 @@ def create_table():
 
 create_table()
 
+def send_sms(text):
+
+    api_key = os.getenv("SMS_API_KEY")
+    api_secret = os.getenv("SMS_API_SECRET")
+
+    timestamp = str(int(time.time() * 1000))
+    salt = os.urandom(16).hex()
+
+    signature_data = timestamp + salt
+    signature = hmac.new(
+        api_secret.encode(),
+        signature_data.encode(),
+        hashlib.sha256
+    ).digest()
+
+    signature = base64.b64encode(signature).decode()
+
+    headers = {
+        "Authorization": f"HMAC-SHA256 apiKey={api_key}, date={timestamp}, salt={salt}, signature={signature}",
+        "Content-Type": "application/json"
+    }
+
+    data = {
+        "message": {
+            "to": "010XXXXXXXX",  # 네 번호
+            "from": "발신번호등록된번호",
+            "text": text
+        }
+    }
+
+    requests.post(
+        "https://api.solapi.com/messages/v4/send",
+        headers=headers,
+        json=data
+    )
+
 
 @app.route("/")
 def home():
@@ -98,6 +141,13 @@ def contact():
     conn.close()
 
     return "<h2>문의 접수 완료!</h2><a href='/'>돌아가기</a>"
+    
+    send_sms(f"""
+    [새 문의 접수]
+    이름: {name}
+    전화: {phone}
+    내용: {message}
+    """)
 
 
 @app.route("/login", methods=["GET", "POST"])
