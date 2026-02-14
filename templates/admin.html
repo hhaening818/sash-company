@@ -209,26 +209,25 @@ a.delete {
 
     <td>{{ i[3] }}</td>
 
+    <!-- 사진 -->
     <td>
-         {% if i[4] %}
-             <a href="{{ i[4] }}" target="_blank">
-                 <img src="{{ i[4] }}"
+        {% if i[4] %}
+            <a href="{{ i[4] }}" target="_blank">
+                <img src="{{ i[4] }}"
                      width="80"
-                     style="border-radius:8px; cursor:pointer;">
-             </a>
-         {% else %}
-              -
-         {% endif %}
-     </td>
-
-
-
-    <td>
-         {{ i[5] if i[5] else '-' }}
+                     style="border-radius:8px;">
+            </a>
+        {% else %}
+            -
+        {% endif %}
     </td>
 
+    <!-- 시간 -->
+    <td>
+        {{ i[5] if i[5] else '-' }}
+    </td>
 
-
+    <!-- 관리 -->
     <td>
         <form action="/delete/{{ i[0] }}" method="POST" style="display:inline;">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
@@ -236,6 +235,7 @@ a.delete {
         </form>
     </td>
 </tr>
+
 {% endfor %}
 
 </table>
