@@ -126,6 +126,16 @@ def login():
 
     return render_template("login.html", error=None)
 
+@app.route("/clear")
+def clear():
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("DELETE FROM inquiries;")
+    conn.commit()
+    cur.close()
+    conn.close()
+    return "DB Cleared"
+
 
 @app.route("/admin")
 def admin():
