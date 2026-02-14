@@ -193,33 +193,40 @@ a.delete {
 
 {% for i in inquiries %}
 <tr>
-<td>{{ i[1] }}</td>
-<td>
-    <a class="call" href="tel:{{ i[2] }}">
-        {{ i[2] }}
-    </a>
-</td>
-<td>{{ i[3] }}</td>
-<td>
-{% if i[4] %}
-    <img src="{{ url_for('static', filename='uploads/' ~ i[4]) }}"
-         width="80"
-         style="border-radius:8px;">
-{% else %}
-    -
-{% endif %}
-</td>
-<td>
-    {{ i[5].strftime("%Y-%m-%d %H:%M") if i[5] else "" }}
-</td>
-<td>
-<form action="/delete/{{ i[0] }}" method="POST" style="display:inline;">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-    <button type="submit" class="delete">삭제</button>
-</form>
-</td>
+    <td>{{ i[1] }}</td>
+
+    <td>
+        <a class="call" href="tel:{{ i[2] }}">
+            {{ i[2] }}
+        </a>
+    </td>
+
+    <td>{{ i[3] }}</td>
+
+    <td>
+         {% if i[4] %}
+             <img src="{{ url_for('static', filename='uploads/' ~ i[4]|string) }}"
+                 width="80"
+                 style="border-radius:8px;">
+         {% else %}
+             -
+         {% endif %}
+     </td>
+
+    <td>
+         {{ i[5].strftime("%Y-%m-%d %H:%M") if i[5] else "" }}
+    </td>
+
+
+    <td>
+        <form action="/delete/{{ i[0] }}" method="POST" style="display:inline;">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="delete">삭제</button>
+        </form>
+    </td>
 </tr>
 {% endfor %}
+
 </table>
 
 <div id="chart-data"
