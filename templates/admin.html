@@ -10,6 +10,15 @@ body {
      background:linear-gradient(135deg,#f8fafc,#eef2ff);
 }
 
+.logo {
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.logo img {
+    height:70px;
+}
+
 .export-btn {
     background:#10b981;
     color:white;
@@ -386,9 +395,14 @@ a.delete {
 
 <body>
 
+<div class="logo-wrap">
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="건진창호 로고">
+</div>
+
 <div class="top-section">
     <div>
         <h1>📋 문의 관리</h1>
+
         <p class="sub">최근 접수된 문의를 확인하세요</p>
     </div>
     <a href="/logout" class="logout-btn">로그아웃</a>

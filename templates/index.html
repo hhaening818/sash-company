@@ -12,6 +12,10 @@
             color: #333;
         }
 
+        .logo img {
+             height: 60px;
+         }
+
         /* 헤더 */
         header {
             background-color: #1e3a8a;
@@ -107,10 +111,12 @@
 </head>
 <body>
 
-<header>
-    <h1>건진창호</h1>
-    <p>아파트 · 주택 · 상가 창호 전문 시공</p>
-</header>
+<div class="logo">
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="건진창호 로고">
+</div>
+
+<h1>SASH COMPANY</h1>
+
 
 <nav>
     <a href="#about">회사소개</a>
