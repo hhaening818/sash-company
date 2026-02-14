@@ -139,16 +139,16 @@ def admin():
     cur.execute("SELECT * FROM inquiries ORDER BY created_at DESC")
     rows = cur.fetchall()
 
-    print(rows[:5])
+    print(rows[:4])
 
     data = []
     for row in rows:
         row = list(row)
-        if row[5]:
+        if row[4]:
              try:
-                 row[5] = row[5].strftime('%Y년 %m월 %d일 %H:%M')
+                 row[4] = row[4].strftime('%Y년 %m월 %d일 %H:%M')
              except:
-                 row[5] = str(row[5])
+                 row[4] = str(row[4])
         data.append(row)
 
 
