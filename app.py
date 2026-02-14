@@ -1,3 +1,4 @@
+import time
 import os
 import psycopg2
 from flask import Flask, render_template, request, redirect, url_for, session
@@ -5,6 +6,9 @@ from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = "super_secret_key"
+LOGIN_ATTEMPTS = {}
+MAX_ATTEMPTS = 5
+LOCK_TIME = 300  # 5분 (초 단위)
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
 ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD")
@@ -60,14 +64,33 @@ def contact():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    ip = request.remote_addr
+    current_time = time.time()
+
+    # 잠금 상태 확인
+    if ip in LOGIN_ATTEMPTS:
+        attempts, last_time = LOGIN_ATTEMPTS[ip]
+        if attempts >= MAX_ATTEMPTS and current_time - last_time < LOCK_TIME:
+            return render_template("login.html", error="5회 이상 실패. 5분 후 다시 시도하세요.")
+
     if request.method == "POST":
-        if request.form["password"] == ADMIN_PASSWORD:
+        password = request.form["password"]
+
+        if password == ADMIN_PASSWORD:
             session["admin"] = True
+            LOGIN_ATTEMPTS.pop(ip, None)
             return redirect("/admin")
         else:
-            return "비밀번호 틀림"
+            if ip in LOGIN_ATTEMPTS:
+                attempts, _ = LOGIN_ATTEMPTS[ip]
+                LOGIN_ATTEMPTS[ip] = (attempts + 1, current_time)
+            else:
+                LOGIN_ATTEMPTS[ip] = (1, current_time)
 
-    return render_template("login.html")
+            return render_template("login.html", error="비밀번호가 틀렸습니다.")
+
+    return render_template("login.html", error=None)
+
 
 
 @app.route("/admin")
