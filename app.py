@@ -5,15 +5,19 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from flask_wtf import CSRFProtect
 from datetime import datetime
 from werkzeug.utils import secure_filename
+import cloudinary
+import cloudinary.uploader
+
+cloudinary.config(
+    cloud_name=os.getenv("CLOUD_NAME"),
+    api_key=os.getenv("API_KEY"),
+    api_secret=os.getenv("API_SECRET")
+)
+
 
 app = Flask(__name__)
 app.secret_key = "super_secret_key"
 
-UPLOAD_FOLDER = "static/uploads"
-app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
-
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
 
 csrf = CSRFProtect(app)
 
@@ -70,23 +74,20 @@ def contact():
     message = request.form["message"]
     now = datetime.now()
 
-    UPLOAD_FOLDER = "static/uploads"
-    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-
     file = request.files.get("image")
-    filename = None
+    image_url = None
 
     if file and file.filename != "":
-          filename = secure_filename(file.filename)
-          filepath = os.path.join(UPLOAD_FOLDER, filename)
-          file.save(filepath)
+         result = cloudinary.uploader.upload(file)
+         image_url = result["secure_url"]
+
 
     
     conn = get_connection()
     cur = conn.cursor()
     cur.execute(
         "INSERT INTO inquiries (name, phone, message, image, created_at) VALUES (%s,%s,%s,%s,%s)",
-        (name, phone, message, filename, now)
+        (name, phone, message, image_url, now)
     )
 
     conn.commit()
