@@ -104,12 +104,29 @@ def admin():
 
     conn = get_connection()
     cur = conn.cursor()
+    
     cur.execute("SELECT * FROM inquiries ORDER BY created_at DESC")
     data = cur.fetchall()
+
+    # 오늘 문의 수 계산
+    from datetime import date
+    today = date.today()
+
+    cur.execute("""
+         SELECT COUNT(*) FROM inquiries
+         WHERE DATE(created_at) = %s
+    """, (today,))
+    today_count = cur.fetchone()[0]
+    
     cur.close()
     conn.close()
 
-    return render_template("admin.html", inquiries=data)
+    return render_template(
+         "admin.html",
+         inquiries=data,
+         today_count=today_count
+    )
+
 
 
 @app.route("/delete/<int:id>", methods=["POST"])
