@@ -7,6 +7,9 @@ from datetime import datetime
 from werkzeug.utils import secure_filename
 import cloudinary
 import cloudinary.uploader
+from openpyxl import Workbook
+from flask import send_file
+import io
 
 cloudinary.config(
     cloud_name=os.getenv("CLOUD_NAME"),
@@ -182,6 +185,42 @@ def admin():
         today_count=today_count,
         months=months,
         counts=counts
+    )
+
+@app.route("/export")
+def export_excel():
+
+    if not session.get("admin"):
+        return redirect("/login")
+
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT name, phone, message, created_at FROM inquiries ORDER BY created_at DESC")
+    rows = cur.fetchall()
+    cur.close()
+    conn.close()
+
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "문의 목록"
+
+    # 헤더
+    ws.append(["이름", "전화번호", "내용", "접수시간"])
+
+    # 데이터
+    for row in rows:
+        ws.append(row)
+
+    # 메모리 파일 생성
+    file_stream = io.BytesIO()
+    wb.save(file_stream)
+    file_stream.seek(0)
+
+    return send_file(
+        file_stream,
+        as_attachment=True,
+        download_name="문의목록.xlsx",
+        mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
 
 
