@@ -211,27 +211,34 @@ a.delete {
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-const ctx = document.getElementById('monthlyChart').getContext('2d');
+const chartDataEl = document.getElementById("chart-data");
 
-new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: {{ months | tojson }},
-        datasets: [{
-            label: '월별 문의 수',
-            data: {{ counts | tojson }},
-            backgroundColor: '#1e3a8a'
-        }]
-    },
-    options: {
-        responsive: true,
-        scales: {
-            y: {
-                beginAtZero: true
+const months = JSON.parse(chartDataEl.dataset.months);
+const counts = JSON.parse(chartDataEl.dataset.counts);
+
+const ctx = document.getElementById("monthlyChart");
+
+if (ctx) {
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: months,
+            datasets: [{
+                label: "월별 문의 수",
+                data: counts,
+                backgroundColor: "#1e3a8a"
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
             }
         }
-    }
-});
+    });
+}
 </script>
 
 </body>
