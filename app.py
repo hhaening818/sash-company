@@ -139,6 +139,8 @@ def admin():
     cur.execute("SELECT * FROM inquiries ORDER BY created_at DESC")
     rows = cur.fetchall()
 
+    print(rows[:5])
+
     data = []
     for row in rows:
         row = list(row)
