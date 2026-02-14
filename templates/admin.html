@@ -18,23 +18,28 @@ a.delete { color:red; text-decoration:none; }
 
 <table>
 <tr>
-<th>시간</th>
 <th>이름</th>
-<th>연락처</th>
+<th>전화번호</th>
 <th>내용</th>
+<th>시간</th>
 <th>관리</th>
 </tr>
 
-{% for q in inquiries %}
+{% for i in inquiries %}
 <tr>
-<td>{{ q.date }}</td>
-<td>{{ q.name }}</td>
-<td><a class="call" href="tel:{{ q.phone }}">{{ q.phone }}</a></td>
-<td>{{ q.message }}</td>
-<td><a class="delete" href="/delete/{{ q.id }}">삭제</a></td>
+<td>{{ i[1] }}</td>
+<td>
+    <a class="call" href="tel:{{ i[2] }}">
+        {{ i[2] }}
+    </a>
+</td>
+<td>{{ i[3] }}</td>
+<td>{{ i[4] }}</td>
+<td>
+    <a class="delete" href="/delete/{{ i[0] }}">삭제</a>
+</td>
 </tr>
 {% endfor %}
-
 </table>
 
 </body>
