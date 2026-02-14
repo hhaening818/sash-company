@@ -7,10 +7,77 @@
 
 <style>
 body { 
-    font-family: Arial; 
-    background:#f4f4f4; 
-    padding:20px; 
+     background:linear-gradient(135deg,#f8fafc,#eef2ff);
+}
+
+.admin-table {
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 12px 30px rgba(0,0,0,0.05);
+}
+
+.delete-btn {
+    background:#ef4444;
+    border:none;
+    padding:8px 16px;
+    border-radius:30px;
+    font-weight:600;
+    transition:0.2s;
+}
+
+.delete-btn:hover {
+    background:#dc2626;
+    transform:translateY(-2px);
+}
+
+.thumb {
+    width:70px;
+    height:70px;
+    object-fit:cover;
+    border-radius:14px;
+    transition:0.3s;
+}
+
+.thumb:hover {
+    transform:scale(1.1);
+    box-shadow:0 8px 18px rgba(0,0,0,0.15);
+}
+
+.card {
+    background:linear-gradient(135deg,#4f46e5,#6366f1);
+    color:white;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 10px 25px rgba(79,70,229,0.25);
+}
+.card h3 {
+    font-size:14px;
+    opacity:0.9;
+}
+.card p {
+    font-size:30px;
+}
+
+.top-section {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:white;
+    padding:20px 30px;
+    border-radius:16px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.05);
+    margin-bottom:25px;
+}
+
+.top-section h1 {
     margin:0;
+    font-size:22px;
+}
+
+.sub {
+    font-size:13px;
+    color:#888;
+    margin-top:4px;
 }
 
 .admin-table {
@@ -304,8 +371,11 @@ a.delete {
 
 <body>
 
-<div class="top-bar">
-    <h1>📋 문의 목록</h1>
+<div class="top-section">
+    <div>
+        <h1>📋 문의 관리</h1>
+        <p class="sub">최근 접수된 문의를 확인하세요</p>
+    </div>
     <a href="/logout" class="logout-btn">로그아웃</a>
 </div>
 
