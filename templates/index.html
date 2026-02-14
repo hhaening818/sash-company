@@ -12,16 +12,19 @@
             color: #333;
         }
 
-        .logo {
-             text-align:center;
-             padding:40px 0 30px 0;
-             background:white;
+        .hero-logo {
+            width:100%;
+            height:350px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background:linear-gradient(135deg,#f8fafc,#e2e8f0);
         }
 
-        .logo img {
-             height:180px;
+        .hero-logo img {
+            height:220px;
+            object-fit:contain;
         }
-
 
         /* 헤더 */
         header {
@@ -134,14 +137,39 @@
              box-shadow:0 10px 25px rgba(0,0,0,0.15);
         }
 
+        .slider {
+             width:100%;
+             overflow:hidden;
+             border-radius:20px;
+             margin-top:20px;
+        }
+
+        .slides {
+             display:flex;
+             width:300%;
+             animation:slide 12s infinite;
+        }
+
+        .slides img {
+             width:100%;
+             height:400px;
+             object-fit:cover;
+        }
+
+        @keyframes slide {
+             0% { transform:translateX(0%); }
+             33% { transform:translateX(-100%); }
+             66% { transform:translateX(-200%); }
+             100% { transform:translateX(0%); }
+        }
 
     </style>
 </head>
 <body>
 
-<div class="logo">
+<header class="hero-logo">
     <img src="{{ url_for('static', filename='images/logo.png') }}" alt="건진창호 로고">
-</div>
+</header>
 
 <nav>
     <a href="#about">회사소개</a>
@@ -171,20 +199,22 @@
     <div class="card">
         <h2>🛠 시공 사진</h2>
 
-        <div class="work-gallery">
-            <img src="{{ url_for('static', filename='images/work1.jpg') }}">
-            <img src="{{ url_for('static', filename='images/work2.jpg') }}">
-            <img src="{{ url_for('static', filename='images/work3.jpg') }}">
-            <img src="{{ url_for('static', filename='images/work4.jpg') }}">
-            <img src="{{ url_for('static', filename='images/work5.jpg') }}">
-            <img src="{{ url_for('static', filename='images/work6.jpg') }}">
-            <img src="{{ url_for('static', filename='images/work7.jpg') }}">
-            <img src="{{ url_for('static', filename='images/work8.jpg') }}">
-            <img src="{{ url_for('static', filename='images/work9.jpg') }}">
-            <img src="{{ url_for('static', filename='images/work10.jpg') }}">
-            <img src="{{ url_for('static', filename='images/work11.jpg') }}">
-            <img src="{{ url_for('static', filename='images/work12.jpg') }}">
-            <img src="{{ url_for('static', filename='images/work13.jpg') }}">
+        <div class="slider">
+            <div class="slides">
+                <img src="{{ url_for('static', filename='images/work1.jpg') }}">
+                <img src="{{ url_for('static', filename='images/work2.jpg') }}">
+                <img src="{{ url_for('static', filename='images/work3.jpg') }}">
+                <img src="{{ url_for('static', filename='images/work4.jpg') }}">
+                <img src="{{ url_for('static', filename='images/work5.jpg') }}">
+                <img src="{{ url_for('static', filename='images/work6.jpg') }}">
+                <img src="{{ url_for('static', filename='images/work7.jpg') }}">
+                <img src="{{ url_for('static', filename='images/work8.jpg') }}">
+                <img src="{{ url_for('static', filename='images/work9.jpg') }}">
+                <img src="{{ url_for('static', filename='images/work10.jpg') }}">
+                <img src="{{ url_for('static', filename='images/work11.jpg') }}">
+                <img src="{{ url_for('static', filename='images/work12.jpg') }}">
+                <img src="{{ url_for('static', filename='images/work13.jpg') }}">
+            </div>
         </div>
     </div>
 </section>
