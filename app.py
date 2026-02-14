@@ -69,12 +69,16 @@ def contact():
     message = request.form["message"]
     now = datetime.now()
 
+    UPLOAD_FOLDER = "static/uploads"
+    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
     file = request.files.get("image")
     filename = None
 
     if file and file.filename != "":
-         filename = secure_filename(file.filename)
-         file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+          filename = secure_filename(file.filename)
+          filepath = os.path.join(UPLOAD_FOLDER, filename)
+          file.save(filepath)
 
     
     conn = get_connection()

@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>관리자 페이지</title>
 <canvas id="monthlyChart"></canvas>
+<th>사진</th>
+
 
 <style>
 body { 
@@ -198,7 +200,15 @@ a.delete {
     </a>
 </td>
 <td>{{ i[3] }}</td>
-<td>{{ i[4] }}</td>
+<td>
+{% if i[4] %}
+    <img src="{{ url_for('static', filename='uploads/' + i[4]) }}"
+         width="80"
+         style="border-radius:8px;">
+{% else %}
+    -
+{% endif %}
+</td>
 <td>
 <form action="/delete/{{ i[0] }}" method="POST" style="display:inline;">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
