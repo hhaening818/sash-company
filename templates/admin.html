@@ -209,9 +209,12 @@ a.delete {
 
     <td>
          {% if i[4] %}
-             <img src="{{ url_for('static', filename='uploads/' ~ i[4]|string) }}"
-                 width="80"
-                 style="border-radius:8px;">
+             <a href="{{ url_for('static', filename='uploads/' ~ i[4]|string) }}" target="_blank">
+                 <img src="{{ url_for('static', filename='uploads/' ~ i[4]|string) }}"
+                      width="80"
+                     style="border-radius:8px; cursor:pointer;">
+             </a>
+
          {% else %}
              -
          {% endif %}
