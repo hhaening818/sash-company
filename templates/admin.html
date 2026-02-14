@@ -158,7 +158,10 @@ a.delete {
 <td>{{ i[3] }}</td>
 <td>{{ i[4] }}</td>
 <td>
-    <a class="delete" href="/delete/{{ i[0] }}">삭제</a>
+    <form action="/delete/{{ i[0] }}" method="POST" style="display:inline;">
+    {{ csrf_token() }}
+    <button type="submit" class="delete">삭제</button>
+</form>
 </td>
 </tr>
 {% endfor %}

@@ -2,10 +2,14 @@ import time
 import os
 import psycopg2
 from flask import Flask, render_template, request, redirect, url_for, session
+from flask_wtf import CSRFProtect
 from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = "super_secret_key"
+
+csrf = CSRFProtect(app)
+
 LOGIN_ATTEMPTS = {}
 MAX_ATTEMPTS = 5
 LOCK_TIME = 300  # 5분 (초 단위)
@@ -108,7 +112,7 @@ def admin():
     return render_template("admin.html", inquiries=data)
 
 
-@app.route("/delete/<int:id>")
+@app.route("/delete/<int:id>", methods=["POST"])
 def delete(id):
 
     if not session.get("admin"):
