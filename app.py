@@ -4,9 +4,16 @@ import psycopg2
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_wtf import CSRFProtect
 from datetime import datetime
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.secret_key = "super_secret_key"
+
+UPLOAD_FOLDER = "static/uploads"
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
 
 csrf = CSRFProtect(app)
 
@@ -31,6 +38,7 @@ def create_table():
             name TEXT,
             phone TEXT,
             message TEXT,
+            image TEXT,
             created_at TIMESTAMP
         )
     """)
@@ -53,12 +61,21 @@ def contact():
     message = request.form["message"]
     now = datetime.now()
 
+    file = request.files.get("image")
+    filename = None
+
+    if file and file.filename != "":
+         filename = secure_filename(file.filename)
+         file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+
+    
     conn = get_connection()
     cur = conn.cursor()
     cur.execute(
-        "INSERT INTO inquiries (name, phone, message, created_at) VALUES (%s,%s,%s,%s)",
-        (name, phone, message, now)
+        "INSERT INTO inquiries (name, phone, message, image, created_at) VALUES (%s,%s,%s,%s,%s)",
+        (name, phone, message, filename, now)
     )
+
     conn.commit()
     cur.close()
     conn.close()
@@ -124,7 +141,7 @@ def admin():
     return render_template(
          "admin.html",
          inquiries=data,
-         today_count=today_count
+         today_count=today_count,
          months=months,
          counts=counts
     )
@@ -139,11 +156,11 @@ def admin():
          LIMIT 6
      """)
 
-     monthly_data = cur.fetchall()
-     monthly_data.reverse()  # 오래된 달부터 정렬
+    monthly_data = cur.fetchall()
+    monthly_data.reverse()  # 오래된 달부터 정렬
 
-     months = [row[0] for row in monthly_data]
-     counts = [row[1] for row in monthly_data]
+    months = [row[0] for row in monthly_data]
+    counts = [row[1] for row in monthly_data]
 
 @app.route("/delete/<int:id>", methods=["POST"])
 def delete(id):
