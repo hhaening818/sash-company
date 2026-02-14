@@ -125,9 +125,25 @@ def admin():
          "admin.html",
          inquiries=data,
          today_count=today_count
+         months=months,
+         counts=counts
     )
 
+    # 월별 문의 통계 (최근 6개월)
+    cur.execute("""
+         SELECT TO_CHAR(created_at, 'YYYY-MM') AS month,
+                 COUNT(*)
+         FROM inquiries
+         GROUP BY month
+         ORDER BY month DESC
+         LIMIT 6
+     """)
 
+     monthly_data = cur.fetchall()
+     monthly_data.reverse()  # 오래된 달부터 정렬
+
+     months = [row[0] for row in monthly_data]
+     counts = [row[1] for row in monthly_data]
 
 @app.route("/delete/<int:id>", methods=["POST"])
 def delete(id):

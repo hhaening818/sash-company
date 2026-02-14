@@ -150,6 +150,13 @@ a.delete {
     font-weight:bold;
     margin:10px 0 0;
 }
+.chart-box {
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+    margin-bottom:20px;
+}
 
 </style>
 </head>
@@ -166,6 +173,10 @@ a.delete {
         <h3>📅 오늘 문의</h3>
         <p>{{ today_count }} 건</p>
     </div>
+</div>
+
+<div class="chart-box">
+    <canvas id="monthlyChart"></canvas>
 </div>
 
 <table>
@@ -196,6 +207,31 @@ a.delete {
 </tr>
 {% endfor %}
 </table>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const ctx = document.getElementById('monthlyChart').getContext('2d');
+
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: {{ months | tojson }},
+        datasets: [{
+            label: '월별 문의 수',
+            data: {{ counts | tojson }},
+            backgroundColor: '#1e3a8a'
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
 
 </body>
 </html>
