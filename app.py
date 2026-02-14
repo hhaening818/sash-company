@@ -100,5 +100,10 @@ def delete(id):
 
     return redirect("/admin")
 
+@app.route("/logout")
+def logout():
+    session.pop("admin", None)
+    return redirect("/")
+
 if __name__ == "__main__":
     app.run()
