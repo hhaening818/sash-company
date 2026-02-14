@@ -133,17 +133,13 @@ def admin():
     conn = get_connection()
     cur = conn.cursor()
 
-    # 전체 문의
+    # 전체 문의 목록
     cur.execute("SELECT * FROM inquiries ORDER BY created_at DESC")
     data = cur.fetchall()
 
     # 오늘 문의 수
     today = datetime.now().date()
-    cur.execute("""
-        SELECT COUNT(*)
-        FROM inquiries
-        WHERE DATE(created_at) = %s
-    """, (today,))
+    cur.execute("SELECT COUNT(*) FROM inquiries WHERE DATE(created_at) = %s", (today,))
     today_count = cur.fetchone()[0]
 
     # 최근 6개월 월별 통계
@@ -155,10 +151,16 @@ def admin():
         ORDER BY month DESC
         LIMIT 6
     """)
+
     result = cur.fetchall()
 
-    months = [r[0] for r in result][::-1]
-    counts = [r[1] for r in result][::-1]
+    # 🔥 여기 중요
+    months = []
+    counts = []
+
+    for row in result:
+        months.append(row[0])
+        counts.append(row[1])
 
     cur.close()
     conn.close()
