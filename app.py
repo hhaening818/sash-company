@@ -21,9 +21,10 @@ LOGIN_ATTEMPTS = {}
 MAX_ATTEMPTS = 5
 LOCK_TIME = 300  # 5분 (초 단위)
 
-DATABASE_URL = os.environ.get("DATABASE_URL")
-ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD")
+DATABASE_URL = os.getenv("DATABASE_URL")
 
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD")
+print("DATABASE_URL:", DATABASE_URL)
 # DB 연결
 def get_connection():
     return psycopg2.connect(DATABASE_URL)
