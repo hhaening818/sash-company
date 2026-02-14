@@ -2,23 +2,93 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>관리자 로그인</title>
+
 <style>
-body { font-family: Arial; background:#f4f4f4; text-align:center; padding-top:100px; }
-.box { background:white; padding:30px; display:inline-block; border-radius:10px; }
-input { padding:10px; margin:10px; width:200px; }
-button { padding:10px 20px; background:#1e3a8a; color:white; border:none; }
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #1e3a8a, #0f172a);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* 로그인 박스 */
+.login-box {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+/* 제목 */
+.login-box h1 {
+    margin-bottom: 25px;
+    font-size: 24px;
+    color: #1e293b;
+}
+
+/* 입력창 */
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    font-size: 16px;
+    transition: 0.2s;
+}
+
+input[type="password"]:focus {
+    border-color: #1e3a8a;
+    outline: none;
+}
+
+/* 버튼 */
+button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: #1e3a8a;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #0f172a;
+}
+
+/* 모바일 */
+@media (max-width: 480px) {
+    .login-box {
+        padding: 30px 20px;
+    }
+}
 </style>
 </head>
+
 <body>
 
-<div class="box">
-<h2>🔒 관리자 로그인</h2>
-<form method="post">
-<input type="password" name="password" placeholder="비밀번호">
-<br>
-<button type="submit">로그인</button>
-</form>
+<div class="login-box">
+    <h1>🔐 관리자 로그인</h1>
+    <form method="POST">
+        <input type="password" name="password" placeholder="비밀번호 입력" required>
+        <button type="submit">로그인</button>
+    </form>
 </div>
 
 </body>
