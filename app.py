@@ -137,7 +137,18 @@ def admin():
 
     # 1️⃣ 문의 목록
     cur.execute("SELECT * FROM inquiries ORDER BY created_at DESC")
-    data = cur.fetchall()
+    rows = cur.fetchall()
+
+    data = []
+    for row in rows:
+        row = list(row)
+        if row[5]:
+             try:
+                 row[5] = row[5].strftime('%Y-%m-%d %H:%M')
+             except:
+                 row[5] = str(row[5])
+        data.append(row)
+
 
     # 2️⃣ 오늘 문의 수
     today = datetime.now().date()
