@@ -12,9 +12,16 @@
             color: #333;
         }
 
+        .logo {
+             text-align:center;
+             padding:40px 0 30px 0;
+             background:white;
+        }
+
         .logo img {
-             height: 60px;
-         }
+             height:180px;
+        }
+
 
         /* 헤더 */
         header {
@@ -50,7 +57,7 @@
         }
 
         nav a:hover {
-            background-color: #2563eb;
+            background-color: #1e3a8a;
         }
 
         /* 섹션 카드 */
@@ -82,7 +89,7 @@
 
         button {
             padding: 10px 20px;
-            background-color: #2563eb;
+            background-color: #1e3a8a;
             color: white;
             border: none;
             border-radius: 5px;
@@ -91,7 +98,7 @@
         }
 
         button:hover {
-            background-color: #1e40af;
+            background-color: #1e3a8a;
         }
 
         /* 푸터 */
@@ -136,9 +143,6 @@
     <img src="{{ url_for('static', filename='images/logo.png') }}" alt="건진창호 로고">
 </div>
 
-<h1>SASH COMPANY</h1>
-
-
 <nav>
     <a href="#about">회사소개</a>
     <a href="#service">시공 분야</a>
@@ -165,12 +169,22 @@
 
 <section id="portfolio">
     <div class="card">
-        <h2>🛠 시공 사례</h2>
+        <h2>🛠 시공 사진</h2>
 
         <div class="work-gallery">
             <img src="{{ url_for('static', filename='images/work1.jpg') }}">
             <img src="{{ url_for('static', filename='images/work2.jpg') }}">
             <img src="{{ url_for('static', filename='images/work3.jpg') }}">
+            <img src="{{ url_for('static', filename='images/work4.jpg') }}">
+            <img src="{{ url_for('static', filename='images/work5.jpg') }}">
+            <img src="{{ url_for('static', filename='images/work6.jpg') }}">
+            <img src="{{ url_for('static', filename='images/work7.jpg') }}">
+            <img src="{{ url_for('static', filename='images/work8.jpg') }}">
+            <img src="{{ url_for('static', filename='images/work9.jpg') }}">
+            <img src="{{ url_for('static', filename='images/work10.jpg') }}">
+            <img src="{{ url_for('static', filename='images/work11.jpg') }}">
+            <img src="{{ url_for('static', filename='images/work12.jpg') }}">
+            <img src="{{ url_for('static', filename='images/work13.jpg') }}">
         </div>
     </div>
 </section>
