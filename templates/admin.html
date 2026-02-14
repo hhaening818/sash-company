@@ -218,38 +218,47 @@ a.delete {
 </tr>
 {% endfor %}
 </table>
+
+<div id="chart-data"
+     data-months='{{ months | tojson | safe }}'
+     data-counts='{{ counts | tojson | safe }}'
+     style="display:none;">
+</div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
 const chartDataEl = document.getElementById("chart-data");
 
-const months = JSON.parse(chartDataEl.dataset.months);
-const counts = JSON.parse(chartDataEl.dataset.counts);
+if (chartDataEl) {
+    const months = JSON.parse(chartDataEl.dataset.months);
+    const counts = JSON.parse(chartDataEl.dataset.counts);
 
-const ctx = document.getElementById("monthlyChart");
+    const ctx = document.getElementById("monthlyChart");
 
-if (ctx) {
-    new Chart(ctx, {
-        type: "bar",
-        data: {
-            labels: months,
-            datasets: [{
-                label: "월별 문의 수",
-                data: counts,
-                backgroundColor: "#1e3a8a"
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
+    if (ctx) {
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: months,
+                datasets: [{
+                    label: '월별 문의 수',
+                    data: counts,
+                    backgroundColor: '#1e3a8a'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 }
             }
-        }
-    });
+        });
+    }
 }
 </script>
+
 
 </body>
 </html>
