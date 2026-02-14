@@ -32,6 +32,7 @@ def get_connection():
 def create_table():
     conn = get_connection()
     cur = conn.cursor()
+
     cur.execute("""
         CREATE TABLE IF NOT EXISTS inquiries (
             id SERIAL PRIMARY KEY,
@@ -42,6 +43,13 @@ def create_table():
             created_at TIMESTAMP
         )
     """)
+
+    # 🔥 이미 테이블이 존재할 경우를 대비
+    cur.execute("""
+        ALTER TABLE inquiries
+        ADD COLUMN IF NOT EXISTS image TEXT;
+    """)
+
     conn.commit()
     cur.close()
     conn.close()
