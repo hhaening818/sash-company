@@ -134,14 +134,15 @@ def admin():
     data = cur.fetchall()
 
     # 오늘 문의 수
+    today = datetime.now().date()
     cur.execute("""
-        SELECT COUNT(*) 
-        FROM inquiries 
-        WHERE DATE(created_at) = CURRENT_DATE
-    """)
+        SELECT COUNT(*)
+        FROM inquiries
+        WHERE DATE(created_at) = %s
+    """, (today,))
     today_count = cur.fetchone()[0]
 
-    # 월별 통계 (최근 6개월)
+    # 최근 6개월 월별 통계
     cur.execute("""
         SELECT TO_CHAR(created_at, 'YYYY-MM') AS month,
                COUNT(*)
@@ -150,11 +151,10 @@ def admin():
         ORDER BY month DESC
         LIMIT 6
     """)
-    results = cur.fetchall()
+    result = cur.fetchall()
 
-    # 리스트로 변환
-    months = [r[0] for r in results][::-1]
-    counts = [r[1] for r in results][::-1]
+    months = [r[0] for r in result][::-1]
+    counts = [r[1] for r in result][::-1]
 
     cur.close()
     conn.close()
@@ -189,4 +189,4 @@ def logout():
     return redirect("/")
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
