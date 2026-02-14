@@ -13,6 +13,95 @@ body {
     margin:0;
 }
 
+.admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .admin-table th {
+            background: #3b4a8a;
+            color: white;
+            padding: 14px;
+            text-align: center;
+        }
+
+        .admin-table td {
+            padding: 14px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .admin-table tr:hover {
+            background: #f5f7ff;
+        }
+
+        .thumb {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .phone {
+            color: #2e7d32;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .delete-btn {
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background: #cc0000;
+        }
+
+        .message {
+            max-width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .time {
+            font-size: 13px;
+            color: #666;
+        }
+
+.stats-wrapper {
+    margin: 30px 0;
+}
+
+.toggle-btn {
+    background: #3b4a8a;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.toggle-btn:hover {
+    background: #2f3b6e;
+}
+
+.stats-box {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f8f9fc;
+    border-radius: 15px;
+}
+
 button {
     background: #ef4444;
     color: white;
@@ -237,54 +326,61 @@ a.delete {
     </div>
 </div>
 
-<table>
-<tr>
-<th>이름</th>
-<th>전화번호</th>
-<th>내용</th>
-<th>사진</th>
-<th>시간</th>
-<th>관리</th>
-</tr>
+<script>
+function toggleStats() {
+    const box = document.getElementById("statsBox");
+    box.style.display = box.style.display === "none" ? "block" : "none";
+}
+</script>
 
-{% for i in inquiries %}
-<tr>
-    <td>{{ i[1] }}</td>
+<table class="admin-table">
+    <thead>
+        <tr>
+            <th>이름</th>
+            <th>전화번호</th>
+            <th>내용</th>
+            <th>사진</th>
+            <th>시간</th>
+            <th>관리</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in inquiries %}
+        <tr>
+            <td>{{ i[1] }}</td>
 
-    <td>
-        <a class="call" href="tel:{{ i[2] }}">
-            {{ i[2] }}
-        </a>
-    </td>
+            <td>
+                <a href="tel:{{ i[2] }}" class="phone">
+                    {{ i[2] }}
+                </a>
+            </td>
 
-    <td>{{ i[3] }}</td>
+            <td class="message">{{ i[3] }}</td>
 
-    <!-- 사진 -->
-    <td>
-        {% if i[4] %}
-            <a href="{{ i[4] }}" target="_blank">
-                <img src="{{ i[4] }}"
-                     width="80"
-                     style="border-radius:8px;">
-            </a>
-        {% else %}
-            -
-        {% endif %}
-    </td>
+            <td>
+                {% if i[4] %}
+                    <a href="{{ i[4] }}" target="_blank">
+                        <img src="{{ i[4] }}" class="thumb">
+                    </a>
+                {% else %}
+                    -
+                {% endif %}
+            </td>
 
-    <!-- 시간 -->
-    <td>
-        {{ i[5] }}
-    </td>
+            <td class="time">
+                {{ i[5] }}
+            </td>
 
-    <!-- 관리 -->
-    <td>
-        <form action="/delete/{{ i[0] }}" method="POST" style="display:inline;">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-            <button type="submit" class="delete">삭제</button>
-        </form>
-    </td>
-</tr>
+            <td>
+                <form action="/delete/{{ i[0] }}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button class="delete-btn">삭제</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
 {% endfor %}
 
