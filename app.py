@@ -64,6 +64,11 @@ def create_table():
 
     cur.execute("""
     ALTER TABLE inquiries
+    ADD COLUMN IF NOT EXISTS reply TEXT
+    """)
+
+    cur.execute("""
+    ALTER TABLE inquiries
     ADD COLUMN IF NOT EXISTS status TEXT DEFAULT '대기'
     """)
 
