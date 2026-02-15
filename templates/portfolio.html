@@ -108,7 +108,7 @@ body{
 
 <div class="upload-box">
 
-<form id="uploadForm">
+<form id="uploadForm" enctype="multipart/form-data">
 
 <div id="dropArea"
      style="
@@ -218,44 +218,13 @@ function closeModal(){
 
 const dropArea = document.getElementById("dropArea");
 const fileInput = document.getElementById("fileInput");
-
-dropArea.onclick = () => fileInput.click();
-
-dropArea.addEventListener("dragover", e => {
-
-    e.preventDefault();
-    dropArea.style.background="#e0f2fe";
-
-});
-
-dropArea.addEventListener("dragleave", () => {
-
-    dropArea.style.background="white";
-
-});
-
-dropArea.addEventListener("drop", e => {
-
-    e.preventDefault();
-
-    fileInput.files = e.dataTransfer.files;
-
-    dropArea.style.background="white";
-
-});
-
-</script>
-
-<script>
-
-const dropArea = document.getElementById("dropArea");
-const fileInput = document.getElementById("fileInput");
 const form = document.getElementById("uploadForm");
 
 const progressBar = document.getElementById("progressBar");
 const progressText = document.getElementById("progressText");
 
 
+// 드래그 기능
 if(dropArea){
 
     dropArea.onclick = () => fileInput.click();
@@ -280,6 +249,7 @@ if(dropArea){
 }
 
 
+// 업로드 + progress
 if(form){
 
 form.addEventListener("submit", function(e){
