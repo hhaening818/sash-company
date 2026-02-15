@@ -212,6 +212,10 @@ def admin():
     """, (today,))
     today_count = cur.fetchone()[0]
 
+    # 2️⃣ 전체 문의 수 추가
+    cur.execute("SELECT COUNT(*) FROM inquiries")
+    total_count = cur.fetchone()[0]
+
     # 3️⃣ 월별 통계
     cur.execute("""
         SELECT TO_CHAR(created_at, 'YYYY-MM') AS month,
@@ -233,6 +237,7 @@ def admin():
         "admin.html",
         inquiries=data,
         today_count=today_count,
+        total_count=total_count,
         months=months,
         counts=counts
     )

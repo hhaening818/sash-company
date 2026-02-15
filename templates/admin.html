@@ -409,11 +409,19 @@ a.delete {
 </div>
 
 <div class="stats">
+
+    <div class="card">
+        <h3>📬 전체 문의</h3>
+        <p>{{ inquiries|length }} 건</p>
+    </div>
+
     <div class="card">
         <h3>📅 오늘 문의</h3>
         <p>{{ today_count }} 건</p>
     </div>
+
 </div>
+
 
 <div class="chart-wrapper">
     <button class="toggle-btn" onclick="toggleChart()">
