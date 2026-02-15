@@ -30,22 +30,6 @@
 
         }
 
-        /* 로고 이미지 */
-        .hero-logo-img {
-
-            max-width:520px;
-            width:90%;
-
-            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.15));
-
-            transition:0.3s;
-        }
-
-        .hero-logo-img:hover {
-
-            transform:scale(1.03);
-        }
-
         /* 헤더 */
         header {
             background-color: #1e3a8a;
@@ -390,123 +374,126 @@
         /* 전체 헤더 */
         .main-header {
 
-             width:100%;
-             background:linear-gradient(90deg,#1e3a8a,#3b4a8a);
-             box-shadow:0 4px 15px rgba(0,0,0,0.1);
+            width:100%;
 
-             position:sticky;
-             top:0;
-             z-index:1000;
-        }
+            background:linear-gradient(135deg,#4f46e5,#6366f1);
 
-        /* 내부 정렬 */
-        .header-inner {
+            padding:20px 0 10px 0;
 
-             max-width:1200px;
-             margin:auto;
+            text-align:center;
 
-             display:flex;
-             align-items:center;
-             justify-content:space-between;
+            position:relative;
 
-             padding:12px 20px;
-        }
+}
 
-        /* 로고 */
-        .logo-area img {
+        /* 중앙 로고 */
+        .logo-center img {
 
-             height:50px;
+            height:80px;
+
+            cursor:pointer;
+
+            margin-bottom:10px;
+
         }
 
         /* 메뉴 */
         .nav-menu {
 
-             display:flex;
-             gap:30px;
+            display:flex;
+
+            justify-content:center;
+
+            gap:40px;
+
+            margin-bottom:10px;
+
         }
 
         .nav-menu a {
 
-             color:white;
-             text-decoration:none;
-             font-weight:600;
-             font-size:16px;
+            color:white;
 
-             transition:0.2s;
+            text-decoration:none;
+
+            font-size:18px;
+
+            font-weight:500;
+
+            transition:0.2s;
+
         }
 
         .nav-menu a:hover {
 
-             opacity:0.7;
+            opacity:0.7;
+
         }
 
-        /* 오른쪽 버튼 */
-        .header-right {
+        /* 오른쪽 버튼 영역 */
+        .header-buttons {
 
-             display:flex;
-             gap:10px;
+            position:absolute;
+
+            right:20px;
+
+            top:20px;
+
         }
 
         /* 버튼 공통 */
-        .header-btn {
+        .btn {
 
-             padding:8px 16px;
-             border-radius:8px;
+            padding:8px 16px;
 
-             text-decoration:none;
-             font-weight:600;
-             font-size:14px;
+            border-radius:20px;
 
-             transition:0.2s;
+            text-decoration:none;
+
+            font-size:14px;
+
+            margin-left:10px;
+
+            transition:0.2s;
+
         }
 
         /* 로그인 */
-        .header-btn.login {
+        .login {
 
-             background:white;
-             color:#1e3a8a;
+            background:white;
+
+            color:#4f46e5;
+
         }
 
         /* 관리자 */
-        .header-btn.admin {
+        .admin {
 
-             background:#10b981;
-             color:white;
+            background:#10b981;
+
+            color:white;
+
         }
 
         /* 로그아웃 */
-        .header-btn.logout {
+        .logout {
 
-             background:#ef4444;
-             color:white;
+            background:#ef4444;
+
+            color:white;
+
         }
 
-        .header-btn:hover {
+        /* hover */
+        .btn:hover {
 
-             transform:translateY(-2px);
-             box-shadow:0 4px 10px rgba(0,0,0,0.15);
+            transform:translateY(-2px);
+
+            box-shadow:0 4px 10px rgba(0,0,0,0.2);
+
         }
 
-        .login {background:#3b82f6;color:white;}
-        .admin {background:#10b981;color:white;}
-        .logout {background:#ef4444;color:white;}
-
-        .main-header.scrolled .header-btn.login {
-             background:#3b82f6;
-             color:white;
-        }
-
-        .main-header:not(.scrolled) .header-btn.login {
-             background:rgba(255,255,255,0.9);
-             color:#1e3a8a;
-        }
-
-        .main-header::after{
-             content:"";
-             display:block;
-             height:3px;
-             background:linear-gradient(90deg,#10b981,#3b82f6);
-        }
 
     </style>
 </head>
@@ -514,47 +501,42 @@
 
 <header class="main-header">
 
-    <div class="header-inner">
+    <!-- 중앙 로고 -->
+    <div class="logo-center">
+        <img src="{{ url_for('static', filename='images/logo.png') }}"
+             onclick="location.href='/'">
+    </div>
 
-        <!-- 로고 -->
-        <div class="logo-area">
-            <a href="/">
-                <img src="{{ url_for('static', filename='images/logo.png') }}">
+    <!-- 메뉴 -->
+    <nav class="nav-menu">
+
+        <a href="#about">회사소개</a>
+        <a href="#services">시공 분야</a>
+        <a href="/portfolio">시공 사례</a>
+        <a href="#contact">문의하기</a>
+
+    </nav>
+
+    <!-- 오른쪽 버튼 -->
+    <div class="header-buttons">
+
+        {% if session.get('admin') %}
+
+            <a href="/admin" class="btn admin">
+                관리자 페이지
             </a>
-        </div>
 
-        <!-- 메뉴 -->
-        <nav class="nav-menu">
+            <a href="/logout" class="btn logout">
+                로그아웃
+            </a>
 
-            <a href="#about">회사소개</a>
-            <a href="#services">시공 분야</a>
-            <a href="/portfolio">시공 사례</a>
-            <a href="/inquiry">문의하기</a>
+        {% else %}
 
-        </nav>
+            <a href="/login" class="btn login">
+                로그인
+            </a>
 
-        <!-- 오른쪽 버튼 -->
-        <div class="header-right">
-
-            {% if session.get('admin') %}
-
-                <a href="/admin" class="header-btn admin">
-                    관리자 페이지
-                </a>
-
-                <a href="/logout" class="header-btn logout">
-                    로그아웃
-                </a>
-
-            {% else %}
-
-                <a href="/login" class="header-btn login">
-                    로그인
-                </a>
-
-            {% endif %}
-
-        </div>
+        {% endif %}
 
     </div>
 
