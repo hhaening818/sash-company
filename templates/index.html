@@ -347,18 +347,17 @@
         }
 
          /* 히어로 */
-         .hero-section {
+        .hero-section {
 
-             height:90vh;
+             height:100vh;
 
              display:flex;
              justify-content:center;
              align-items:center;
 
-             background:linear-gradient(#ffffff,#f1f5f9);
-
-             transition:0.4s;
+             background:linear-gradient(#f8fafc,#e2e8f0);
         }
+
 
         .hero-logo {
 
@@ -373,22 +372,34 @@
 
              position:fixed;
              top:0;
+             left:0;
              width:100%;
 
-             background:rgba(255,255,255,0.95);
-
-             backdrop-filter:blur(10px);
-
-             box-shadow:0 2px 10px rgba(0,0,0,0.08);
+             display:flex;
+             align-items:center;
 
              z-index:1000;
 
-             transform:translateY(-100%);
-             transition:0.4s;
+             /* 처음 상태 (투명) */
+             background:transparent;
+
+             box-shadow:none;
+
+             transition: all 0.35s ease;
+
+        }
+
+        .main-header.scrolled {
+
+             background:white;
+
+             box-shadow:0 4px 20px rgba(0,0,0,0.08);
+
         }
 
         .main-header.active {
 
+             opacity:1;
              transform:translateY(0);
         }
 
@@ -421,10 +432,17 @@
 
         .nav-menu a {
 
-             text-decoration:none;
-             color:#1e3a8a;
-             font-weight:600;
+             color:white;
+             transition:0.3s;
+
         }
+
+        .main-header.scrolled .nav-menu a {
+
+             color:#1e3a8a;
+
+        }
+
 
         /* 버튼 */
         .header-btn {
@@ -437,6 +455,16 @@
         .login {background:#3b82f6;color:white;}
         .admin {background:#10b981;color:white;}
         .logout {background:#ef4444;color:white;}
+
+        .main-header.scrolled .header-btn.login {
+             background:#3b82f6;
+             color:white;
+        }
+
+         .main-header:not(.scrolled) .header-btn.login {
+             background:rgba(255,255,255,0.9);
+             color:#1e3a8a;
+        }
 
     </style>
 </head>
@@ -802,13 +830,13 @@ window.addEventListener("scroll", function(){
 
     const header = document.getElementById("mainHeader");
 
-    if(window.scrollY > 200){
+    if(window.scrollY > 50){
 
-        header.classList.add("active");
+        header.classList.add("scrolled");
 
     }else{
 
-        header.classList.remove("active");
+        header.classList.remove("scrolled");
 
     }
 
