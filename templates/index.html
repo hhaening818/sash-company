@@ -347,25 +347,54 @@
              background:linear-gradient(#f8fafc,#e2e8f0);
         }
 
-        /* 전체 헤더 */
-        .main-header {
+        .header-buttons {
 
-            display:none;
+            position:absolute;
+
+            left:0;
+
+            right:0;
+
+            top:20px;
 
         }
 
-        /* 관리자 버튼 오른쪽 유지 */
-        .header-buttons {
+
+        /* 관리자 페이지 → 왼쪽 */
+        .admin-left {
+
+            position:absolute;
+
+            left:20px;
+
+            background:none;      /* 배경 제거 */
+
+            color:#3b4a8a;
+
+            font-weight:600;
+
+        }
+
+
+        /* 로그아웃 → 오른쪽 */
+        .logout-right {
 
             position:absolute;
 
             right:20px;
 
-            top:50%;
+        }
 
-            transform:translateY(-50%);
+
+        /* 로그인 → 오른쪽 */
+        .login-right {
+
+            position:absolute;
+
+            right:20px;
 
         }
+
 
         /* 중앙 로고 */
         .logo-center img {
@@ -411,17 +440,6 @@
 
         }
 
-        /* 오른쪽 버튼 영역 */
-        .header-buttons {
-
-            position:absolute;
-
-            right:20px;
-
-            top:20px;
-
-        }
-
         /* 버튼 공통 */
         .btn {
 
@@ -430,27 +448,6 @@
             font-size:13px;
 
             border-radius:12px;
-
-        }
-
-        .admin {
-
-            background:#3b82f6;
-            color:white;
-
-        }
-
-        .logout {
-
-            background:#3b82f6;
-            color:white;
-
-        }
-
-        .login {
-
-            background:#3b82f6;
-            color:white;
 
         }
 
@@ -471,8 +468,10 @@
 
         }
 
-        .main-header {
-            display:none !important;
+        .admin-left:hover {
+
+            text-decoration:underline;
+
         }
 
     </style>
@@ -488,23 +487,24 @@
 
         {% if session.get('admin') %}
 
-            <a href="/admin" class="btn admin">
+            <a href="/admin" class="btn admin-left">
                 관리자 페이지
             </a>
 
-            <a href="/logout" class="btn logout">
+            <a href="/logout" class="btn logout-right">
                 로그아웃
             </a>
 
         {% else %}
 
-            <a href="/login" class="btn login">
+            <a href="/login" class="btn login-right">
                 로그인
             </a>
 
         {% endif %}
 
     </div>
+
 
     <img src="{{ url_for('static', filename='images/logo.png') }}"
          class="hero-logo-img">
