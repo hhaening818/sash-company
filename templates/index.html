@@ -598,6 +598,35 @@
 
             <button type="submit">견적 요청하기</button>
         </form>
+
+        <!-- 문의 조회 팝업 -->
+        <div id="inquiryModal" class="modal">
+
+             <div class="modal-box">
+
+                 <h3>문의 조회</h3>
+
+                <input type="text" id="searchName"
+                     placeholder="이름"><br>
+
+                <input type="text" id="searchPhone"
+                     placeholder="연락처"><br>
+
+                <button onclick="searchInquiry()">
+                     조회
+                </button>
+
+                <button onclick="closeInquiryModal()">
+                     닫기
+                </button>
+
+                <div id="inquiryResult"
+                     style="margin-top:15px;text-align:left;">
+                </div>
+
+            </div>
+
+        </div>
         
         <button type="button" onclick="openInquiryModal()">
         문의 조회
