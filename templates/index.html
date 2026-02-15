@@ -138,38 +138,34 @@
         }
 
         .slider {
-             position: relative;
-             overflow: hidden;
-             border-radius: 20px;
-             margin-top: 20px;
+             max-width: 1000px;
+             margin: auto;
         }
 
         .slides {
              display: flex;
              align-items: center;
+             justify-content: center;
              transition: transform 0.5s ease;
         }
 
         .slide {
-             flex: 0 0 60%;
+             flex: 0 0 33.33%;
              margin: 0 10px;
-             transition: transform 0.4s ease, opacity 0.4s ease;
-             opacity: 0.5;
+             opacity: 0.75; /* 양쪽 살짝 불투명 */
+             transition: opacity 0.3s ease;
         }
 
         .slide img {
              width: 100%;
-             height: 400px;
-             object-fit: cover;
-             border-radius: 15px;
+             height: auto;
+             max-height: 300px;
+             object-fit: contain;
         }
 
-        /* 가운데 활성 */
          .slide.active {
-             transform: scale(1.1);
-             opacity: 1;
+             opacity: 1; /* 가운데만 선명 */
         }
-
 
         /* 태블릿 */
         @media (max-width:1024px) {
@@ -395,7 +391,7 @@
             <input type="text" name="phone" placeholder="연락처" required /><br />
             <textarea name="message" placeholder="문의 내용" rows="4"></textarea><br />
             <input type="file" name="image">
-            
+
             <button type="submit">견적 요청하기</button>
         </form>
         
