@@ -334,6 +334,18 @@
              transform:scale(1.03);
         }
 
+        .hero-content{
+             text-align:center;
+        }
+
+        .hero-text{
+
+             margin-top:15px;
+             font-size:20px;
+             color:#334155;
+             font-weight:500;
+        }
+
     </style>
 </head>
 <body>
@@ -351,9 +363,17 @@
 
 <section class="hero-logo">
 
-    <img src="{{ url_for('static', filename='images/logo.png') }}"
-         alt="건진창호 로고"
-         class="hero-logo-img">
+    <div class="hero-content"></div>
+
+         <img src="{{ url_for('static', filename='images/logo.png') }}"
+             alt="건진창호 로고"
+             class="hero-logo-img">
+
+         <p class="hero-text">
+             튼튼한 기초, 과정의 신뢰, 확실한 완성
+         </p>
+
+    </div>
 
 </section>
 
