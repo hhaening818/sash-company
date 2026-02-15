@@ -487,6 +487,17 @@ a.delete {
     align-items:center;
 }
 
+/* 확대 애니메이션 */
+.image-viewer img {
+    transition: transform 0.25s ease;
+    cursor: zoom-in;
+}
+
+.image-viewer img.zoomed {
+    transform: scale(2);
+    cursor: zoom-out;
+}
+
 .image-viewer img {
     max-width:90%;
     max-height:90%;
@@ -749,6 +760,72 @@ function openImageViewer(src) {
 function closeImageViewer() {
     document.getElementById("imageViewer").style.display = "none";
 }
+
+let zoomed = false;
+let currentScale = 1;
+
+/* ESC 키 닫기 */
+document.addEventListener("keydown", function(e){
+
+    if(e.key === "Escape"){
+        closeImageViewer();
+    }
+
+});
+
+/* 클릭 확대 */
+document.getElementById("viewerImage").onclick = function(e){
+
+    e.stopPropagation();
+
+    zoomed = !zoomed;
+
+    if(zoomed){
+        this.classList.add("zoomed");
+        currentScale = 2;
+    }else{
+        this.classList.remove("zoomed");
+        currentScale = 1;
+    }
+
+};
+
+/* 모바일 pinch zoom */
+let startDist = 0;
+
+document.getElementById("viewerImage")
+.addEventListener("touchstart", function(e){
+
+    if(e.touches.length === 2){
+
+        startDist = Math.hypot(
+            e.touches[0].pageX - e.touches[1].pageX,
+            e.touches[0].pageY - e.touches[1].pageY
+        );
+
+    }
+
+});
+
+document.getElementById("viewerImage")
+.addEventListener("touchmove", function(e){
+
+    if(e.touches.length === 2){
+
+        e.preventDefault();
+
+        let newDist = Math.hypot(
+            e.touches[0].pageX - e.touches[1].pageX,
+            e.touches[0].pageY - e.touches[1].pageY
+        );
+
+        let scale = newDist / startDist;
+
+        this.style.transform = `scale(${scale})`;
+
+    }
+
+});
 
 </script>
 
