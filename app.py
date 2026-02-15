@@ -370,3 +370,28 @@ import os
 if __name__ == "__main__":
     app.run()
 
+
+@app.route("/portfolio")
+def portfolio():
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT id, image_url
+        FROM portfolio
+        ORDER BY id DESC
+    """)
+
+    images = cur.fetchall()
+
+    cur.close()
+    conn.close()
+
+    return render_template(
+        "portfolio.html",
+        images=images,
+        is_admin=session.get("admin")
+    )
+
+

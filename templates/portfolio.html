@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>시공 사례</title>
+
+<style>
+
+body {
+    font-family: sans-serif;
+    background:#f8fafc;
+    margin:0;
+    padding:20px;
+}
+
+.header {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.gallery {
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap:20px;
+    margin-top:20px;
+}
+
+.gallery img {
+    width:100%;
+    height:250px;
+    object-fit:cover;
+    border-radius:12px;
+}
+
+.upload-box {
+    background:white;
+    padding:15px;
+    border-radius:10px;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="header">
+
+<h1>시공 사례</h1>
+
+{% if is_admin %}
+<div class="upload-box">
+
+<form action="/admin/upload_portfolio"
+      method="POST"
+      enctype="multipart/form-data">
+
+<input type="file" name="image" required>
+<button type="submit">사진 업로드</button>
+
+</form>
+
+</div>
+{% endif %}
+
+</div>
+
+
+<div class="gallery">
+
+{% for id, img in images %}
+
+<img src="{{ img.replace('/upload/', '/upload/w_800,q_auto,f_auto/') }}">
+
+{% endfor %}
+
+</div>
+
+</body>
+</html>
