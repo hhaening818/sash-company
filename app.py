@@ -565,6 +565,16 @@ def portfolio():
 
     return render_template("portfolio.html", images=images)
 
+@app.route("/inquiry")
+def inquiry():
+
+    # DB에서 문의 가져오는 구조면 그 코드 넣으면 됨
+    # 지금은 테스트용
+    inquiries = []
+
+    return render_template("inquiry.html", inquiries=inquiries)
+
+
 
 
 
