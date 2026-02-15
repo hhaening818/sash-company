@@ -346,9 +346,151 @@
              font-weight:500;
         }
 
+         /* 히어로 */
+         .hero-section {
+
+             height:90vh;
+
+             display:flex;
+             justify-content:center;
+             align-items:center;
+
+             background:linear-gradient(#ffffff,#f1f5f9);
+
+             transition:0.4s;
+        }
+
+        .hero-logo {
+
+             width:500px;
+             max-width:90%;
+
+             transition:0.4s;
+        }
+
+        /* 헤더 */
+        .main-header {
+
+             position:fixed;
+             top:0;
+             width:100%;
+
+             background:rgba(255,255,255,0.95);
+
+             backdrop-filter:blur(10px);
+
+             box-shadow:0 2px 10px rgba(0,0,0,0.08);
+
+             z-index:1000;
+
+             transform:translateY(-100%);
+             transition:0.4s;
+        }
+
+        .main-header.active {
+
+             transform:translateY(0);
+        }
+
+        /* 내부 */
+        .header-inner {
+
+             max-width:1200px;
+             margin:auto;
+
+             display:flex;
+             justify-content:space-between;
+             align-items:center;
+
+             padding:10px 20px;
+        }
+
+        /* 작은 로고 */
+        .header-logo {
+
+             height:40px;
+             cursor:pointer;
+         }
+
+        /* 메뉴 */
+        .nav-menu {
+
+             display:flex;
+             gap:30px;
+        }
+
+        .nav-menu a {
+
+             text-decoration:none;
+             color:#1e3a8a;
+             font-weight:600;
+        }
+
+        /* 버튼 */
+        .header-btn {
+
+             padding:6px 14px;
+             border-radius:6px;
+             text-decoration:none;
+        }
+
+        .login {background:#3b82f6;color:white;}
+        .admin {background:#10b981;color:white;}
+        .logout {background:#ef4444;color:white;}
+
     </style>
 </head>
 <body>
+
+<!-- 고정 헤더 -->
+<header class="main-header" id="mainHeader">
+
+    <div class="header-inner">
+
+        <img src="{{ url_for('static', filename='images/logo.png') }}"
+             class="header-logo"
+             onclick="location.href='/'">
+
+        <nav class="nav-menu">
+            <a href="#about">회사소개</a>
+            <a href="#services">시공 분야</a>
+            <a href="/portfolio">시공 사례</a>
+            <a href="/inquiry">문의하기</a>
+        </nav>
+
+        <div class="header-right">
+
+            {% if session.get('admin') %}
+
+                <a href="/admin" class="header-btn admin">
+                    관리자
+                </a>
+
+                <a href="/logout" class="header-btn logout">
+                    로그아웃
+                </a>
+
+            {% else %}
+
+                <a href="/login" class="header-btn login">
+                    로그인
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</header>
+
+<!-- 큰 로고 히어로 -->
+<section class="hero-section" id="heroSection">
+
+    <img src="{{ url_for('static', filename='images/logo.png') }}"
+         class="hero-logo">
+
+</section>
 
 <div class="top-bar">
 
@@ -656,6 +798,26 @@ window.addEventListener("load", function(){
     document.querySelectorAll(".image-viewer").forEach(function(viewer){
         viewer.style.display = "none";
     });
+
+});
+
+</script>
+
+<script>
+
+window.addEventListener("scroll", function(){
+
+    const header = document.getElementById("mainHeader");
+
+    if(window.scrollY > 200){
+
+        header.classList.add("active");
+
+    }else{
+
+        header.classList.remove("active");
+
+    }
 
 });
 
