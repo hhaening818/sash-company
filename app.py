@@ -554,6 +554,18 @@ def logout():
 if __name__ == "__main__":
     app.run(debug=True)
 
+@app.route("/portfolio")
+def portfolio():
+
+    # 이미지 리스트 (Cloudinary 쓰면 그대로 사용)
+    images = [
+        # 예시
+        # "https://res.cloudinary.com/yourname/image/upload/sample1.jpg"
+    ]
+
+    return render_template("portfolio.html", images=images)
+
+
 
 
 
