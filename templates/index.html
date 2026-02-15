@@ -292,7 +292,7 @@
 
             background:white;
 
-            padding:40px 0;
+            padding:30px 0;
 
             display:flex;
 
@@ -300,8 +300,9 @@
 
             align-items:center;
 
-        }
+            position:relative;
 
+        }
 
         /* 로고 이미지 */
         .hero-logo-img {
@@ -382,13 +383,17 @@
         /* 메뉴 */
         .nav-menu {
 
+            width:100%;
+
+            background:#3b4a8a;
+
             display:flex;
 
             justify-content:center;
 
-            gap:40px;
+            gap:50px;
 
-            margin-bottom:10px;
+            padding:15px 0;
 
         }
 
@@ -398,11 +403,7 @@
 
             text-decoration:none;
 
-            font-size:18px;
-
-            font-weight:500;
-
-            transition:0.2s;
+            font-size:17px;
 
         }
 
@@ -436,21 +437,21 @@
 
         .admin {
 
-            background:#6366f1;
+            background:#3b4a8a;
             color:white;
 
         }
 
         .logout {
 
-            background:#4f46e5;
+            background:#3b4a8a;
             color:white;
 
         }
 
         .login {
 
-            background:#6366f1;
+            background:#3b4a8a;
             color:white;
 
         }
@@ -464,21 +465,19 @@
 
         }
 
+        .admin:hover,
+        .logout:hover,
+        .login:hover {
+
+            background:#2f3d73;
+
+        }
 
     </style>
 </head>
 <body>
 
     <header class="main-header" id="mainHeader">
-
-        <nav class="nav-menu">
-
-            <a href="#about">회사소개</a>
-            <a href="#services">시공 분야</a>
-            <a href="/portfolio">시공 사례</a>
-            <a href="#contact">문의하기</a>
-
-        </nav>
 
         <div class="header-buttons">
 
@@ -511,6 +510,15 @@
     </div>
 
 </section>
+
+<nav class="nav-menu">
+
+    <a href="#about">회사소개</a>
+    <a href="#services">시공 분야</a>
+    <a href="/portfolio">시공 사례</a>
+    <a href="#contact">문의하기</a>
+
+</nav>
 
 <section id="about">
     <div class="card">
