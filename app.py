@@ -425,5 +425,48 @@ def update_status(id):
 
     return redirect("/admin")
 
+@app.route("/admin/reply/<int:id>", methods=["POST"])
+def reply(id):
+
+    if not session.get("admin"):
+        return redirect("/login")
+
+    reply=request.form.get("reply")
+
+    conn=get_connection()
+    cur=conn.cursor()
+
+    cur.execute("""
+    UPDATE inquiries
+    SET reply=%s,
+        status='완료'
+    WHERE id=%s
+    """,(reply,id))
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    return redirect("/admin")
+
+@app.route("/inquiry")
+def inquiry():
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+    SELECT *
+    FROM inquiries
+    ORDER BY created_at DESC
+    """)
+
+    inquiries = cur.fetchall()
+
+    cur.close()
+    conn.close()
+
+    return render_template("inquiry.html", inquiries=inquiries)
+
 
 

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>문의하기</title>
+
+<style>
+
+body{
+font-family:sans-serif;
+background:#f1f5f9;
+padding:30px;
+}
+
+.card{
+background:white;
+padding:20px;
+margin-bottom:15px;
+border-radius:10px;
+}
+
+.wait{
+color:red;
+font-weight:bold;
+}
+
+.done{
+color:green;
+font-weight:bold;
+}
+
+.reply{
+background:#eff6ff;
+padding:10px;
+margin-top:10px;
+border-radius:8px;
+}
+
+</style>
+
+</head>
+<body>
+
+<h2>문의 목록</h2>
+
+<a href="/">
+<button>새 문의 작성</button>
+</a>
+
+<hr>
+
+{% for i in inquiries %}
+
+<div class="card">
+
+<div>
+작성자: {{ i[1] }}
+</div>
+
+<div>
+문의내용: {{ i[3] }}
+</div>
+
+<div>
+상태:
+<span class="{% if i[6]=='대기' %}wait{% else %}done{% endif %}">
+{{ i[6] }}
+</span>
+</div>
+
+{% if i[7] %}
+<div class="reply">
+답변: {{ i[7] }}
+</div>
+{% endif %}
+
+</div>
+
+{% endfor %}
+
+</body>
+</html>

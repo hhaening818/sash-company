@@ -655,6 +655,20 @@ function toggleStats() {
             </td>
 
             <td>
+                <form action="/admin/reply/{{ i[0] }}" method="POST"
+                onclick="event.stopPropagation()">
+
+                <input type="text"
+                name="reply"
+                placeholder="답변 입력"
+                required>
+
+                <button>
+                답변
+                </button>
+
+                </form>
+
                 <form action="/delete/{{ i[0] }}" method="POST">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <button class="delete-btn" 
