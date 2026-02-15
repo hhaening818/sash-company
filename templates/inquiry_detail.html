@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>문의 상세</title>
+
+<style>
+
+body{
+font-family:sans-serif;
+padding:30px;
+background:#f1f5f9;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:10px;
+}
+
+.reply{
+background:#eff6ff;
+padding:10px;
+margin-top:10px;
+}
+
+</style>
+
+</head>
+<body>
+
+<h2>문의 상세</h2>
+
+<div class="card">
+
+<div>작성자: {{ inquiry[1] }}</div>
+
+<div>문의내용: {{ inquiry[3] }}</div>
+
+<div>상태: {{ inquiry[6] }}</div>
+
+<div>조회수: {{ inquiry[8] }}</div>
+
+{% if inquiry[7] %}
+<div class="reply">
+답변: {{ inquiry[7] }}
+</div>
+{% endif %}
+
+</div>
+
+<br>
+
+<a href="/inquiry">
+<button>목록</button>
+</a>
+
+</body>
+</html>

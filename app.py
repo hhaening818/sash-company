@@ -183,7 +183,7 @@ def contact():
     cur.close()
     conn.close()
 
-    return render_template("index.html", success=True)
+    return redirect("/inquiry")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -466,9 +466,9 @@ def inquiry():
     cur = conn.cursor()
 
     cur.execute("""
-    SELECT *
+    SELECT id, name, message, status, created_at, views
     FROM inquiries
-    ORDER BY created_at DESC
+    ORDER BY id DESC
     """)
 
     inquiries = cur.fetchall()
@@ -476,7 +476,36 @@ def inquiry():
     cur.close()
     conn.close()
 
-    return render_template("inquiry.html", inquiries=inquiries)
+    return render_template("inquiry_list.html", inquiries=inquiries)
+
+@app.route("/inquiry/<int:id>")
+def inquiry_detail(id):
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    # 조회수 증가
+    cur.execute("""
+    UPDATE inquiries
+    SET views = views + 1
+    WHERE id=%s
+    """,(id,))
+
+    # 데이터 가져오기
+    cur.execute("""
+    SELECT *
+    FROM inquiries
+    WHERE id=%s
+    """,(id,))
+
+    inquiry = cur.fetchone()
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    return render_template("inquiry_detail.html", inquiry=inquiry)
+
 
 
 

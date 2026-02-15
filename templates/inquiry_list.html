@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>문의 목록</title>
+
+<style>
+
+body{
+font-family:sans-serif;
+padding:30px;
+background:#f1f5f9;
+}
+
+table{
+width:100%;
+background:white;
+border-collapse:collapse;
+}
+
+th,td{
+padding:12px;
+border-bottom:1px solid #ddd;
+}
+
+.wait{color:red;}
+.done{color:green;}
+
+</style>
+
+</head>
+<body>
+
+<h2>문의 목록</h2>
+
+<table>
+
+<tr>
+<th>번호</th>
+<th>작성자</th>
+<th>문의내용</th>
+<th>상태</th>
+<th>조회수</th>
+<th>날짜</th>
+</tr>
+
+{% for i in inquiries %}
+
+<tr>
+
+<td>{{ i[0] }}</td>
+
+<td>{{ i[1] }}</td>
+
+<td>
+<a href="/inquiry/{{ i[0] }}">
+{{ i[2] }}
+</a>
+</td>
+
+<td>
+<span class="{% if i[3]=='대기' %}wait{% else %}done{% endif %}">
+{{ i[3] }}
+</span>
+</td>
+
+<td>{{ i[5] }}</td>
+
+<td>{{ i[4] }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</body>
+</html>
