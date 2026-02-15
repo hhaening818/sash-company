@@ -174,9 +174,8 @@ def contact():
     cur = conn.cursor()
 
     cur.execute("""
-    INSERT INTO inquiries
-    (name, phone, message, image)
-    VALUES (%s,%s,%s,%s)
+    INSERT INTO inquiries (name, phone, message, created_at)
+    VALUES (%s, %s, %s, NOW())
     """,(name, phone, message, image_url))
 
     conn.commit()
@@ -528,18 +527,16 @@ def search_inquiry():
     for r in rows:
 
         created_at = (
-            r[2].strftime("%Y-%m-%d %H:%M")
-            if r[2]
-            else "시간 없음"
+             r[2].strftime("%Y-%m-%d %H:%M")
+             if r[2] else "시간 없음"
         )
 
         result.append({
-
-            "message": r[0] or "",
-            "status": r[1] or "대기",
-            "created_at": created_at
-
+             "message": r[0] or "",
+             "status": r[1] or "대기",
+             "created_at": created_at
         })
+
 
     cur.close()
     conn.close()
