@@ -394,19 +394,29 @@ def portfolio():
         is_admin=session.get("admin")
     )
 
-@app.route("/admin/delete_portfolio/<int:id>", methods=["POST"])
-def delete_portfolio(id):
+@app.route("/admin/upload_portfolio", methods=["POST"])
+def upload_portfolio():
 
     if not session.get("admin"):
         return redirect("/login")
 
+    files = request.files.getlist("image")
+
     conn = get_connection()
     cur = conn.cursor()
 
-    cur.execute(
-        "DELETE FROM portfolio WHERE id = %s",
-        (id,)
-    )
+    for file in files:
+
+        if file and file.filename != "":
+
+            result = cloudinary.uploader.upload(file)
+
+            image_url = result["secure_url"]
+
+            cur.execute(
+                "INSERT INTO portfolio (image_url) VALUES (%s)",
+                (image_url,)
+            )
 
     conn.commit()
     cur.close()

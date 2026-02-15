@@ -105,19 +105,45 @@ body{
 <h1>🛠 시공 사례</h1>
 
 {% if is_admin %}
+
 <div class="upload-box">
 
 <form action="/admin/upload_portfolio"
       method="POST"
-      enctype="multipart/form-data">
+      enctype="multipart/form-data"
+      id="uploadForm">
 
-<input type="file" name="image" required>
-<button type="submit">업로드</button>
+<div id="dropArea"
+     style="
+     border:2px dashed #94a3b8;
+     padding:30px;
+     border-radius:12px;
+     text-align:center;
+     background:white;
+     cursor:pointer;">
+
+📁 여기에 사진 드래그 또는 클릭해서 선택
+
+<input type="file"
+       name="image"
+       id="fileInput"
+       multiple
+       style="display:none">
+
+</div>
+
+<br>
+
+<button type="submit">
+여러장 업로드
+</button>
 
 </form>
 
 </div>
+
 {% endif %}
+
 
 </div>
 
@@ -176,6 +202,37 @@ function closeModal(){
 
 </script>
 
+<script>
+
+const dropArea = document.getElementById("dropArea");
+const fileInput = document.getElementById("fileInput");
+
+dropArea.onclick = () => fileInput.click();
+
+dropArea.addEventListener("dragover", e => {
+
+    e.preventDefault();
+    dropArea.style.background="#e0f2fe";
+
+});
+
+dropArea.addEventListener("dragleave", () => {
+
+    dropArea.style.background="white";
+
+});
+
+dropArea.addEventListener("drop", e => {
+
+    e.preventDefault();
+
+    fileInput.files = e.dataTransfer.files;
+
+    dropArea.style.background="white";
+
+});
+
+</script>
 
 </body>
 </html>
