@@ -244,6 +244,36 @@
              display:flex;
         }
 
+        .modal{
+        position:fixed;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        background:rgba(0,0,0,0.5);
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        }
+
+        .modal-box{
+        background:white;
+        padding:30px;
+        border-radius:15px;
+        text-align:center;
+        animation:pop 0.3s;
+        } 
+
+        .check{
+        font-size:40px;
+        color:green;
+        }
+
+        @keyframes pop{
+        from{transform:scale(0.7);}
+        to{transform:scale(1);}
+        }
+
 
     </style>
 </head>
@@ -333,6 +363,17 @@
         </form>
     </div>
 </section>
+
+{% if success %}
+<div id="successModal" class="modal">
+    <div class="modal-box">
+        <div class="check">✔</div>
+        <h3>문의가 접수되었습니다</h3>
+        <p>빠르게 연락드리겠습니다.</p>
+        <button onclick="closeModal()">확인</button>
+    </div>
+</div>
+{% endif %}
 
 <footer>
     📞 010-7137-2313 | 건진창호<br />
@@ -490,6 +531,14 @@ modal.addEventListener("click", () => {
     modal.classList.remove("closeable");
 
 });
+
+</script>
+
+<script>
+
+function closeModal(){
+document.getElementById("successModal").style.display="none";
+}
 
 </script>
 

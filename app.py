@@ -66,6 +66,7 @@ def create_table():
     ADD COLUMN IF NOT EXISTS status TEXT DEFAULT '대기'
     """)
 
+
     # portfolio 테이블 추가 ⭐⭐⭐
     cur.execute("""
         CREATE TABLE IF NOT EXISTS portfolio (
@@ -140,38 +141,33 @@ def home():
 
 @app.route("/contact", methods=["POST"])
 def contact():
-    name = request.form["name"]
-    phone = request.form["phone"]
-    message = request.form["message"]
-    now = datetime.now()
+
+    name = request.form.get("name")
+    phone = request.form.get("phone")
+    message = request.form.get("message")
 
     file = request.files.get("image")
+
     image_url = None
 
     if file and file.filename != "":
-         result = cloudinary.uploader.upload(file)
-         image_url = result["secure_url"]
+        result = cloudinary.uploader.upload(file)
+        image_url = result["secure_url"]
 
-    
     conn = get_connection()
     cur = conn.cursor()
-    cur.execute(
-        "INSERT INTO inquiries (name, phone, message, image, created_at) VALUES (%s,%s,%s,%s,%s)",
-        (name, phone, message, image_url, now)
-    )
+
+    cur.execute("""
+    INSERT INTO inquiries
+    (name, phone, message, image)
+    VALUES (%s,%s,%s,%s)
+    """,(name, phone, message, image_url))
 
     conn.commit()
     cur.close()
     conn.close()
 
-    return "<h2>문의 접수 완료!</h2><a href='/'>돌아가기</a>"
-    
-    send_sms(f"""
-    [새 문의 접수]
-    이름: {name}
-    전화: {phone}
-    내용: {message}
-    """)
+    return render_template("index.html", success=True)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -399,6 +395,29 @@ def upload_portfolio():
     conn.close()
 
     return "OK"
+
+@app.route("/admin/update_status/<int:id>", methods=["POST"])
+def update_status(id):
+
+    if not session.get("admin"):
+        return redirect("/login")
+
+    status = request.form.get("status")
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+    UPDATE inquiries
+    SET status=%s
+    WHERE id=%s
+    """,(status,id))
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    return redirect("/admin")
 
 
 

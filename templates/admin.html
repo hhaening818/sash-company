@@ -583,6 +583,7 @@ function toggleStats() {
             <th>전화번호</th>
             <th>내용</th>
             <th>사진</th>
+            <th>상태</th>
             <th>시간</th>
             <th>관리</th>
         </tr>
@@ -614,7 +615,39 @@ function toggleStats() {
                  {% else %}
                      -
                   {% endif %}
-             </td>
+            </td>
+
+            <td onclick="event.stopPropagation()">
+
+            {% if i[6] == "대기" %}
+            <div style="color:#ef4444;font-weight:bold;">● 대기</div>
+            {% else %}
+            <div style="color:#10b981;font-weight:bold;">● 완료</div>
+            {% endif %}
+
+            <form action="/admin/update_status/{{ i[0] }}" method="POST">
+
+            <select name="status" onclick="event.stopPropagation()">
+
+            <option value="대기"
+            {% if i[6] == "대기" %}selected{% endif %}>
+            ● 대기
+            </option>
+
+            <option value="완료"
+            {% if i[6] == "완료" %}selected{% endif %}>
+            ● 완료
+            </option>
+
+            </select>
+
+            <button type="submit">
+            변경
+            </button>
+
+            </form>
+
+            </td>
 
 
             <td class="time">
