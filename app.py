@@ -277,6 +277,36 @@ def admin():
         counts=counts
     )
 
+@app.route("/admin/upload_portfolio", methods=["POST"])
+def upload_portfolio():
+
+    if not session.get("admin"):
+        return redirect("/login")
+
+    file = request.files.get("image")
+
+    if file and file.filename != "":
+
+        # Cloudinary 업로드
+        result = cloudinary.uploader.upload(file)
+
+        image_url = result["secure_url"]
+
+        # DB 저장
+        conn = get_connection()
+        cur = conn.cursor()
+
+        cur.execute(
+            "INSERT INTO portfolio (image_url) VALUES (%s)",
+            (image_url,)
+        )
+
+        conn.commit()
+        cur.close()
+        conn.close()
+
+    return redirect("/admin")
+
 
 @app.route("/export")
 def export_excel():

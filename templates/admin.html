@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>관리자 페이지</title>
 
+<hr>
+
 <style>
 body { 
      background:linear-gradient(135deg,#f8fafc,#eef2ff);
@@ -522,6 +524,19 @@ a.delete {
 <div class="logo-wrap">
     <img src="{{ url_for('static', filename='images/logo.png') }}" alt="건진창호 로고">
 </div>
+
+<h2>포트폴리오 사진 업로드</h2>
+
+<form action="/admin/upload_portfolio"
+      method="POST"
+      enctype="multipart/form-data">
+
+    <input type="file" name="image" required>
+    <button type="submit">사진 업로드</button>
+
+</form>
+
+<hr>
 
 <div class="top-section">
     <div>
