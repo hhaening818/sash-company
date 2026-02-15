@@ -387,33 +387,19 @@
              transition:0.4s;
         }
 
-        /* 헤더 */
+        /* 전체 헤더 */
         .main-header {
 
              width:100%;
-             background:#3b4a8a;
+             background:linear-gradient(90deg,#1e3a8a,#3b4a8a);
+             box-shadow:0 4px 15px rgba(0,0,0,0.1);
 
-             box-shadow:0 2px 10px rgba(0,0,0,0.1);
-
-             position:relative;
-
+             position:sticky;
+             top:0;
+             z-index:1000;
         }
 
-        .main-header.scrolled {
-
-             background:white;
-
-             box-shadow:0 4px 20px rgba(0,0,0,0.08);
-
-        }
-
-        .main-header.active {
-
-             opacity:1;
-             transform:translateY(0);
-        }
-
-        /* 내부 */
+        /* 내부 정렬 */
         .header-inner {
 
              max-width:1200px;
@@ -426,12 +412,11 @@
              padding:12px 20px;
         }
 
-        /* 작은 로고 */
-        .header-logo {
+        /* 로고 */
+        .logo-area img {
 
              height:50px;
-             cursor:pointer;
-         }
+        }
 
         /* 메뉴 */
         .nav-menu {
@@ -444,26 +429,62 @@
 
              color:white;
              text-decoration:none;
-             font-weight:bold;
+             font-weight:600;
+             font-size:16px;
+
+             transition:0.2s;
         }
 
-        .main-header.scrolled .nav-menu a {
+        .nav-menu a:hover {
 
-             color:#1e3a8a;
-
+             opacity:0.7;
         }
 
+        /* 오른쪽 버튼 */
+        .header-right {
 
-        /* 버튼 */
+             display:flex;
+             gap:10px;
+        }
+
+        /* 버튼 공통 */
         .header-btn {
-
-             background:white;
-             color:#3b4a8a;
 
              padding:8px 16px;
              border-radius:8px;
 
              text-decoration:none;
+             font-weight:600;
+             font-size:14px;
+
+             transition:0.2s;
+        }
+
+        /* 로그인 */
+        .header-btn.login {
+
+             background:white;
+             color:#1e3a8a;
+        }
+
+        /* 관리자 */
+        .header-btn.admin {
+
+             background:#10b981;
+             color:white;
+        }
+
+        /* 로그아웃 */
+        .header-btn.logout {
+
+             background:#ef4444;
+             color:white;
+        }
+
+        .header-btn:hover {
+
+             transform:translateY(-2px);
+             box-shadow:0 4px 10px rgba(0,0,0,0.15);
         }
 
         .login {background:#3b82f6;color:white;}
@@ -484,16 +505,15 @@
 </head>
 <body>
 
-<!-- 고정 헤더 -->
 <header class="main-header">
 
     <div class="header-inner">
 
-        <!-- 왼쪽 로고 -->
+        <!-- 로고 -->
         <div class="logo-area">
-            <img src="{{ url_for('static', filename='images/logo.png') }}"
-                 class="header-logo"
-                 onclick="location.href='/'">
+            <a href="/">
+                <img src="{{ url_for('static', filename='images/logo.png') }}">
+            </a>
         </div>
 
         <!-- 메뉴 -->
@@ -502,7 +522,7 @@
             <a href="#about">회사소개</a>
             <a href="#services">시공 분야</a>
             <a href="/portfolio">시공 사례</a>
-            <a href="#contact">문의하기</a>
+            <a href="/inquiry">문의하기</a>
 
         </nav>
 
