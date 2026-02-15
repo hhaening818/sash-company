@@ -48,6 +48,7 @@ def create_table():
     conn = get_connection()
     cur = conn.cursor()
 
+    # 문의 테이블
     cur.execute("""
         CREATE TABLE IF NOT EXISTS inquiries (
             id SERIAL PRIMARY KEY,
@@ -59,15 +60,19 @@ def create_table():
         )
     """)
 
-    # 🔥 이미 테이블이 존재할 경우를 대비
+    # portfolio 테이블 추가 ⭐⭐⭐
     cur.execute("""
-        ALTER TABLE inquiries
-        ADD COLUMN IF NOT EXISTS image TEXT;
+        CREATE TABLE IF NOT EXISTS portfolio (
+            id SERIAL PRIMARY KEY,
+            image_url TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
     """)
 
     conn.commit()
     cur.close()
     conn.close()
+
 
 create_table()
 
