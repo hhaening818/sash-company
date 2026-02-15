@@ -917,5 +917,118 @@ function searchInquiry(){
 
 </script>
 
+<script>
+
+// 문의 등록 → 팝업 처리
+document.getElementById("contactForm")
+.addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    const formData = new FormData(this);
+
+    fetch("/contact", {
+
+        method:"POST",
+        body:formData
+
+    })
+    .then(res=>{
+
+        document.getElementById("successModal")
+        .style.display="flex";
+
+        document.getElementById("contactForm").reset();
+
+    });
+
+});
+
+
+// 문의 조회 팝업 열기
+function openInquiryModal(){
+
+    document.getElementById("inquiryModal").style.display="flex";
+
+}
+
+
+// 문의 조회 팝업 닫기
+function closeInquiryModal(){
+
+    document.getElementById("inquiryModal").style.display="none";
+
+}
+
+
+// 문의 조회
+function searchInquiry(){
+
+    const name =
+        document.getElementById("searchName").value;
+
+    const phone =
+        document.getElementById("searchPhone").value;
+
+    fetch("/search_inquiry",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+            name:name,
+            phone:phone
+        })
+
+    })
+
+    .then(res=>res.json())
+
+    .then(data=>{
+
+        let html="";
+
+        if(data.length === 0){
+
+            html="<p>조회된 문의가 없습니다.</p>";
+
+        }else{
+
+            data.forEach(item=>{
+
+                html+=`
+                <div style="
+                    border:1px solid #ddd;
+                    padding:10px;
+                    margin:10px 0;
+                    border-radius:8px;
+                ">
+
+                <b>문의내용:</b><br>
+                ${item.message}<br><br>
+
+                <b>상태:</b> ${item.status}<br>
+
+                <b>날짜:</b> ${item.created_at}
+
+                </div>
+                `;
+
+            });
+
+        }
+
+        document.getElementById("inquiryResult")
+        .innerHTML=html;
+
+    });
+
+}
+
+</script>
+
 </body>
 </html>
