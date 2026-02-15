@@ -110,7 +110,21 @@ def send_sms(text):
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT image_url FROM portfolio
+        ORDER BY id DESC
+    """)
+
+    images = [row[0] for row in cur.fetchall()]
+
+    cur.close()
+    conn.close()
+
+    return render_template("index.html", images=images)
 
 
 @app.route("/contact", methods=["POST"])
@@ -126,7 +140,6 @@ def contact():
     if file and file.filename != "":
          result = cloudinary.uploader.upload(file)
          image_url = result["secure_url"]
-
 
     
     conn = get_connection()
