@@ -355,9 +355,6 @@ def logout():
 
 import os
 
-if __name__ == "__main__":
-    app.run()
-
 
 @app.route("/portfolio")
 def portfolio():
@@ -533,6 +530,9 @@ def admin():
 def logout():
     session.pop("admin", None)
     return redirect("/")
+
+if __name__ == "__main__":
+    app.run(debug=True)
 
 
 
