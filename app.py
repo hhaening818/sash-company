@@ -16,7 +16,7 @@ import hmac
 import hashlib
 import time
 import base64
-
+from flask import jsonify
 
 cloudinary.config(
     cloud_name=os.getenv("CLOUD_NAME"),
@@ -502,6 +502,42 @@ def inquiry_detail(id):
     conn.close()
 
     return render_template("inquiry_detail.html", inquiry=inquiry)
+
+@app.route("/search_inquiry", methods=["POST"])
+def search_inquiry():
+
+    data = request.get_json()
+
+    name = data["name"]
+    phone = data["phone"]
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT message, status, created_at
+        FROM inquiries
+        WHERE name=%s AND phone=%s
+        ORDER BY created_at DESC
+    """,(name,phone))
+
+    rows = cur.fetchall()
+
+    result = []
+
+    for r in rows:
+
+        result.append({
+            "message":r[0],
+            "status":r[1],
+            "created_at":r[2].strftime("%Y-%m-%d %H:%M")
+        })
+
+    cur.close()
+    conn.close()
+
+    return jsonify(result)
+
 
 
 
