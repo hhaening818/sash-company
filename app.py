@@ -503,37 +503,6 @@ def inquiry_detail(id):
 
     return render_template("inquiry_detail.html", inquiry=inquiry)
 
-app = Flask(__name__)
-app.secret_key = "super_secret_key"
-
-@app.route("/login", methods=["GET", "POST"])
-def login():
-
-    if request.method == "POST":
-        password = request.form["password"]
-
-        if password == ADMIN_PASSWORD:
-            session["admin"] = True
-            return redirect("/admin")
-
-    return render_template("login.html")
-
-@app.route("/admin")
-def admin():
-
-    if not session.get("admin"):
-        return redirect("/login")
-
-    return render_template("admin.html")
-
-@app.route("/logout")
-def logout():
-    session.pop("admin", None)
-    return redirect("/")
-
-if __name__ == "__main__":
-    app.run(debug=True)
-
 
 
 
