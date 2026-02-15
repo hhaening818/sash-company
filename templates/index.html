@@ -138,21 +138,22 @@
         }
 
         .slider {
+             position: relative;
              max-width: 1000px;
              margin: auto;
+             overflow: hidden;
         }
 
         .slides {
              display: flex;
              align-items: center;
-             justify-content: center;
              transition: transform 0.5s ease;
         }
 
         .slide {
-             flex: 0 0 33.33%;
+             flex: 0 0 calc(33.33% - 20px); /* ⭐ margin 고려해서 너비 줄임 */
              margin: 0 10px;
-             opacity: 0.75; /* 양쪽 살짝 불투명 */
+             opacity: 0.8;
              transition: opacity 0.3s ease;
         }
 
