@@ -187,7 +187,7 @@ def admin():
     conn = get_connection()
     cur = conn.cursor()
 
-    # 1️⃣ 문의 목록
+    # 문의 목록
     cur.execute("SELECT * FROM inquiries ORDER BY created_at DESC")
     rows = cur.fetchall()
 
@@ -204,7 +204,7 @@ def admin():
         data.append(row)
 
 
-    # 2️⃣ 오늘 문의 수
+    # 오늘 문의 수
     today = datetime.now().date()
     cur.execute("""
         SELECT COUNT(*) FROM inquiries
@@ -212,11 +212,26 @@ def admin():
     """, (today,))
     today_count = cur.fetchone()[0]
 
-    # 2️⃣ 전체 문의 수 추가
+    # 전체 문의 수 추가
     cur.execute("SELECT COUNT(*) FROM inquiries")
     total_count = cur.fetchone()[0]
 
-    # 3️⃣ 월별 통계
+    # 이번달 문의 수
+    cur.execute("""
+    SELECT COUNT(*) FROM inquiries
+    WHERE DATE_TRUNC('month', created_at) =
+         DATE_TRUNC('month', CURRENT_DATE)
+    """)
+    month_count = cur.fetchone()[0]
+
+    # 사진 포함 문의 수
+    cur.execute("""
+    SELECT COUNT(*) FROM inquiries
+    WHERE image IS NOT NULL AND image != ''
+    """)
+    image_count = cur.fetchone()[0]
+
+    # 월별 통계
     cur.execute("""
         SELECT TO_CHAR(created_at, 'YYYY-MM') AS month,
                COUNT(*)
@@ -238,9 +253,12 @@ def admin():
         inquiries=data,
         today_count=today_count,
         total_count=total_count,
+        month_count=month_count,
+        image_count=image_count,
         months=months,
         counts=counts
     )
+
 
 @app.route("/export")
 def export_excel():

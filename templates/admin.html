@@ -410,18 +410,27 @@ a.delete {
 
 <div class="stats">
 
-    <div class="card">
-        <h3>📬 전체 문의</h3>
-        <p>{{ inquiries|length }} 건</p>
+    <div class="card stat-card">
+        <div>📬 전체 문의</div>
+        <div class="number">{{ total_count }}</div>
     </div>
 
-    <div class="card">
-        <h3>📅 오늘 문의</h3>
-        <p>{{ today_count }} 건</p>
+    <div class="card stat-card">
+        <div>📅 오늘 문의</div>
+        <div class="number">{{ today_count }}</div>
+    </div>
+
+    <div class="card stat-card">
+        <div>📊 이번달 문의</div>
+        <div class="number">{{ month_count }}</div>
+    </div>
+
+    <div class="card stat-card">
+        <div>🖼 사진 포함</div>
+        <div class="number">{{ image_count }}</div>
     </div>
 
 </div>
-
 
 <div class="chart-wrapper">
     <button class="toggle-btn" onclick="toggleChart()">
