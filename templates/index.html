@@ -313,7 +313,6 @@
 
         }
 
-
         .hero-logo-img:hover {
 
              transform:scale(1.03);
@@ -346,13 +345,7 @@
         /* 전체 헤더 */
         .main-header {
 
-            width:100%;
-
-            background:#4f46e5;
-
-            padding:15px 0;
-
-            position:relative;
+            display:none;
 
         }
 
@@ -473,28 +466,13 @@
 
         }
 
+        .main-header {
+            display:none !important;
+        }
+
     </style>
 </head>
 <body>
-
-    <header class="main-header" id="mainHeader">
-
-        <div class="header-buttons">
-
-            {% if session.get('admin') %}
-
-                <a href="/admin" class="btn admin">관리자 페이지</a>
-                <a href="/logout" class="btn logout">로그아웃</a>
-
-            {% else %}
-
-                <a href="/login" class="btn login">로그인</a>
-
-            {% endif %}
-
-        </div>
-
-    </header>
 
 <section class="hero-logo">
 
