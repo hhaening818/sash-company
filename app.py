@@ -506,73 +506,37 @@ def inquiry_detail(id):
 
     return render_template("inquiry_detail.html", inquiry=inquiry)
 
-from flask import Flask, render_template, redirect, url_for, request, session
-
 app = Flask(__name__)
-app.secret_key = "your_secret_key"
+app.secret_key = "super_secret_key"
 
-
-# 메인 웹사이트
-@app.route("/")
-def index():
-    return render_template("index.html")
-
-
-# 로그인 페이지
 @app.route("/login", methods=["GET", "POST"])
 def login():
 
     if request.method == "POST":
-        username = request.form["username"]
         password = request.form["password"]
 
-        # 관리자 계정 (원하는대로 변경)
-        if username == "admin" and password == "1234":
-            session["is_admin"] = True
-            return redirect(url_for("index"))
+        if password == ADMIN_PASSWORD:
+            session["admin"] = True
+            return redirect("/admin")
 
     return render_template("login.html")
 
-
-# 관리자 페이지
 @app.route("/admin")
 def admin():
 
-    if not session.get("is_admin"):
-        return redirect(url_for("login"))
+    if not session.get("admin"):
+        return redirect("/login")
 
     return render_template("admin.html")
 
-
-# 로그아웃
 @app.route("/logout")
 def logout():
-    session.pop("is_admin", None)
-    return redirect(url_for("index"))
+    session.pop("admin", None)
+    return redirect("/")
 
 
-if __name__ == "__main__":
-    app.run(debug=True)
 
-@app.route("/portfolio")
-def portfolio():
 
-    # 이미지 리스트 (Cloudinary 쓰면 그대로 사용)
-    images = [
-        # 예시
-        # "https://res.cloudinary.com/yourname/image/upload/sample1.jpg"
-    ]
-
-    return render_template("portfolio.html", images=images)
-
-@app.route("/inquiry")
-def inquiry():
-
-    # DB에서 문의 가져오는 구조면 그 코드 넣으면 됨
-    # 지금은 테스트용
-    inquiries = []
-
-    return render_template("inquiry.html", inquiries=inquiries)
 
 
 

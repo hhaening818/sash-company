@@ -302,7 +302,7 @@
 
 <div class="top-bar">
 
-    {% if session.get('is_admin') %}
+    {% if session.get('admin') %}
         <a href="/admin" class="admin-btn">관리자 페이지</a>
         <a href="/logout" class="logout-btn">로그아웃</a>
     {% else %}
