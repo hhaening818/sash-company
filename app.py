@@ -28,6 +28,7 @@ cloudinary.config(
 app = Flask(__name__)
 app.secret_key = "super_secret_key"
 
+app.config['WTF_CSRF_ENABLED'] = False
 
 csrf = CSRFProtect(app)
 

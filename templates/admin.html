@@ -669,7 +669,7 @@ function toggleStats() {
 </table>
 
 <!-- 문의 상세 모달 -->
-<div id="detailModal" class="modal">
+<div id="detailModal" class="modal" style="display:none;">
     <div class="modal-content">
 
         <span class="close" onclick="closeModal()">&times;</span>
@@ -862,10 +862,21 @@ document.getElementById("viewerImage")
 
 });
 
+// 페이지 로드 시 모달 강제 닫기
+window.onload = function(){
+
+    const modal = document.getElementById("detailModal");
+    if(modal) modal.style.display = "none";
+
+    const viewer = document.getElementById("imageViewer");
+    if(viewer) viewer.style.display = "none";
+
+}
+
 </script>
 
 <!-- 이미지 전체화면 보기 -->
-<div id="imageViewer" class="image-viewer" onclick="closeImageViewer()">
+<div id="imageViewer" class="image-viewer" onclick="closeImageViewer()" style="display:none;">
     <span class="image-close">&times;</span>
     <img id="viewerImage">
 </div>
