@@ -50,14 +50,20 @@ def create_table():
 
     # 문의 테이블
     cur.execute("""
-        CREATE TABLE IF NOT EXISTS inquiries (
-            id SERIAL PRIMARY KEY,
-            name TEXT,
-            phone TEXT,
-            message TEXT,
-            image TEXT,
-            created_at TIMESTAMP
-        )
+    CREATE TABLE IF NOT EXISTS inquiries (
+         id SERIAL PRIMARY KEY,
+         name TEXT,
+         phone TEXT,
+         message TEXT,
+         image TEXT,
+         status TEXT DEFAULT '대기',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+    """)
+
+    cur.execute("""
+    ALTER TABLE inquiries
+    ADD COLUMN IF NOT EXISTS status TEXT DEFAULT '대기'
     """)
 
     # portfolio 테이블 추가 ⭐⭐⭐
