@@ -496,9 +496,16 @@
              color:white;
         }
 
-         .main-header:not(.scrolled) .header-btn.login {
+        .main-header:not(.scrolled) .header-btn.login {
              background:rgba(255,255,255,0.9);
              color:#1e3a8a;
+        }
+
+        .main-header::after{
+             content:"";
+             display:block;
+             height:3px;
+             background:linear-gradient(90deg,#10b981,#3b82f6);
         }
 
     </style>
