@@ -251,7 +251,7 @@
         width:100%;
         height:100%;
         background:rgba(0,0,0,0.5);
-        display:flex;
+        display:none;
         justify-content:center;
         align-items:center;
         }
@@ -539,6 +539,23 @@ modal.addEventListener("click", () => {
 function closeModal(){
 document.getElementById("successModal").style.display="none";
 }
+
+</script>
+
+<script>
+
+// 모든 modal 강제 비활성화
+window.addEventListener("load", function(){
+
+    document.querySelectorAll(".modal").forEach(function(modal){
+        modal.style.display = "none";
+    });
+
+    document.querySelectorAll(".image-viewer").forEach(function(viewer){
+        viewer.style.display = "none";
+    });
+
+});
 
 </script>
 

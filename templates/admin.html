@@ -862,16 +862,17 @@ document.getElementById("viewerImage")
 
 });
 
-// 페이지 로드 시 모달 강제 닫기
-window.onload = function(){
+</script>
 
-    const modal = document.getElementById("detailModal");
-    if(modal) modal.style.display = "none";
+<script>
 
-    const viewer = document.getElementById("imageViewer");
-    if(viewer) viewer.style.display = "none";
+window.addEventListener("load", function(){
 
-}
+    document.querySelectorAll(".modal, .image-viewer").forEach(function(el){
+        el.style.display = "none";
+    });
+
+});
 
 </script>
 
