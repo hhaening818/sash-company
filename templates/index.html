@@ -370,22 +370,12 @@
         /* 헤더 */
         .main-header {
 
-             position:fixed;
-             top:0;
-             left:0;
              width:100%;
+             background:#3b4a8a;
 
-             display:flex;
-             align-items:center;
+             box-shadow:0 2px 10px rgba(0,0,0,0.1);
 
-             z-index:1000;
-
-             /* 처음 상태 (투명) */
-             background:transparent;
-
-             box-shadow:none;
-
-             transition: all 0.35s ease;
+             position:relative;
 
         }
 
@@ -410,16 +400,16 @@
              margin:auto;
 
              display:flex;
-             justify-content:space-between;
              align-items:center;
+             justify-content:space-between;
 
-             padding:10px 20px;
+             padding:12px 20px;
         }
 
         /* 작은 로고 */
         .header-logo {
 
-             height:40px;
+             height:50px;
              cursor:pointer;
          }
 
@@ -433,8 +423,8 @@
         .nav-menu a {
 
              color:white;
-             transition:0.3s;
-
+             text-decoration:none;
+             font-weight:bold;
         }
 
         .main-header.scrolled .nav-menu a {
@@ -447,8 +437,12 @@
         /* 버튼 */
         .header-btn {
 
-             padding:6px 14px;
-             border-radius:6px;
+             background:white;
+             color:#3b4a8a;
+
+             padding:8px 16px;
+             border-radius:8px;
+
              text-decoration:none;
         }
 
@@ -471,27 +465,34 @@
 <body>
 
 <!-- 고정 헤더 -->
-<header class="main-header" id="mainHeader">
+<header class="main-header">
 
     <div class="header-inner">
 
-        <img src="{{ url_for('static', filename='images/logo.png') }}"
-             class="header-logo"
-             onclick="location.href='/'">
+        <!-- 왼쪽 로고 -->
+        <div class="logo-area">
+            <img src="{{ url_for('static', filename='images/logo.png') }}"
+                 class="header-logo"
+                 onclick="location.href='/'">
+        </div>
 
+        <!-- 메뉴 -->
         <nav class="nav-menu">
+
             <a href="#about">회사소개</a>
             <a href="#services">시공 분야</a>
             <a href="/portfolio">시공 사례</a>
-            <a href="/inquiry">문의하기</a>
+            <a href="#contact">문의하기</a>
+
         </nav>
 
+        <!-- 오른쪽 버튼 -->
         <div class="header-right">
 
             {% if session.get('admin') %}
 
                 <a href="/admin" class="header-btn admin">
-                    관리자
+                    관리자 페이지
                 </a>
 
                 <a href="/logout" class="header-btn logout">
@@ -511,14 +512,6 @@
     </div>
 
 </header>
-
-<!-- 큰 로고 히어로 -->
-<section class="hero-section" id="heroSection">
-
-    <img src="{{ url_for('static', filename='images/logo.png') }}"
-         class="hero-logo">
-
-</section>
 
 <section id="about">
     <div class="card">
@@ -831,8 +824,6 @@ window.addEventListener("scroll", function(){
     const header = document.getElementById("mainHeader");
 
     if(window.scrollY > 50){
-
-        header.classList.add("scrolled");
 
     }else{
 
