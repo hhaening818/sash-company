@@ -392,7 +392,7 @@ def upload_portfolio():
     cur.close()
     conn.close()
 
-    return redirect("/portfolio")
+    return "OK"
 
 
 
