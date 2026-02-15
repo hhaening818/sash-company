@@ -508,8 +508,8 @@ def search_inquiry():
 
     data = request.get_json()
 
-    name = data["name"]
-    phone = data["phone"]
+    name = data.get("name")
+    phone = data.get("phone")
 
     conn = get_connection()
     cur = conn.cursor()
@@ -523,15 +523,29 @@ def search_inquiry():
 
     rows = cur.fetchall()
 
-    result = []
+    result=[]
 
     for r in rows:
 
+        created_at = (
+            r[2].strftime("%Y-%m-%d %H:%M")
+            if r[2]
+            else "시간 없음"
+        )
+
         result.append({
-            "message":r[0],
-            "status":r[1],
-            "created_at":r[2].strftime("%Y-%m-%d %H:%M")
+
+            "message": r[0] or "",
+            "status": r[1] or "대기",
+            "created_at": created_at
+
         })
+
+    cur.close()
+    conn.close()
+
+    return jsonify(result)
+
 
     cur.close()
     conn.close()
