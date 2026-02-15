@@ -394,4 +394,25 @@ def portfolio():
         is_admin=session.get("admin")
     )
 
+@app.route("/admin/delete_portfolio/<int:id>", methods=["POST"])
+def delete_portfolio(id):
+
+    if not session.get("admin"):
+        return redirect("/login")
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute(
+        "DELETE FROM portfolio WHERE id = %s",
+        (id,)
+    )
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    return redirect("/portfolio")
+
+
 
