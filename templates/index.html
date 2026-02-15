@@ -138,23 +138,59 @@
         }
 
         .slider {
-             position:relative;
-             overflow:hidden;
-             border-radius:20px;
-             margin-top:20px;
+             position: relative;
+             overflow: hidden;
+             border-radius: 20px;
+             margin-top: 20px;
         }
 
         .slides {
-             display:flex;
-            transition:transform 0.5s ease-in-out;
+             display: flex;
+             align-items: center;
+             transition: transform 0.5s ease;
         }
 
-        .slides img {
-             width:100%;
-             height:400px;
-             object-fit:cover;
-             flex-shrink:0;
+        .slide {
+             flex: 0 0 60%;
+             margin: 0 10px;
+             transition: transform 0.4s ease, opacity 0.4s ease;
+             opacity: 0.5;
         }
+
+        .slide img {
+             width: 100%;
+             height: 400px;
+             object-fit: cover;
+             border-radius: 15px;
+        }
+
+        /* 가운데 활성 */
+         .slide.active {
+             transform: scale(1.1);
+             opacity: 1;
+        }
+
+
+        /* 태블릿 */
+        @media (max-width:1024px) {
+
+             .slide {
+                 flex: 0 0 80%;
+            }
+
+        }
+
+
+        /* 모바일 */
+        @media (max-width:600px) {
+
+             .slide {
+                flex: 0 0 90%;
+            }
+ 
+        }
+
+
 
         .prev, .next {
              position:absolute;
@@ -216,19 +252,56 @@
             <button class="prev">&#10094;</button>
 
             <div class="slides">
-                <img src="{{ url_for('static', filename='images/work1.jpg') }}">
-                <img src="{{ url_for('static', filename='images/work2.jpg') }}" loading="lazy">
-                <img src="{{ url_for('static', filename='images/work3.jpg') }}" loading="lazy">
-                <img src="{{ url_for('static', filename='images/work4.jpg') }}" loading="lazy">
-                <img src="{{ url_for('static', filename='images/work5.jpg') }}" loading="lazy">
-                <img src="{{ url_for('static', filename='images/work6.jpg') }}" loading="lazy">
-                <img src="{{ url_for('static', filename='images/work7.jpg') }}" loading="lazy">
-                <img src="{{ url_for('static', filename='images/work8.jpg') }}" loading="lazy">
-                <img src="{{ url_for('static', filename='images/work9.jpg') }}" loading="lazy">
-                <img src="{{ url_for('static', filename='images/work10.jpg') }}" loading="lazy">
-                <img src="{{ url_for('static', filename='images/work11.jpg') }}" loading="lazy">
-                <img src="{{ url_for('static', filename='images/work12.jpg') }}" loading="lazy">
-                <img src="{{ url_for('static', filename='images/work13.jpg') }}" loading="lazy">
+                <div class="slide active"></div>
+                     <img src="{{ url_for('static', filename='images/work1.jpg') }}">
+                </div>
+                     
+                <div class="slide active"></div>
+                     <img src="{{ url_for('static', filename='images/work2.jpg') }}" loading="lazy">
+                </div>
+                     
+                <div class="slide active"></div>
+                     <img src="{{ url_for('static', filename='images/work3.jpg') }}" loading="lazy">
+                </div>
+                     
+                <div class="slide active"></div>
+                     <img src="{{ url_for('static', filename='images/work4.jpg') }}" loading="lazy">
+                </div>
+                     
+                <div class="slide active"></div>
+                     <img src="{{ url_for('static', filename='images/work5.jpg') }}" loading="lazy">
+                </div>
+                     
+                <div class="slide active"></div>
+                     <img src="{{ url_for('static', filename='images/work6.jpg') }}" loading="lazy">
+                </div>
+                     
+                <div class="slide active"></div>
+                     <img src="{{ url_for('static', filename='images/work7.jpg') }}" loading="lazy">
+                </div>
+                     
+                <div class="slide active"></div>
+                     <img src="{{ url_for('static', filename='images/work8.jpg') }}" loading="lazy">
+                </div>
+                     
+                <div class="slide active"></div>
+                     <img src="{{ url_for('static', filename='images/work9.jpg') }}" loading="lazy">
+                </div>
+                     
+                <div class="slide active"></div>
+                     <img src="{{ url_for('static', filename='images/work10.jpg') }}" loading="lazy">
+                </div>
+                     
+                <div class="slide active"></div>
+                     <img src="{{ url_for('static', filename='images/work11.jpg') }}" loading="lazy">
+                </div>
+                     
+                <div class="slide active"></div>
+                     <img src="{{ url_for('static', filename='images/work12.jpg') }}" loading="lazy">
+                </div>
+                     
+                <div class="slide active"></div>
+                     <img src="{{ url_for('static', filename='images/work13.jpg') }}" loading="lazy">
             </div>
 
             <button class="next">&#10095;</button>
@@ -272,44 +345,115 @@
 </a>
 
 <script>
-const slides = document.querySelector('.slides');
-const images = document.querySelectorAll('.slides img');
-const prevBtn = document.querySelector('.prev');
-const nextBtn = document.querySelector('.next');
+
+const slidesContainer = document.querySelector('.slides');
+let slides = document.querySelectorAll('.slide');
 
 let index = 0;
+let isPaused = false;
 
-function showSlide(i) {
-    if (i < 0) index = images.length - 1;
-    else if (i >= images.length) index = 0;
-    else index = i;
 
-    slides.style.transform = `translateX(-${index * 100}%)`;
+// 무한루프 복제
+slides.forEach(slide => {
+    slidesContainer.appendChild(slide.cloneNode(true));
+});
+
+slides = document.querySelectorAll('.slide');
+
+
+function updateSlides() {
+
+    slides.forEach(slide =>
+        slide.classList.remove('active')
+    );
+
+    slides[index].classList.add('active');
+
+    const offset =
+        slides[index].offsetLeft
+        - slidesContainer.offsetWidth / 2
+        + slides[index].offsetWidth / 2;
+
+    slidesContainer.style.transform =
+        `translateX(-${offset}px)`;
+
 }
 
-nextBtn.addEventListener('click', () => {
-    showSlide(index + 1);
+
+// 버튼
+document.querySelector('.next').onclick = () => {
+
+    index++;
+
+    if(index >= slides.length)
+        index = 0;
+
+    updateSlides();
+
+};
+
+document.querySelector('.prev').onclick = () => {
+
+    index--;
+
+    if(index < 0)
+        index = slides.length - 1;
+
+    updateSlides();
+
+};
+
+
+// 자동 슬라이드
+setInterval(() => {
+
+    if(!isPaused) {
+
+        index++;
+
+        if(index >= slides.length)
+            index = 0;
+
+        updateSlides();
+
+    }
+
+}, 4000);
+
+
+// 마우스 멈춤
+slidesContainer.addEventListener('mouseenter', () => {
+    isPaused = true;
 });
 
-prevBtn.addEventListener('click', () => {
-    showSlide(index - 1);
+slidesContainer.addEventListener('mouseleave', () => {
+    isPaused = false;
 });
 
-// 📱 터치 스와이프 지원
+
+// 터치
 let startX = 0;
 
-slides.addEventListener('touchstart', (e) => {
+slidesContainer.addEventListener('touchstart', e => {
     startX = e.touches[0].clientX;
 });
 
-slides.addEventListener('touchend', (e) => {
+slidesContainer.addEventListener('touchend', e => {
+
     let endX = e.changedTouches[0].clientX;
-    if (startX - endX > 50) {
-        showSlide(index + 1);
-    } else if (endX - startX > 50) {
-        showSlide(index - 1);
-    }
+
+    if(startX - endX > 50)
+        document.querySelector('.next').click();
+
+    if(endX - startX > 50)
+        document.querySelector('.prev').click();
+
 });
+
+
+// 시작
+updateSlides();
+
 </script>
 
 </body>
