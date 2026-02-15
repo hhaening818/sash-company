@@ -389,6 +389,41 @@ a.delete {
     box-shadow:0 4px 12px rgba(0,0,0,0.05);
 }
 
+.modal {
+    display:none;
+    position:fixed;
+    z-index:999;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background:white;
+    margin:5% auto;
+    padding:25px;
+    width:90%;
+    max-width:500px;
+    border-radius:14px;
+    position:relative;
+}
+
+.close {
+    position:absolute;
+    right:15px;
+    top:10px;
+    font-size:22px;
+    cursor:pointer;
+}
+
+.modal-message {
+    background:#f8fafc;
+    padding:12px;
+    border-radius:8px;
+    white-space:pre-wrap;
+}
 
 </style>
 </head>
@@ -462,8 +497,14 @@ function toggleStats() {
         </tr>
     </thead>
     <tbody>
-        {% for i in inquiries %}
-        <tr>
+         {% for i in inquiries %}
+        <tr onclick="showDetail(
+             '{{ i[1] }}',
+             '{{ i[2] }}',
+             `{{ i[3] }}`,
+             '{{ i[5] }}',
+             '{{ i[4] }}'
+        )">
             <td>{{ i[1] }}</td>
 
             <td>
@@ -492,13 +533,40 @@ function toggleStats() {
             <td>
                 <form action="/delete/{{ i[0] }}" method="POST">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                    <button class="delete-btn">삭제</button>
+                    <button class="delete-btn" 
+                            onclick="event.stopPropagation()">
+                        삭제
+                    </button>
                 </form>
             </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+
+<!-- 문의 상세 모달 -->
+<div id="detailModal" class="modal">
+    <div class="modal-content">
+
+        <span class="close" onclick="closeModal()">&times;</span>
+
+        <h2>📋 문의 상세</h2>
+
+        <p><strong>이름:</strong> <span id="modalName"></span></p>
+
+        <p><strong>전화번호:</strong>
+            <a id="modalPhone" href=""></a>
+        </p>
+
+        <p><strong>내용:</strong></p>
+        <div id="modalMessage" class="modal-message"></div>
+
+        <p><strong>시간:</strong> <span id="modalTime"></span></p>
+
+        <div id="modalImageWrap"></div>
+
+    </div>
+</div>
 
 <div id="chart-data"
      data-months='{{ months | tojson | safe }}'
@@ -543,6 +611,42 @@ function toggleChart() {
     const area = document.getElementById("chartArea");
     area.style.display =
         area.style.display === "none" ? "block" : "none";
+}
+
+function showDetail(name, phone, message, time, image) {
+
+    document.getElementById("modalName").innerText = name;
+
+    const phoneEl = document.getElementById("modalPhone");
+    phoneEl.innerText = phone;
+    phoneEl.href = "tel:" + phone;
+
+    document.getElementById("modalMessage").innerText = message;
+
+    document.getElementById("modalTime").innerText = time;
+
+    const imageWrap = document.getElementById("modalImageWrap");
+
+    if (image && image !== "None") {
+        imageWrap.innerHTML =
+            `<img src="${image}" style="width:100%; border-radius:10px; margin-top:10px;">`;
+    } else {
+        imageWrap.innerHTML = "";
+    }
+
+    document.getElementById("detailModal").style.display = "block";
+}
+
+function closeModal() {
+    document.getElementById("detailModal").style.display = "none";
+}
+
+// 바깥 클릭 시 닫기
+window.onclick = function(event) {
+    const modal = document.getElementById("detailModal");
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
 }
 
 </script>
