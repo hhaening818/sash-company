@@ -54,22 +54,30 @@
             position:absolute;
             top:20px;
             width:100%;
-            z-index:10;
         }
 
-        .admin-left{
+        .left-buttons{
             position:absolute;
             left:20px;
-            color:var(--main-green);
-            text-decoration:none;
         }
 
-        .logout-right,
-        .login-right{
+        .right-buttons{
             position:absolute;
             right:20px;
-            color:var(--main-green);
+        }
+
+        .admin-btn,
+        .user-btn{
+            margin-right:10px;
             text-decoration:none;
+            color:#1e293b;
+            font-size:14px;
+        }
+
+        .user-name{
+            margin-right:10px;
+            font-size:14px;
+            color:#334155;
         }
 
         /* ===== 메뉴 ===== */
@@ -224,66 +232,60 @@
 
     <div class="header-buttons">
 
-    <!-- 관리자 -->
-    {% if session.get('admin') %}
-        <a href="/admin" class="admin-left">관리자 페이지</a>
-        <a href="/logout" class="logout-right">관리자 로그아웃</a>
+        <!-- 좌측: 관리자 -->
+        <div class="left-buttons">
 
-    {% else %}
-        <a href="/login" class="login-right">관리자 로그인</a>
-    {% endif %}
+            {% if session.get('admin') %}
+                <a href="/admin" class="admin-btn">
+                    관리자 페이지
+                </a>
+
+                <a href="/logout" class="admin-btn">
+                    관리자 로그아웃
+                </a>
+
+            {% else %}
+                <a href="/login" class="admin-btn">
+                    관리자 로그인
+                </a>
+            {% endif %}
+
+        </div>
 
 
-    <!-- 사용자 -->
-    {% if session.get('user') %}
+        <!-- 우측: 사용자 -->
+        <div class="right-buttons">
 
-        <span style="
-            position:absolute;
-            right:140px;
-            color:#333;
-            font-size:14px;
-        ">
-            {{ session.get('user') }}님
-        </span>
+            {% if session.get('user') %}
 
-        <a href="/logout"
-           style="
-           position:absolute;
-           right:20px;
-           color:#3b82f6;
-           text-decoration:none;">
-           로그아웃
-        </a>
+                <span class="user-name">
+                    {{ session.get('user') }}님
+                </span>
 
-    {% else %}
+                <a href="/logout" class="user-btn">
+                    로그아웃
+                </a>
 
-        <a href="/user_login"
-           style="
-           position:absolute;
-           right:140px;
-           color:#3b82f6;
-           text-decoration:none;">
-           로그인
-        </a>
+            {% else %}
 
-        <a href="/register"
-           style="
-           position:absolute;
-           right:80px;
-           color:#3b82f6;
-           text-decoration:none;">
-           회원가입
-        </a>
+                <a href="/user_login" class="user-btn">
+                    로그인
+                </a>
 
-    {% endif %}
+                <a href="/register" class="user-btn">
+                    회원가입
+                </a>
 
-</div>
+            {% endif %}
+
+        </div>
+
+    </div>
 
     <img src="{{ url_for('static', filename='images/logo.png') }}"
          class="hero-logo-img">
 
 </div>
-
 
 </section>
 
