@@ -174,8 +174,8 @@ def contact():
     cur = conn.cursor()
 
     cur.execute("""
-    INSERT INTO inquiries (name, phone, message, created_at)
-    VALUES (%s, %s, %s, NOW())
+    INSERT INTO inquiries (name, phone, message, image, created_at)
+    VALUES (%s, %s, %s, %s, NOW())
     """,(name, phone, message, image_url))
 
     conn.commit()
