@@ -223,6 +223,24 @@ input, select{
     margin:0;
 }
 
+.action-group{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;  /* 오른쪽 정렬 */
+    gap:8px;
+}
+
+.action-group form{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    margin:0;
+}
+
+.action-group input{
+    width:140px;
+}
+
 </style>
 </head>
 
@@ -367,30 +385,33 @@ function toggleStats() {
                 {{ i[4] }}
             </td>
 
-            <td>
-                <form action="/admin/reply/{{ i[0] }}" method="POST"
-                onclick="event.stopPropagation()">
+            <td onclick="event.stopPropagation()">
 
+            <div class="action-group">
+
+            <form action="/admin/reply/{{ i[0] }}" method="POST">
                 <input type="text"
-                name="reply"
-                placeholder="답변 입력"
-                required>
+                    name="reply"
+                    placeholder="답변 입력"
+                    required>
 
-                <button>
-                답변
+                <button type="submit">
+                    답변
                 </button>
+            </form>
 
-                </form>
+            <form action="/delete/{{ i[0] }}" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-                <form action="/delete/{{ i[0] }}" method="POST">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                    <button class="delete-btn" 
-                            onclick="event.stopPropagation()">
-                        삭제
-                    </button>
-                </form>
+                <button type="submit" class="delete-btn">
+                    삭제
+                </button>
+            </form>
+
+            </div>
+
             </td>
-        </tr>
+
         {% endfor %}
     </tbody>
 </table>
