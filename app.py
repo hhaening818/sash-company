@@ -437,7 +437,18 @@ def reply(id):
     if not session.get("admin"):
         return redirect("/login")
 
-    reply=request.form.get("reply")
+    reply = request.form.get("reply")
+
+    file = request.files.get("reply_file")
+
+    file_url = None
+
+    if file and file.filename != "":
+        result = cloudinary.uploader.upload(file)
+        file_url = result["secure_url"]
+
+    if file_url:
+        reply = f"{reply}\n파일: {file_url}"
 
     conn=get_connection()
     cur=conn.cursor()
