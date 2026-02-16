@@ -392,23 +392,73 @@ input, select{
     left:0;
     width:100%;
     height:100%;
-    background:rgba(0,0,0,0.5);
+    background:rgba(0,0,0,0.6);
     justify-content:center;
     align-items:center;
+    opacity:0;
+    transition:opacity 0.25s ease;
 }
 
 .popup-content{
-    background:white;
-    padding:20px;
-    border-radius:10px;
-    width:300px;
+    background:var(--card);
+    padding:22px;
+    border-radius:14px;
+    width:320px;
+    border:1px solid var(--border);
+    box-shadow:0 10px 30px rgba(0,0,0,0.5);
+    color:var(--text);
+
+    transform:scale(0.9);
+    opacity:0;
+    transition:all 0.25s ease;
+}
+
+.popup.show .popup-content{
+    transform:scale(1);
+    opacity:1;
+}
+
+.popup-content input{
+    width:100%;
+    background:var(--bg);
+    border:1px solid var(--border);
+    color:var(--text);
+    padding:8px;
+    border-radius:6px;
+}
+
+.popup-content button{
+    background:var(--accent);
+    color:white;
+    border:none;
+    padding:8px 14px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.popup-content button:hover{
+    opacity:0.85;
+}
+
+.popup.show{
+    display:flex;
+    opacity:1;
 }
 
 /* 답변 / 삭제 버튼 동일 크기 */
 .reply-btn,
 .delete-btn{
     color:white;
-    border:none;
+    border:none;.popup-content{
+    background:var(--card);
+    padding:20px;
+    border-radius:12px;
+    width:320px;
+    border:1px solid var(--border);
+    box-shadow:0 8px 25px rgba(0,0,0,0.4);
+    color:var(--text);
+}
+
     padding:8px 16px;
     border-radius:8px;
     cursor:pointer;
@@ -940,7 +990,12 @@ function showEditForm(btn, id){
 
 function openReplyPopup(id, reply){
 
-    document.getElementById("replyPopup").style.display="flex";
+    const popup = document.getElementById("replyPopup");
+    popup.style.display = "flex";
+
+    setTimeout(()=>{
+        popup.classList.add("show");
+    },10);
 
     document.getElementById("replyForm")
     .action="/admin/reply/"+id;
@@ -951,7 +1006,13 @@ function openReplyPopup(id, reply){
 
 function closeReplyPopup(){
 
-    document.getElementById("replyPopup").style.display="none";
+    const popup = document.getElementById("replyPopup");
+
+    popup.classList.remove("show");
+
+    setTimeout(()=>{
+        popup.style.display="none";
+    },250);
 
 }
 
