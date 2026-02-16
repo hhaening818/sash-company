@@ -46,10 +46,11 @@ def get_connection():
 
 # 테이블 자동 생성
 def create_table():
+
     conn = get_connection()
     cur = conn.cursor()
 
-    # 문의 테이블
+    # 기본 테이블 생성
     cur.execute("""
     CREATE TABLE IF NOT EXISTS inquiries (
          id SERIAL PRIMARY KEY,
@@ -58,48 +59,31 @@ def create_table():
          message TEXT,
          image TEXT,
          status TEXT DEFAULT '대기',
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
     """)
 
+    # 답변 컬럼
     cur.execute("""
     ALTER TABLE inquiries
     ADD COLUMN IF NOT EXISTS reply TEXT
     """)
 
+    # ⭐ 파일 URL 컬럼 (여기에 추가)
+    cur.execute("""
+    ALTER TABLE inquiries
+    ADD COLUMN IF NOT EXISTS reply_file_url TEXT
+    """)
+
+    # 조회수 컬럼
     cur.execute("""
     ALTER TABLE inquiries
     ADD COLUMN IF NOT EXISTS views INTEGER DEFAULT 0
     """)
 
-    cur.execute("""
-    ALTER TABLE inquiries
-    ADD COLUMN IF NOT EXISTS reply TEXT
-    """)
-
-    cur.execute("""
-    ALTER TABLE inquiries
-    ADD COLUMN IF NOT EXISTS status TEXT DEFAULT '대기'
-    """)
-
-
-    # portfolio 테이블 추가 ⭐⭐⭐
-    cur.execute("""
-        CREATE TABLE IF NOT EXISTS portfolio (
-            id SERIAL PRIMARY KEY,
-            image_url TEXT,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-    """)
-
     conn.commit()
     cur.close()
     conn.close()
-
-    cur.execute("""
-    ALTER TABLE inquiries
-    ADD COLUMN IF NOT EXISTS reply_file_url TEXT
-    """)
 
 create_table()
 

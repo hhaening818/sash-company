@@ -319,6 +319,30 @@ input, select{
     text-decoration:none;
 }
 
+.reply-box{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+}
+
+.reply-text{
+    background:var(--card-light);
+    padding:6px 10px;
+    border-radius:6px;
+    font-size:13px;
+}
+
+.edit-btn{
+    background:#f59e0b;
+    color:white;
+    border:none;
+    padding:4px 10px;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:12px;
+    width:fit-content;
+}
+
 </style>
 </head>
 
@@ -467,8 +491,53 @@ function toggleStats() {
 
             <div class="action-group">
 
-            <form action="/admin/reply/{{ i[0] }}" method="POST"
-                    enctype="multipart/form-data">
+            {% if i[7] %}
+                <!-- 답변 완료 상태 -->
+
+                <div class="reply-box">
+
+                    <div class="reply-text">
+                        {{ i[7] }}
+                    </div>
+
+                    {% if i[8] %}
+                    <div class="file-preview">
+
+                        {% set ext = i[8].split('.')[-1].lower() %}
+
+                        {% if ext in ['jpg','jpeg','png','gif','webp'] %}
+                            <img src="{{ i[8] }}" class="preview-img">
+                        {% elif ext in ['pdf'] %}
+                            <div class="file-icon">📄 PDF</div>
+                        {% elif ext in ['xls','xlsx'] %}
+                            <div class="file-icon">📊 Excel</div>
+                        {% else %}
+                            <div class="file-icon">📎 File</div>
+                        {% endif %}
+
+                        <a href="{{ i[8] }}"
+                        target="_blank"
+                        class="download-btn">
+                        다운로드
+                        </a>
+
+                    </div>
+                    {% endif %}
+
+                    <button onclick="showEditForm(this, '{{ i[0] }}')"
+                            class="edit-btn">
+                        수정
+                    </button>
+
+                </div>
+
+            {% else %}
+                <!-- 답변 작성 상태 -->
+
+                <form action="/admin/reply/{{ i[0] }}"
+                    method="POST"
+                    enctype="multipart/form-data"
+                    class="reply-form">
 
                     <input type="text"
                         name="reply"
@@ -487,6 +556,9 @@ function toggleStats() {
                     </button>
 
                 </form>
+
+            {% endif %}
+
 
             <form action="/delete/{{ i[0] }}" method="POST">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
@@ -752,6 +824,38 @@ document.querySelectorAll('.file-btn input').forEach(input => {
     });
 
 });
+</script>
+
+<script>
+function showEditForm(btn, id){
+
+    const box = btn.closest('.reply-box');
+
+    const reply =
+    box.querySelector('.reply-text').innerText;
+
+    box.innerHTML = `
+        <form action="/admin/reply/${id}"
+              method="POST"
+              enctype="multipart/form-data">
+
+            <input type="text"
+                   name="reply"
+                   value="${reply}"
+                   required>
+
+            <label class="file-btn">
+                📎 파일 첨부
+                <input type="file" name="reply_file">
+            </label>
+
+            <button type="submit">
+                저장
+            </button>
+
+        </form>
+    `;
+}
 </script>
 
 <!-- 이미지 전체화면 보기 -->
