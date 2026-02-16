@@ -991,14 +991,14 @@ function showEditForm(btn, id){
 function openReplyPopup(id, reply){
 
     const popup = document.getElementById("replyPopup");
+
     popup.style.display = "flex";
 
     setTimeout(()=>{
         popup.classList.add("show");
     },10);
 
-    document.getElementById("replyForm")
-    .action="/admin/reply/"+id;
+    document.getElementById("replyForm").action="/admin/reply/"+id;
 
     document.getElementById("replyInput").value=reply;
 
@@ -1015,6 +1015,28 @@ function closeReplyPopup(){
     },250);
 
 }
+
+document.addEventListener("keydown", function(e){
+
+    if(e.key === "Escape"){
+
+        const popup = document.getElementById("replyPopup");
+
+        if(popup.style.display === "flex"){
+            closeReplyPopup();
+        }
+
+    }
+
+});
+
+document.getElementById("replyPopup").addEventListener("click", function(e){
+
+    if(e.target === this){
+        closeReplyPopup();
+    }
+
+});
 
 </script>
 
