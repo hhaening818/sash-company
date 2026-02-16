@@ -259,6 +259,38 @@ input, select{
     gap:6px;
 }
 
+/* 파일 첨부 버튼 */
+.file-btn{
+    background:var(--card-light);
+    color:var(--text);
+    padding:6px 12px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:13px;
+    transition:0.2s;
+    border:1px solid var(--border);
+}
+
+.file-btn:hover{
+    background:var(--accent);
+    color:white;
+}
+
+/* 실제 input 숨기기 */
+.file-btn input{
+    display:none;
+}
+
+/* 파일명 표시 */
+.file-name{
+    font-size:12px;
+    color:var(--sub);
+    max-width:120px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
 </style>
 </head>
 
@@ -415,9 +447,12 @@ function toggleStats() {
                         placeholder="답변 입력"
                         required>
 
-                    <input type="file"
-                        name="reply_file"
-                        style="width:160px;">
+                    <label class="file-btn">
+                        📎 파일 첨부
+                        <input type="file" name="reply_file">
+                    </label>
+
+                    <span class="file-name">선택된 파일 없음</span>
 
                     <button type="submit">
                         답변
@@ -647,6 +682,25 @@ window.addEventListener("load", function(){
 
 });
 
+</script>
+
+<script>
+document.querySelectorAll('.file-btn input').forEach(input => {
+
+    input.addEventListener('change', function(){
+
+        const name =
+        this.files.length > 0 ?
+        this.files[0].name :
+        "선택된 파일 없음";
+
+        this.closest('form')
+        .querySelector('.file-name')
+        .innerText = name;
+
+    });
+
+});
 </script>
 
 <!-- 이미지 전체화면 보기 -->
