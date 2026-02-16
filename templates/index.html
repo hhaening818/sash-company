@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <title>건진창호 | 창호 전문 시공</title>
     <style>
+        :root{
+            --main-green:#2f7d32;   /* ← 로고 초록색 (일단 기본값, 필요하면 바꿔줄게) */
+        }
+
         /* ===== 기본 ===== */
         body {
             margin:0;
@@ -53,7 +57,7 @@
         .admin-left{
             position:absolute;
             left:20px;
-            color:#3b4a8a;
+            color:var(--main-green);
             text-decoration:none;
         }
 
@@ -61,14 +65,14 @@
         .login-right{
             position:absolute;
             right:20px;
-            color:#3b4a8a;
+            color:var(--main-green);
             text-decoration:none;
         }
 
         /* ===== 메뉴 ===== */
         .nav-menu{
             width:100%;
-            background:#3b4a8a;
+            background:var(--main-green);
             display:flex;
             justify-content:center;
             gap:50px;
@@ -111,7 +115,7 @@
 
         button{
             padding:10px 20px;
-            background:#3b4a8a;
+            background:var(--main-green);
             color:white;
             border:none;
             border-radius:8px;
@@ -193,7 +197,7 @@
 
         /* ===== 푸터 ===== */
         footer{
-            background:#1e3a8a;
+            background:var(--main-green);
             color:white;
             padding:20px;
         }
