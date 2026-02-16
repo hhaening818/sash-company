@@ -226,8 +226,11 @@ input, select{
 .action-group{
     display:flex;
     align-items:center;
-    justify-content:flex-end;  /* 오른쪽 정렬 */
     gap:8px;
+}
+
+.admin-table td:last-child{
+    min-width:280px;   /* 관리 컬럼 폭 고정 */
 }
 
 .action-group form{
@@ -239,6 +242,10 @@ input, select{
 
 .action-group input{
     width:140px;
+}
+
+.action-group button{
+    white-space:nowrap;
 }
 
 </style>
