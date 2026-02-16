@@ -16,12 +16,30 @@ background:#f1f5f9;
 background:white;
 padding:20px;
 border-radius:10px;
+max-width:600px;
 }
 
 .reply{
 background:#eff6ff;
 padding:10px;
 margin-top:10px;
+border-radius:8px;
+}
+
+.file-link{
+display:inline-block;
+margin-top:10px;
+padding:8px 12px;
+background:#1e293b;
+color:#60a5fa;
+border-radius:8px;
+text-decoration:none;
+font-size:14px;
+}
+
+.file-link:hover{
+background:#3b82f6;
+color:white;
 }
 
 </style>
@@ -41,9 +59,19 @@ margin-top:10px;
 
 <div>조회수: {{ inquiry[8] }}</div>
 
+
 {% if inquiry[7] %}
 <div class="reply">
-답변: {{ inquiry[7] }}
+
+<div>답변: {{ inquiry[7] }}</div>
+
+{% if inquiry[8] %}
+{% set file_url = inquiry[8].replace('/upload/', '/upload/f_auto,q_auto,w_1200/') %}
+<a href="{{ file_url }}" target="_blank" class="file-link">
+📎 첨부파일 보기
+</a>
+{% endif %}
+
 </div>
 {% endif %}
 

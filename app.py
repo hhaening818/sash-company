@@ -534,12 +534,21 @@ def search_inquiry():
              if r[2] else "시간 없음"
         )
 
+        file_url = r[4]
+
+        # Cloudinary 압축 URL 생성
+        if file_url and "cloudinary.com" in file_url:
+            file_url = file_url.replace(
+                "/upload/",
+                "/upload/f_auto,q_auto,w_1200/"
+            )
+
         result.append({
             "message": r[0],
             "status": r[1],
             "created_at": created_at,
             "reply": r[3],
-            "file": r[4]
+            "file": file_url
         })
 
     cur.close()
