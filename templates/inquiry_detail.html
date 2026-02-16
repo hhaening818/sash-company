@@ -79,3 +79,32 @@ margin-bottom:6px;
 
 {% if inquiry[8] %}
 
+{% set original_url = inquiry[8] %}
+{% set file_url = original_url.replace('/upload/', '/upload/f_auto,q_auto,w_1200/') %}
+{% set filename = original_url.split('/')[-1].split('?')[0] %}
+{% set ext = filename.split('.')[-1].lower() %}
+
+{% if ext in ['jpg','jpeg','png','gif','webp'] %}
+    {% set icon = "🖼️" %}
+{% elif ext == 'pdf' %}
+    {% set icon = "📄" %}
+{% elif ext in ['xls','xlsx'] %}
+    {% set icon = "📊" %}
+{% elif ext in ['doc','docx'] %}
+    {% set icon = "📝" %}
+{% elif ext in ['zip','rar'] %}
+    {% set icon = "🗜️" %}
+{% else %}
+    {% set icon = "📎" %}
+{% endif %}
+
+<a href="{{ file_url }}" target="_blank" class="file-link">
+    <span class="file-icon">{{ icon }}</span>
+    {{ filename }}
+</a>
+
+{% endif %}
+
+</div>
+{% endif %}
+
