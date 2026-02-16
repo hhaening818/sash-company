@@ -585,7 +585,9 @@ function toggleStats() {
 
                 <a href="{{ i[8] }}" target="_blank"
                 class="download-btn">
-                다운로드
+
+                {{ i[8].split('/')[-1].split('?')[0] }}
+
                 </a>
 
             </div>

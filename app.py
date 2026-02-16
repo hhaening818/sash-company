@@ -426,57 +426,43 @@ def reply(id):
         return redirect("/login")
 
     reply = request.form.get("reply")
-
     file = request.files.get("reply_file")
+
+    conn = get_connection()
+    cur = conn.cursor()
 
     file_url = None
 
+    # 파일 있는 경우 업로드
     if file and file.filename != "":
-        result = cloudinary.uploader.upload(file)
+        result = cloudinary.uploader.upload(
+            file,
+            resource_type="auto"
+        )
         file_url = result["secure_url"]
 
-    cur.execute("""
-    UPDATE inquiries
-    SET reply=%s,
-        reply_file_url=%s,
-        status='완료'
-    WHERE id=%s
-    """,(reply, file_url, id))
+        cur.execute("""
+        UPDATE inquiries
+        SET reply=%s,
+            reply_file_url=%s,
+            status='완료'
+        WHERE id=%s
+        """,(reply, file_url, id))
 
-    conn=get_connection()
-    cur=conn.cursor()
-
-    cur.execute("""
-    UPDATE inquiries
-    SET reply=%s,
-        status='완료'
-    WHERE id=%s
-    """,(reply,id))
+    else:
+        # 파일 없는 경우
+        cur.execute("""
+        UPDATE inquiries
+        SET reply=%s,
+            status='완료'
+        WHERE id=%s
+        """,(reply, id))
 
     conn.commit()
     cur.close()
     conn.close()
 
     return redirect("/admin")
-
-@app.route("/inquiry")
-def inquiry():
-
-    conn = get_connection()
-    cur = conn.cursor()
-
-    cur.execute("""
-    SELECT id, name, message, status, created_at, views
-    FROM inquiries
-    ORDER BY id DESC
-    """)
-
-    inquiries = cur.fetchall()
-
-    cur.close()
-    conn.close()
-
-    return render_template("inquiry_list.html", inquiries=inquiries)
 
 @app.route("/inquiry/<int:id>")
 def inquiry_detail(id):
