@@ -222,6 +222,12 @@
             .slide{flex:0 0 90%;}
         }
 
+        .file-thumb{
+            max-width:120px;
+            border-radius:8px;
+            margin-top:5px;
+        }
+
 </style>
 </head>
 <body>
@@ -704,7 +710,57 @@ function searchInquiry(){
                 ${item.message}<br><br>
 
                 <b>답변:</b><br>
-                ${item.reply || "답변 대기중"}<br><br>
+                ${item.reply || "답변 대기중"}<br>
+
+                ${item.file ? `
+
+                <div style="margin-top:8px;">
+
+                ${(() => {
+
+                const filename =
+                item.file.split('/').pop().split('?')[0];
+
+                const ext =
+                filename.split('.').pop().toLowerCase();
+
+                if(['jpg','jpeg','png','gif','webp'].includes(ext)){
+
+                return `
+                <a href="${item.file}" target="_blank">
+                <img src="${item.file}"
+                style="
+                max-width:120px;
+                border-radius:8px;
+                display:block;
+                margin-bottom:5px;
+                ">
+                </a>
+                `;
+
+                }else{
+
+                let icon="📎";
+
+                if(ext==="pdf") icon="📄";
+                else if(ext==="xls"||ext==="xlsx") icon="📊";
+                else if(ext==="zip") icon="📦";
+
+                return `
+                <a href="${item.file}" target="_blank">
+                ${icon} ${filename}
+                </a>
+                `;
+
+                }
+
+                })()}
+
+                </div>
+
+                ` : ''}
+
+                <br>
 
                 <b>상태:</b> ${item.status}<br>
 

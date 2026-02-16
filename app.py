@@ -517,10 +517,10 @@ def search_inquiry():
     cur = conn.cursor()
 
     cur.execute("""
-        SELECT message, status, created_at, reply
-        FROM inquiries
-        WHERE name=%s AND phone=%s
-        ORDER BY created_at DESC
+    SELECT message, status, created_at, reply, reply_file_url
+    FROM inquiries
+    WHERE name=%s AND phone=%s
+    ORDER BY created_at DESC
     """,(name,phone))
 
     rows = cur.fetchall()
@@ -535,10 +535,11 @@ def search_inquiry():
         )
 
         result.append({
-            "message": r[0] or "",
-            "status": r[1] or "대기",
+            "message": r[0],
+            "status": r[1],
             "created_at": created_at,
-            "reply": r[3] or ""
+            "reply": r[3],
+            "file": r[4]
         })
 
     cur.close()
