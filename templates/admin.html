@@ -408,12 +408,12 @@ input, select{
     box-shadow:0 10px 30px rgba(0,0,0,0.5);
     color:var(--text);
 
-    transform:scale(0.9);
+    transform:scale(1);
     opacity:0;
     transition:all 0.25s ease;
 }
 
-.popup.show .popup-content{
+.popup.show{
     transform:scale(1);
     opacity:1;
 }
@@ -570,7 +570,7 @@ function toggleStats() {
              '{{ i[1] }}',
              '{{ i[2] }}',
              `{{ i[3] }}`,
-             '{{ i[4] }}',
+             '{{ i[6] }}',
              '{{ i[5] }}'
         )">
             <td>{{ i[1] }}</td>
@@ -627,7 +627,7 @@ function toggleStats() {
 
 
             <td class="time">
-                {{ i[4] }}
+                {{ i[6] }}
             </td>
 
             <td onclick="event.stopPropagation()">
@@ -645,9 +645,26 @@ function toggleStats() {
 
                     {% if i[8] %}
                     <div class="file-preview">
-                        <a href="{{ i[8].replace('/upload/', '/upload/f_auto,q_auto,w_1200/') }}" target="_blank">
-                            📎 {{ i[8].split('/')[-1].split('?')[0] }}
+
+                        {% set ext = i[8].split('.')[-1].lower() %}
+
+                        {% if ext in ['jpg','jpeg','png','gif','webp'] %}
+                            <img src="{{ i[8] }}" class="preview-img">
+                        {% elif ext in ['pdf'] %}
+                            <div class="file-icon">📄 PDF</div>
+                        {% elif ext in ['xls','xlsx'] %}
+                            <div class="file-icon">📊 Excel</div>
+                        {% else %}
+                            <div class="file-icon">📎 File</div>
+                        {% endif %}
+
+                        <a href="{{ i[8] }}" target="_blank"
+                        class="download-btn">
+
+                        {{ i[8].split('/')[-1].split('?')[0] }}
+
                         </a>
+
                     </div>
                     {% endif %}
 
@@ -683,35 +700,6 @@ function toggleStats() {
                 </button>
 
             </form>
-
-            </div>
-
-            </td>
-
-            {% if i[8] %}
-            <div class="file-preview">
-
-                {% set ext = i[8].split('.')[-1].lower() %}
-
-                {% if ext in ['jpg','jpeg','png','gif','webp'] %}
-                    <img src="{{ i[8] }}" class="preview-img">
-                {% elif ext in ['pdf'] %}
-                    <div class="file-icon">📄 PDF</div>
-                {% elif ext in ['xls','xlsx'] %}
-                    <div class="file-icon">📊 Excel</div>
-                {% else %}
-                    <div class="file-icon">📎 File</div>
-                {% endif %}
-
-                <a href="{{ i[8] }}" target="_blank"
-                class="download-btn">
-
-                {{ i[8].split('/')[-1].split('?')[0] }}
-
-                </a>
-
-            </div>
-            {% endif %}
 
             </div>
 
