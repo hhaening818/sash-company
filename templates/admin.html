@@ -595,7 +595,7 @@ function toggleStats() {
 
                     {% if i[8] %}
                     <div class="file-preview">
-                        <a href="{{ i[8] }}" target="_blank">
+                        <a href="{{ i[8].replace('/upload/', '/upload/f_auto,q_auto,w_1200/') }}" target="_blank">
                             📎 {{ i[8].split('/')[-1].split('?')[0] }}
                         </a>
                     </div>

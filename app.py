@@ -229,11 +229,12 @@ def admin():
     data = []
     for row in rows:
         row = list(row)
-        if row[4]:
-             try:
-                 row[4] = row[4].strftime('%Y년 %m월 %d일 %H:%M')
-             except:
-                 row[4] = str(row[4])
+        # created_at 포맷 변환 (index 6)
+        if row[6]:
+            try:
+                row[6] = row[6].strftime('%Y년 %m월 %d일 %H:%M')
+            except:
+                row[6] = str(row[6])
         data.append(row)
 
 
