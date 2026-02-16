@@ -291,6 +291,34 @@ input, select{
     white-space:nowrap;
 }
 
+.file-preview{
+    margin-top:5px;
+}
+
+.preview-img{
+    width:60px;
+    height:60px;
+    object-fit:cover;
+    border-radius:8px;
+    display:block;
+}
+
+.file-icon{
+    display:inline-block;
+    padding:5px 10px;
+    background:var(--card-light);
+    border-radius:6px;
+    font-size:12px;
+}
+
+.download-btn{
+    display:inline-block;
+    margin-left:5px;
+    font-size:12px;
+    color:var(--accent);
+    text-decoration:none;
+}
+
 </style>
 </head>
 
@@ -467,6 +495,29 @@ function toggleStats() {
                     삭제
                 </button>
             </form>
+
+            {% if i[8] %}
+            <div class="file-preview">
+
+                {% set ext = i[8].split('.')[-1].lower() %}
+
+                {% if ext in ['jpg','jpeg','png','gif','webp'] %}
+                    <img src="{{ i[8] }}" class="preview-img">
+                {% elif ext in ['pdf'] %}
+                    <div class="file-icon">📄 PDF</div>
+                {% elif ext in ['xls','xlsx'] %}
+                    <div class="file-icon">📊 Excel</div>
+                {% else %}
+                    <div class="file-icon">📎 File</div>
+                {% endif %}
+
+                <a href="{{ i[8] }}" target="_blank"
+                class="download-btn">
+                다운로드
+                </a>
+
+            </div>
+            {% endif %}
 
             </div>
 

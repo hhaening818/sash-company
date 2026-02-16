@@ -96,6 +96,10 @@ def create_table():
     cur.close()
     conn.close()
 
+    cur.execute("""
+    ALTER TABLE inquiries
+    ADD COLUMN IF NOT EXISTS reply_file_url TEXT
+    """)
 
 create_table()
 
@@ -447,8 +451,13 @@ def reply(id):
         result = cloudinary.uploader.upload(file)
         file_url = result["secure_url"]
 
-    if file_url:
-        reply = f"{reply}\n파일: {file_url}"
+    cur.execute("""
+    UPDATE inquiries
+    SET reply=%s,
+        reply_file_url=%s,
+        status='완료'
+    WHERE id=%s
+    """,(reply, file_url, id))
 
     conn=get_connection()
     cur=conn.cursor()
