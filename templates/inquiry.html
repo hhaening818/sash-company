@@ -86,11 +86,44 @@ border-radius:8px;
 {% endif %}
 
 {% if i[8] %}
-<div>
-    <a href="{{ i[8] }}" target="_blank">
-    📎 {{ i[8].split('/')[-1].split('?')[0] }}
+
+{% set original_url = i[8] %}
+
+{% set file_url = original_url.replace('/upload/', '/upload/f_auto,q_auto,w_1200/') %}
+
+{% set ext = original_url.split('.')[-1].lower() %}
+
+{% if ext in ['jpg','jpeg','png','gif','webp'] %}
+    {% set icon = "🖼️" %}
+{% elif ext == 'pdf' %}
+    {% set icon = "📄" %}
+{% elif ext in ['xls','xlsx'] %}
+    {% set icon = "📊" %}
+{% elif ext in ['doc','docx'] %}
+    {% set icon = "📝" %}
+{% elif ext in ['zip','rar'] %}
+    {% set icon = "🗜️" %}
+{% else %}
+    {% set icon = "📎" %}
+{% endif %}
+
+<div style="margin-top:8px;">
+    <a href="{{ file_url }}" target="_blank"
+       style="
+       display:inline-flex;
+       align-items:center;
+       gap:6px;
+       padding:6px 10px;
+       background:#1e293b;
+       color:#60a5fa;
+       border-radius:6px;
+       text-decoration:none;
+       font-size:13px;
+       ">
+       {{ icon }} 첨부파일 열기
     </a>
 </div>
+
 {% endif %}
 
 </div>
