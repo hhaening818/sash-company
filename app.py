@@ -81,6 +81,16 @@ def create_table():
     ADD COLUMN IF NOT EXISTS views INTEGER DEFAULT 0
     """)
 
+    # 사용자 테이블
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        username TEXT UNIQUE,
+        password TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+    """)
+
     conn.commit()
     cur.close()
     conn.close()
