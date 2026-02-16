@@ -1038,6 +1038,38 @@ document.getElementById("replyPopup").addEventListener("click", function(e){
 
 });
 
+const popupContent = document.getElementById("replyPopupContent");
+const popupHeader = document.getElementById("popupHeader");
+
+let isDragging = false;
+let offsetX, offsetY;
+
+popupHeader.addEventListener("mousedown", function(e){
+
+    isDragging = true;
+
+    offsetX = e.clientX - popupContent.offsetLeft;
+    offsetY = e.clientY - popupContent.offsetTop;
+
+    popupContent.style.position = "absolute";
+
+});
+
+document.addEventListener("mousemove", function(e){
+
+    if(!isDragging) return;
+
+    popupContent.style.left = (e.clientX - offsetX) + "px";
+    popupContent.style.top = (e.clientY - offsetY) + "px";
+
+});
+
+document.addEventListener("mouseup", function(){
+
+    isDragging = false;
+
+});
+
 </script>
 
 <!-- 이미지 전체화면 보기 -->
@@ -1048,9 +1080,17 @@ document.getElementById("replyPopup").addEventListener("click", function(e){
 
 <div id="replyPopup" class="popup">
 
-    <div class="popup-content">
+    <div class="popup-content" id="replyPopupContent">
 
-        <h3>답변 작성</h3>
+        <div id="popupHeader" style="
+        cursor:move;
+        font-weight:bold;
+        margin-bottom:12px;
+        padding-bottom:8px;
+        border-bottom:1px solid var(--border);
+        ">
+        📋 답변 작성 (드래그 가능)
+        </div>
 
         <form id="replyForm"
               method="POST"
