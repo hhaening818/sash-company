@@ -347,7 +347,10 @@ def delete(id):
 
 @app.route("/logout")
 def logout():
+
     session.pop("admin", None)
+    session.pop("user", None)
+
     return redirect("/")
 
 import os
@@ -542,6 +545,67 @@ def search_inquiry():
     conn.close()
 
     return jsonify(result)
+
+@app.route("/register", methods=["GET","POST"])
+def register():
+
+    if request.method == "POST":
+
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        conn = get_connection()
+        cur = conn.cursor()
+
+        try:
+            cur.execute("""
+            INSERT INTO users (username, password)
+            VALUES (%s,%s)
+            """,(username,password))
+
+            conn.commit()
+
+            cur.close()
+            conn.close()
+
+            return redirect("/user_login")
+
+        except:
+            return "이미 존재하는 아이디입니다"
+
+    return render_template("register.html")
+
+@app.route("/user_login", methods=["GET","POST"])
+def user_login():
+
+    if request.method == "POST":
+
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        conn = get_connection()
+        cur = conn.cursor()
+
+        cur.execute("""
+        SELECT * FROM users
+        WHERE username=%s AND password=%s
+        """,(username,password))
+
+        user = cur.fetchone()
+
+        cur.close()
+        conn.close()
+
+        if user:
+            session["user"] = username
+            return redirect("/")
+        else:
+            return render_template(
+                "user_login.html",
+                error="아이디 또는 비밀번호 틀림"
+            )
+
+    return render_template("user_login.html", error=None)
 
 port = int(os.environ.get("PORT", 10000))
 

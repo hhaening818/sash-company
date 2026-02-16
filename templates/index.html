@@ -222,29 +222,62 @@
 
     <div class="hero-content">
 
-    <!-- 관리자 / 로그인 버튼 추가 -->
     <div class="header-buttons">
 
-        {% if session.get('admin') %}
+    <!-- 관리자 -->
+    {% if session.get('admin') %}
+        <a href="/admin" class="admin-left">관리자 페이지</a>
+        <a href="/logout" class="logout-right">관리자 로그아웃</a>
 
-            <a href="/admin" class="btn admin-left">
-                관리자 페이지
-            </a>
+    {% else %}
+        <a href="/login" class="login-right">관리자 로그인</a>
+    {% endif %}
 
-            <a href="/logout" class="btn logout-right">
-                로그아웃
-            </a>
 
-        {% else %}
+    <!-- 사용자 -->
+    {% if session.get('user') %}
 
-            <a href="/login" class="btn login-right">
-                로그인
-            </a>
+        <span style="
+            position:absolute;
+            right:140px;
+            color:#333;
+            font-size:14px;
+        ">
+            {{ session.get('user') }}님
+        </span>
 
-        {% endif %}
+        <a href="/logout"
+           style="
+           position:absolute;
+           right:20px;
+           color:#3b82f6;
+           text-decoration:none;">
+           로그아웃
+        </a>
 
-    </div>
+    {% else %}
 
+        <a href="/user_login"
+           style="
+           position:absolute;
+           right:140px;
+           color:#3b82f6;
+           text-decoration:none;">
+           로그인
+        </a>
+
+        <a href="/register"
+           style="
+           position:absolute;
+           right:80px;
+           color:#3b82f6;
+           text-decoration:none;">
+           회원가입
+        </a>
+
+    {% endif %}
+
+</div>
 
     <img src="{{ url_for('static', filename='images/logo.png') }}"
          class="hero-logo-img">
