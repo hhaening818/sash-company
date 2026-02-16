@@ -321,8 +321,50 @@ input, select{
 
 .reply-box{
     display:flex;
-    flex-direction:column;
-    gap:6px;
+    align-items:center;
+    gap:8px;
+}
+
+/* 답변 텍스트 왼쪽 정렬 + 버튼 공간 확보 */
+.reply-text{
+    background:var(--card-light);
+    padding:6px 10px;
+    border-radius:6px;
+    font-size:13px;
+    max-width:150px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.file-preview{
+    display:flex;
+    align-items:center;
+}
+
+.file-preview a{
+    background:#1e293b;
+    padding:6px 10px;
+    border-radius:6px;
+    font-size:12px;
+    color:#60a5fa;
+    text-decoration:none;
+    border:1px solid var(--border);
+    transition:0.2s;
+}
+
+.file-preview a:hover{
+    background:#3b82f6;
+    color:white;
+}
+
+/* 수정 버튼 위치 고정 */
+.reply-box .edit-btn{
+    margin-left:0;
+    height:36px;
+    padding:8px 16px;
+    border-radius:8px;
+    font-size:14px;
 }
 
 .reply-text{
@@ -362,13 +404,27 @@ input, select{
     width:300px;
 }
 
-.reply-btn{
-    background:#3b82f6;
+/* 답변 / 삭제 버튼 동일 크기 */
+.reply-btn,
+.delete-btn{
     color:white;
     border:none;
-    padding:5px 10px;
-    border-radius:5px;
+    padding:8px 16px;
+    border-radius:8px;
     cursor:pointer;
+    font-size:14px;
+    min-width:70px;
+    height:36px;
+    text-align:center;
+}
+
+/* 색상만 따로 */
+.reply-btn{
+    background:#3b82f6;
+}
+
+.delete-btn{
+    background:#ef4444;
 }
 
 .edit-btn{
@@ -581,14 +637,6 @@ function toggleStats() {
             </div>
 
             </td>
-
-            <form action="/delete/{{ i[0] }}" method="POST">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-
-                <button type="submit" class="delete-btn">
-                    삭제
-                </button>
-            </form>
 
             {% if i[8] %}
             <div class="file-preview">
