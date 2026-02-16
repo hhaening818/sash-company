@@ -528,8 +528,6 @@ function toggleStats() {
 
             <div class="action-group">
 
-            <td>
-
             {% if i[7] %}
                 <!-- 답변 완료 상태 -->
 
@@ -547,7 +545,8 @@ function toggleStats() {
                     </div>
                     {% endif %}
 
-                    <button onclick="openReplyPopup('{{ i[0] }}', '{{ i[7]|escape }}')"
+                    <button type="button"
+                            onclick="openReplyPopup('{{ i[0] }}', '{{ i[7]|escape }}')"
                             class="edit-btn">
                         수정
                     </button>
@@ -555,43 +554,33 @@ function toggleStats() {
                 </div>
 
             {% else %}
-                <!-- 답변 전 상태 -->
 
-                <button onclick="openReplyPopup('{{ i[0] }}', '')"
+                <button type="button"
+                        onclick="openReplyPopup('{{ i[0] }}', '')"
                         class="reply-btn">
                     답변
                 </button>
 
             {% endif %}
 
+
+            <form action="/delete/{{ i[0] }}" method="POST"
+                onsubmit="event.stopPropagation()">
+
+                <input type="hidden"
+                    name="csrf_token"
+                    value="{{ csrf_token() }}">
+
+                <button type="submit"
+                        class="delete-btn">
+                    삭제
+                </button>
+
+            </form>
+
+            </div>
+
             </td>
-
-
-                <form action="/admin/reply/{{ i[0] }}"
-                    method="POST"
-                    enctype="multipart/form-data"
-                    class="reply-form">
-
-                    <input type="text"
-                        name="reply"
-                        placeholder="답변 입력"
-                        required>
-
-                    <label class="file-btn">
-                        📎 파일 첨부
-                        <input type="file" name="reply_file">
-                    </label>
-
-                    <span class="file-name">선택된 파일 없음</span>
-
-                    <button type="submit">
-                        답변
-                    </button>
-
-                </form>
-
-            {% endif %}
-
 
             <form action="/delete/{{ i[0] }}" method="POST">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
