@@ -514,7 +514,7 @@ def search_inquiry():
     cur = conn.cursor()
 
     cur.execute("""
-        SELECT message, status, created_at
+        SELECT message, status, created_at, reply
         FROM inquiries
         WHERE name=%s AND phone=%s
         ORDER BY created_at DESC
@@ -532,11 +532,11 @@ def search_inquiry():
         )
 
         result.append({
-             "message": r[0] or "",
-             "status": r[1] or "대기",
-             "created_at": created_at
+            "message": r[0] or "",
+            "status": r[1] or "대기",
+            "created_at": created_at,
+            "reply": r[3] or ""
         })
-
 
     cur.close()
     conn.close()

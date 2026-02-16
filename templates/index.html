@@ -668,6 +668,9 @@ function searchInquiry(){
                 <b>문의내용:</b><br>
                 ${item.message}<br><br>
 
+                <b>답변:</b><br>
+                ${item.reply || "답변 대기중"}<br><br>
+
                 <b>상태:</b> ${item.status}<br>
 
                 <b>날짜:</b> ${item.created_at}
