@@ -30,6 +30,11 @@
             max-width:1800px;
             display:block;
             margin:auto;
+            transition: transform 0.3s ease;
+        }
+
+        .hero-logo-img:hover{
+            transform: scale(1.05);            /* 확대 */
         }
 
         .hero-text{
@@ -233,10 +238,6 @@
 
     <img src="{{ url_for('static', filename='images/logo.png') }}"
          class="hero-logo-img">
-
-    <p class="hero-text">
-        튼튼한 기초, 과정, 확실한 완성
-    </p>
 
 </div>
 
