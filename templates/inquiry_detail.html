@@ -54,6 +54,46 @@ font-size:18px;
 margin-bottom:6px;
 }
 
+.file-box{
+margin-top:12px;
+}
+
+.file-link{
+display:flex;
+align-items:center;
+gap:10px;
+padding:10px 14px;
+background:#1e293b;
+color:#60a5fa;
+border-radius:10px;
+text-decoration:none;
+transition:0.2s;
+}
+
+.file-link:hover{
+background:#3b82f6;
+color:white;
+}
+
+.file-icon{
+font-size:22px;
+}
+
+.file-info{
+display:flex;
+flex-direction:column;
+}
+
+.file-name{
+font-size:14px;
+font-weight:bold;
+}
+
+.file-meta{
+font-size:12px;
+color:#94a3b8;
+}
+
 </style>
 
 </head>
@@ -98,13 +138,19 @@ margin-bottom:6px;
     {% set icon = "📎" %}
 {% endif %}
 
-<a href="{{ file_url }}" target="_blank" class="file-link">
-    <span class="file-icon">{{ icon }}</span>
-    {{ filename }}
-</a>
+<div class="file-box">
 
-{% endif %}
+    <a href="{{ file_url }}" target="_blank" class="file-link">
+
+        <span class="file-icon">{{ icon }}</span>
+
+        <span class="file-info">
+            <span class="file-name">{{ filename }}</span>
+            <span class="file-meta">
+                업로드: {{ inquiry[6] }}
+            </span>
+        </span>
+
+    </a>
 
 </div>
-{% endif %}
-
