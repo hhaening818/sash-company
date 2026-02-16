@@ -17,6 +17,7 @@ import hashlib
 import time
 import base64
 from flask import jsonify
+from datetime import timedelta
 
 cloudinary.config(
     cloud_name=os.getenv("CLOUD_NAME"),
@@ -232,7 +233,8 @@ def admin():
         # created_at 포맷 변환 (index 6)
         if row[6]:
             try:
-                row[6] = row[6].strftime('%Y년 %m월 %d일 %H:%M')
+                kst_time = row[6] + timedelta(hours=9)
+                row[6] = kst_time.strftime('%Y-%m-%d %H:%M')
             except:
                 row[6] = str(row[6])
         data.append(row)
@@ -498,7 +500,10 @@ def inquiry_detail(id):
     WHERE id=%s
     """,(id,))
 
-    inquiry = cur.fetchone()
+    inquiry = list(cur.fetchone())
+
+    if inquiry[6]:
+        inquiry[6] = (inquiry[6] + timedelta(hours=9)).strftime('%Y-%m-%d %H:%M')
 
     conn.commit()
     cur.close()
@@ -531,7 +536,7 @@ def search_inquiry():
     for r in rows:
 
         created_at = (
-             r[2].strftime("%Y-%m-%d %H:%M")
+             (r[2] + timedelta(hours=9)).strftime("%Y-%m-%d %H:%M")
              if r[2] else "시간 없음"
         )
 
