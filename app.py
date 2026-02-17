@@ -114,7 +114,6 @@ def create_table():
     cur.close()
     conn.close()
 
-create_table()
 
 def send_sms(text):
 
@@ -826,6 +825,11 @@ def inquiries():
         total_pages=total_pages,
         search=search
     )
+
+@app.before_first_request
+def initialize_database():
+    print("Initializing database...")
+    create_table()
 
 port = int(os.environ.get("PORT", 10000))
 
