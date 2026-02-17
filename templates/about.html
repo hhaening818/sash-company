@@ -2,71 +2,334 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>회사소개 | SASH COMPANY</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-body{
-    margin:0;
-    font-family:Arial, sans-serif;
-    background:#f8faf8;
+
+:root{
+    --main:#2f7d32;
+    --dark:#1b3a2f;
+    --light:#f4f7f6;
 }
 
-header{
-    padding:20px 40px;
+/* 전체 */
+body{
+    margin:0;
+    font-family:'Noto Sans KR',sans-serif;
     background:white;
+    color:#1b3a2f;
+}
+
+/* 헤더 */
+.header{
+    height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 60px;
     border-bottom:1px solid #eee;
 }
 
 .logo{
-    font-size:24px;
-    font-weight:bold;
-    color:#3a5f3a;
+    font-size:22px;
+    font-weight:700;
+    color:var(--main);
+    cursor:pointer;
+}
+
+.nav{
+    display:flex;
+    gap:30px;
+}
+
+.nav a{
     text-decoration:none;
+    color:#444;
+    font-weight:500;
 }
 
-.container{
-    max-width:900px;
-    margin:80px auto;
-    background:white;
-    padding:50px;
-    border-radius:16px;
-    box-shadow:0 4px 20px rgba(0,0,0,0.05);
+.nav a:hover{
+    color:var(--main);
 }
 
-.title{
+/* 히어로 */
+.hero{
+    height:400px;
+    background:
+    linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),
+    url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600");
+    background-size:cover;
+    background-position:center;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+
+    color:white;
+}
+
+.hero h1{
+    font-size:48px;
+    margin:0;
+}
+
+.hero p{
+    margin-top:15px;
+    font-size:18px;
+}
+
+/* 섹션 */
+.section{
+    padding:80px 20px;
+    text-align:center;
+}
+
+.section h2{
     font-size:32px;
-    font-weight:bold;
     margin-bottom:20px;
-    color:#2f3e2f;
 }
 
-.text{
+.section p{
+    max-width:800px;
+    margin:auto;
     line-height:1.8;
     color:#555;
-    font-size:16px;
 }
+
+/* 특징 */
+.features{
+    display:flex;
+    justify-content:center;
+    gap:40px;
+    flex-wrap:wrap;
+    margin-top:50px;
+}
+
+.feature{
+    width:260px;
+}
+
+.feature-icon{
+    font-size:40px;
+}
+
+.feature-title{
+    font-weight:600;
+    margin-top:10px;
+}
+
+.feature-text{
+    color:#777;
+    font-size:14px;
+}
+
+/* 이미지 */
+.gallery{
+    display:flex;
+    gap:20px;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin-top:40px;
+}
+
+.gallery img{
+    width:300px;
+    height:200px;
+    object-fit:cover;
+    border-radius:12px;
+    transition:0.3s;
+}
+
+.gallery img:hover{
+    transform:scale(1.05);
+}
+
+/* CTA */
+.cta{
+    background:var(--main);
+    color:white;
+    padding:60px 20px;
+}
+
+.cta h2{
+    margin:0;
+}
+
+.cta button{
+    margin-top:20px;
+    padding:12px 25px;
+    font-size:16px;
+    border:none;
+    border-radius:8px;
+    background:white;
+    color:var(--main);
+    font-weight:600;
+    cursor:pointer;
+}
+
+/* footer */
+.footer{
+    padding:30px;
+    text-align:center;
+    color:#888;
+}
+
 </style>
 
 </head>
+
 <body>
 
-<header>
-    <a href="/" class="logo">SASH COMPANY</a>
-</header>
+<!-- 헤더 -->
+<div class="header">
 
-<div class="container">
+<div class="logo" onclick="location.href='/'">
+SASH COMPANY
+</div>
 
-    <div class="title">회사소개</div>
+<div class="nav">
 
-    <div class="text">
-        SASH COMPANY는 고객 맞춤형 샷시 및 시공 서비스를 제공하는 전문 기업입니다.<br><br>
+<a href="/about">회사소개</a>
 
-        풍부한 시공 경험과 전문 인력을 바탕으로  
-        최고의 품질과 서비스를 제공합니다.<br><br>
+<a href="/portfolio">시공사례</a>
 
-        고객 만족을 최우선으로 생각하며,  
-        신뢰할 수 있는 시공 파트너가 되겠습니다.
-    </div>
+<a href="/inquiries">문의목록</a>
+
+</div>
+
+</div>
+
+
+<!-- 히어로 -->
+<div class="hero">
+
+<div>
+
+<h1>창호 시공 전문 기업</h1>
+
+<p>30년 경력의 전문 기술력으로 최고의 품질을 제공합니다</p>
+
+</div>
+
+</div>
+
+
+<!-- 회사소개 -->
+<div class="section">
+
+<h2>회사 소개</h2>
+
+<p>
+
+SASH COMPANY는 창호 시공 전문 기업으로  
+아파트, 주택, 상가 등 다양한 공간에 맞춤형 창호 솔루션을 제공합니다.
+
+<br><br>
+
+풍부한 경험과 전문 기술을 바탕으로  
+단열, 방음, 내구성을 모두 만족하는 최고의 시공을 제공합니다.
+
+</p>
+
+</div>
+
+
+<!-- 특징 -->
+<div class="section" style="background:var(--light);">
+
+<h2>우리의 강점</h2>
+
+<div class="features">
+
+<div class="feature">
+
+<div class="feature-icon">🏆</div>
+
+<div class="feature-title">
+30년 경력
+</div>
+
+<div class="feature-text">
+풍부한 시공 경험
+</div>
+
+</div>
+
+
+<div class="feature">
+
+<div class="feature-icon">🛠</div>
+
+<div class="feature-title">
+전문 시공
+</div>
+
+<div class="feature-text">
+직접 시공 책임 관리
+</div>
+
+</div>
+
+
+<div class="feature">
+
+<div class="feature-icon">⭐</div>
+
+<div class="feature-title">
+고객 만족
+</div>
+
+<div class="feature-text">
+높은 만족도 유지
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- 갤러리 -->
+<div class="section">
+
+<h2>시공 현장</h2>
+
+<div class="gallery">
+
+<img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c">
+
+<img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea">
+
+<img src="https://images.unsplash.com/photo-1600607687120-8a6c6a6b8a0c">
+
+</div>
+
+</div>
+
+
+<!-- CTA -->
+<div class="cta">
+
+<h2>무료 상담 및 견적 문의</h2>
+
+<button onclick="location.href='/#contact'">
+
+문의하기
+
+</button>
+
+</div>
+
+
+<div class="footer">
+
+© 2026 SASH COMPANY
 
 </div>
 
