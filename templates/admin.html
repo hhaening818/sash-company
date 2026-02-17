@@ -584,9 +584,9 @@ function toggleStats() {
             <td class="message">{{ i[3] }}</td>
 
             <td>
-                 {% if i[5] %}
-                     <a href="{{ i[5] }}" target="_blank">
-                         <img src="{{ i[5] }}" class="thumb">
+                 {% if i[4] %}
+                     <a href="{{ i[4] }}" target="_blank">
+                         <img src="{{ i[4] }}" class="thumb">
                      </a>
                  {% else %}
                      -
@@ -595,7 +595,7 @@ function toggleStats() {
 
             <td onclick="event.stopPropagation()">
 
-            {% if i[6] == "대기" %}
+            {% if i[5] == "대기" %}
             <div style="color:#ef4444;font-weight:bold;">● 대기</div>
             {% else %}
             <div style="color:#10b981;font-weight:bold;">● 완료</div>
@@ -606,12 +606,12 @@ function toggleStats() {
             <select name="status" onclick="event.stopPropagation()">
 
             <option value="대기"
-            {% if i[6] == "대기" %}selected{% endif %}>
+            {% if i[5] == "대기" %}selected{% endif %}>
             ● 대기
             </option>
 
             <option value="완료"
-            {% if i[6] == "완료" %}selected{% endif %}>
+            {% if i[5] == "완료" %}selected{% endif %}>
             ● 완료
             </option>
 
