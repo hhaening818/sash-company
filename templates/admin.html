@@ -828,10 +828,9 @@ input, select{
                             <button type="button"
                                 onclick="event.stopPropagation(); openReplyViewPopup(
                                     '{{ i[0] }}',
-                                    `{{ i[3]|escape }}`,
-                                    `{{ i[7]|escape }}`,
-                                    '{{ i[8] }}'
+                                    `{{ i[3]|escape }}`
                                 )"
+
                                 class="reply-btn">
                                 답변 확인
                             </button>
@@ -1225,55 +1224,78 @@ document.addEventListener("mouseup", function(){
 
 });
 
-function openReplyViewPopup(id, message, reply, file){
+function openReplyViewPopup(id, message){
 
     currentReplyId = id;
-    currentReplyText = reply;
 
     const popup = document.getElementById("replyViewPopup");
 
-    if(!popup){
-        console.error("replyViewPopup not found");
-        return;
-    }
+    document.getElementById("viewMessage").innerText = message;
 
-    const messageEl = document.getElementById("viewMessage");
-    const replyEl = document.getElementById("viewReply");
-    const fileEl = document.getElementById("viewFile");
-    const viewMode = document.getElementById("replyViewMode");
-    const editForm = document.getElementById("replyEditForm");
+    // 히스토리 불러오기
+    fetch("/admin/replies/" + id)
+    .then(res => res.json())
+    .then(data => {
 
-    if(messageEl) messageEl.innerText = message;
-    if(replyEl) replyEl.innerText = reply;
+        let html = "";
 
-    if(file && file !== "None" && fileEl){
+        data.forEach(r => {
 
-        const filename = file.split('/').pop();
+            const selectedBadge = r.is_selected
+                ? `<div style="color:#10b981;font-weight:bold;">✔ 현재 대표 답변</div>`
+                : "";
 
-        fileEl.innerHTML =
-        `<a href="${file}" target="_blank"
-            style="
-            display:inline-block;
-            padding:8px 12px;
-            background:#1e293b;
-            border-radius:8px;
-            color:#60a5fa;
-            text-decoration:none;
-            border:1px solid var(--border);
-        ">
-        📎 ${filename}
-        </a>`;
-    }
-    else if(fileEl){
-        fileEl.innerHTML="";
-    }
+            const selectBtn = !r.is_selected
+                ? `<button onclick="selectReply(${r.id}, ${id})"
+                        class="reply-btn"
+                        style="margin-top:6px;">
+                        이 답변을 대표로 지정
+                   </button>`
+                : "";
 
-    // 모드 초기화 (null 체크 포함)
-    if(viewMode) viewMode.style.display="block";
-    if(editForm) editForm.style.display="none";
+            const fileLink = r.file
+                ? `<div style="margin-top:6px;">
+                        <a href="${r.file}" target="_blank"
+                           style="color:#60a5fa;">
+                           📎 첨부파일
+                        </a>
+                   </div>`
+                : "";
 
-    // 팝업 열기
-    popup.style.display="flex";
+            html += `
+                <div style="
+                    background:#0f172a;
+                    border:1px solid var(--border);
+                    border-radius:8px;
+                    padding:10px;
+                    margin-bottom:8px;
+                ">
+
+                    <div style="font-size:12px;color:#94a3b8;">
+                        ${r.created_at}
+                    </div>
+
+                    <div style="margin-top:4px;">
+                        ${r.reply}
+                    </div>
+
+                    ${fileLink}
+
+                    ${selectedBadge}
+
+                    ${selectBtn}
+
+                </div>
+            `;
+
+        });
+
+        document.getElementById("replyHistory").innerHTML = html;
+
+        popup.style.display = "flex";
+
+    });
+
 }
 
 function closeReplyViewPopup(){
@@ -1380,6 +1402,22 @@ document.addEventListener("keydown", function(e){
 
 });
 
+function selectReply(replyId, inquiryId){
+
+    fetch(`/admin/select_reply/${replyId}/${inquiryId}`, {
+        method: "POST"
+    })
+    .then(res => res.json())
+    .then(() => {
+
+        openReplyViewPopup(inquiryId,
+            document.getElementById("viewMessage").innerText
+        );
+
+    });
+
+}
+
 </script>
 
 <!-- 이미지 전체화면 보기 -->
@@ -1455,8 +1493,20 @@ document.addEventListener("keydown", function(e){
             💬 관리자 답변
         </div>
 
+        <div class="reply-view-title">
+            📜 답변 히스토리
+        </div>
+
+        <div id="replyHistory"
+            style="
+            max-height:200px;
+            overflow-y:auto;
+            margin-bottom:15px;
+            ">
+        </div>
+
         <!-- 보기 모드 -->
-        <div id="replyViewMode">
+        <div id="replyViewMode" style="display:none;">
 
             <div id="viewReply" class="reply-view-content"></div>
 

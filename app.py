@@ -93,6 +93,25 @@ def create_table():
     )
     """)
 
+    # inquiry_replies 테이블 추가 (conn 닫기 전에!)
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS inquiry_replies (
+
+        id SERIAL PRIMARY KEY,
+
+        inquiry_id INTEGER REFERENCES inquiries(id) ON DELETE CASCADE,
+
+        reply TEXT,
+
+        file TEXT,
+
+        is_selected BOOLEAN DEFAULT FALSE,
+
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+    )
+    """)
+
     conn.commit()
     cur.close()
     conn.close()
@@ -444,10 +463,10 @@ def update_status(id):
     cur = conn.cursor()
 
     cur.execute("""
-    UPDATE inquiries
-    SET status=%s
-    WHERE id=%s
-    """,(status,id))
+    INSERT INTO inquiry_replies
+    (inquiry_id, reply, file, is_selected)
+    VALUES (%s, %s, %s, TRUE)
+    """, (id, reply, file_url))
 
     conn.commit()
     cur.close()
@@ -469,7 +488,7 @@ def reply(id):
 
     file_url = None
 
-    # 파일 있는 경우 업로드
+    # 파일 업로드
     if file and file.filename != "":
         result = cloudinary.uploader.upload(
             file,
@@ -477,22 +496,28 @@ def reply(id):
         )
         file_url = result["secure_url"]
 
-        cur.execute("""
+    # 기존 대표 답변 해제
+    cur.execute("""
+        UPDATE inquiry_replies
+        SET is_selected = FALSE
+        WHERE inquiry_id = %s
+    """, (id,))
+
+    # 새 답변 히스토리 저장
+    cur.execute("""
+        INSERT INTO inquiry_replies
+        (inquiry_id, reply, file, is_selected)
+        VALUES (%s, %s, %s, TRUE)
+    """, (id, reply, file_url))
+
+    # inquiries 테이블 대표 답변 업데이트
+    cur.execute("""
         UPDATE inquiries
         SET reply=%s,
             reply_file_url=%s,
             status='완료'
         WHERE id=%s
-        """,(reply, file_url, id))
-
-    else:
-        # 파일 없는 경우
-        cur.execute("""
-        UPDATE inquiries
-        SET reply=%s,
-            status='완료'
-        WHERE id=%s
-        """,(reply, id))
+    """,(reply, file_url, id))
 
     conn.commit()
     cur.close()
@@ -649,7 +674,91 @@ port = int(os.environ.get("PORT", 10000))
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=port)
 
+@app.route("/admin/replies/<int:inquiry_id>")
+def get_replies(inquiry_id):
 
+    if not session.get("admin"):
+        return jsonify([])
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT id, reply, file, is_selected, created_at
+        FROM inquiry_replies
+        WHERE inquiry_id=%s
+        ORDER BY created_at DESC
+    """,(inquiry_id,))
+
+    rows = cur.fetchall()
+
+    result = []
+
+    for r in rows:
+
+        created_at = (
+            (r[4] + timedelta(hours=9)).strftime("%Y-%m-%d %H:%M")
+            if r[4] else ""
+        )
+
+        result.append({
+            "id": r[0],
+            "reply": r[1],
+            "file": r[2],
+            "is_selected": r[3],
+            "created_at": created_at
+        })
+
+    cur.close()
+    conn.close()
+
+    return jsonify(result)
+
+@app.route("/admin/select_reply/<int:reply_id>/<int:inquiry_id>", methods=["POST"])
+def select_reply(reply_id, inquiry_id):
+
+    if not session.get("admin"):
+        return jsonify({"success":False})
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    # 기존 해제
+    cur.execute("""
+        UPDATE inquiry_replies
+        SET is_selected=FALSE
+        WHERE inquiry_id=%s
+    """,(inquiry_id,))
+
+    # 선택
+    cur.execute("""
+        UPDATE inquiry_replies
+        SET is_selected=TRUE
+        WHERE id=%s
+    """,(reply_id,))
+
+    # inquiries도 업데이트
+    cur.execute("""
+        SELECT reply, file
+        FROM inquiry_replies
+        WHERE id=%s
+    """,(reply_id,))
+
+    row = cur.fetchone()
+
+    if row:
+        cur.execute("""
+            UPDATE inquiries
+            SET reply=%s,
+                reply_file_url=%s
+            WHERE id=%s
+        """,(row[0], row[1], inquiry_id))
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    return jsonify({"success":True})
 
 
 
