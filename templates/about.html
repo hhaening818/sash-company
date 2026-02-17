@@ -225,25 +225,6 @@ body{
 
 }
 
-/* 배경 슬라이더 */
-.bg-slider{
-
-    position:fixed;
-
-    top:0;
-    left:0;
-
-    width:100%;
-    height:100%;
-
-    overflow:hidden;
-
-    z-index:-1;
-
-    opacity:0.12; /* 불투명도 */
-
-}
-
 /* 이동 트랙 */
 .bg-track{
 
@@ -281,30 +262,31 @@ body{
 
 }
 
+.bg{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+
+    background:url("/static/images/work1.jpg") center center / cover no-repeat;
+
+    opacity:0.07;
+
+    z-index:-1;
+
+}
+
 </style>
 
 </head>
 
 <body>
 
-<div class="bg-slider">
-
-    <div class="bg-track">
-
-        <img src="/static/images/work1.jpg">
-        <img src="/static/images/work2.jpg">
-        <img src="/static/images/work3.jpg">
-        <img src="/static/images/work4.jpg">
-        <img src="/static/images/work5.jpg">
-
-        <!-- 반복 (끊김 방지) -->
-        <img src="/static/images/work1.jpg">
-        <img src="/static/images/work2.jpg">
-        <img src="/static/images/work3.jpg">
-
-    </div>
-
-</div>
+<div class="bg"></div>
 
 <!-- 헤더 -->
 <div class="header">
