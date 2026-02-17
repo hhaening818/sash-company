@@ -529,14 +529,7 @@ def inquiry_detail(id):
     conn = get_connection()
     cur = conn.cursor()
 
-    # 조회수 증가
-    cur.execute("""
-        UPDATE inquiries
-        SET views = views + 1
-        WHERE id=%s
-    """,(id,))
-
-    # 데이터 가져오기
+    # 먼저 데이터 가져오기
     cur.execute("""
         SELECT *
         FROM inquiries
@@ -545,26 +538,28 @@ def inquiry_detail(id):
 
     row = cur.fetchone()
 
-    # 문의가 없는 경우
     if not row:
         cur.close()
         conn.close()
         return "존재하지 않는 문의입니다.", 404
 
+    # 조회수 증가 (존재할 때만)
+    cur.execute("""
+        UPDATE inquiries
+        SET views = views + 1
+        WHERE id=%s
+    """,(id,))
+
     inquiry = list(row)
 
-    # 🔥 created_at 안전 처리 (핵심)
+    # 날짜 처리
     created_at = inquiry[6]
 
     if created_at:
-
         try:
-            # datetime 객체인 경우
             created_at = created_at + timedelta(hours=9)
             inquiry[6] = created_at.strftime('%Y-%m-%d %H:%M')
-
         except:
-            # 문자열인 경우
             inquiry[6] = str(created_at)[:16]
 
     conn.commit()
