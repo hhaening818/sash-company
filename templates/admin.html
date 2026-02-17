@@ -334,7 +334,7 @@ input, select{
 /* =========================
     월별 통계 보기 버튼
 ========================= */
-.toggle-tn{
+.toggle-btn{
     background:#1e40af;
     color:white;
     font-weight:600;
@@ -355,6 +355,106 @@ input, select{
 
 .admin-table form button:hover{
     background:#1d4ed8;
+}
+
+/* =========================
+   답변 확인 팝업 (고급 UI)
+========================= */
+
+.reply-view-popup{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.7);
+    backdrop-filter:blur(4px);
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+}
+
+.reply-view-box{
+
+    background:linear-gradient(180deg,#1e293b,#0f172a);
+
+    border:1px solid var(--border);
+
+    border-radius:16px;
+
+    width:420px;
+
+    max-width:90%;
+
+    padding:25px;
+
+    box-shadow:0 20px 50px rgba(0,0,0,0.6);
+
+    animation:popupFade 0.25s ease;
+}
+
+@keyframes popupFade{
+    from{
+        opacity:0;
+        transform:translateY(20px) scale(0.95);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+}
+
+.reply-view-title{
+
+    font-size:18px;
+    font-weight:600;
+
+    margin-bottom:15px;
+
+    border-bottom:1px solid var(--border);
+
+    padding-bottom:8px;
+}
+
+.reply-view-content{
+
+    background:#0f172a;
+
+    padding:12px;
+
+    border-radius:8px;
+
+    border:1px solid var(--border);
+
+    margin-bottom:15px;
+
+    font-size:14px;
+
+    white-space:pre-wrap;
+}
+
+.reply-view-file{
+
+    margin-bottom:15px;
+}
+
+.reply-view-buttons{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:10px;
+}
+
+.reply-view-buttons button{
+
+    padding:8px 16px;
+
+    border-radius:8px;
+
+    font-weight:500;
 }
 
 </style>
@@ -416,13 +516,6 @@ input, select{
     </div>
     <a href="/export" class="export-btn">📥 엑셀 다운로드</a>
 </div>
-
-<script>
-function toggleStats() {
-    const box = document.getElementById("statsBox");
-    box.style.display = box.style.display === "none" ? "block" : "none";
-}
-</script>
 
 <table class="admin-table">
 
@@ -753,7 +846,11 @@ document.addEventListener("keydown", function(e){
 });
 
 /* 클릭 확대 */
-document.getElementById("viewerImage").onclick = function(e){
+const viewerImg = document.getElementById("viewerImage");
+
+if(viewerImg){
+
+viewerImg.onclick = function(e){
 
     e.stopPropagation();
 
@@ -761,19 +858,22 @@ document.getElementById("viewerImage").onclick = function(e){
 
     if(zoomed){
         this.classList.add("zoomed");
-        currentScale = 2;
     }else{
         this.classList.remove("zoomed");
-        currentScale = 1;
     }
 
 };
 
+}
+
 /* 모바일 pinch zoom */
 let startDist = 0;
 
-document.getElementById("viewerImage")
-.addEventListener("touchstart", function(e){
+const viewerImageEl = document.getElementById("viewerImage");
+
+if(viewerImageEl){
+
+viewerImageEl.addEventListener("touchstart", function(e){
 
     if(e.touches.length === 2){
 
@@ -786,8 +886,7 @@ document.getElementById("viewerImage")
 
 });
 
-document.getElementById("viewerImage")
-.addEventListener("touchmove", function(e){
+viewerImageEl.addEventListener("touchmove", function(e){
 
     if(e.touches.length === 2){
 
@@ -805,6 +904,8 @@ document.getElementById("viewerImage")
     }
 
 });
+
+}
 
 </script>
 
@@ -837,38 +938,6 @@ document.querySelectorAll('.file-btn input').forEach(input => {
     });
 
 });
-</script>
-
-<script>
-function showEditForm(btn, id){
-
-    const box = btn.closest('.reply-box');
-
-    const reply =
-    box.querySelector('.reply-text').innerText;
-
-    box.innerHTML = `
-        <form action="/admin/reply/${id}"
-              method="POST"
-              enctype="multipart/form-data">
-
-            <input type="text"
-                   name="reply"
-                   value="${reply}"
-                   required>
-
-            <label class="file-btn">
-                📎 파일 첨부
-                <input type="file" name="reply_file">
-            </label>
-
-            <button type="submit">
-                저장
-            </button>
-
-        </form>
-    `;
-}
 </script>
 
 <script>
@@ -963,21 +1032,42 @@ function openReplyViewPopup(id, message, reply, file){
     currentReplyId = id;
     currentReplyText = reply;
 
+    // 문의 내용 표시
     document.getElementById("viewMessage").innerText = message;
+
+    // 답변 표시
     document.getElementById("viewReply").innerText = reply;
 
+    // 파일 표시
     if(file && file !== "None"){
+
+        const filename = file.split('/').pop();
+
         document.getElementById("viewFile").innerHTML =
-            `<a href="${file}" target="_blank"
-             style="color:#60a5fa;">📎 첨부파일 보기</a>`;
-    }else{
-        document.getElementById("viewFile").innerHTML = "";
+        `
+        <a href="${file}" target="_blank"
+        style="
+            display:inline-block;
+            padding:8px 12px;
+            background:#1e293b;
+            border-radius:8px;
+            color:#60a5fa;
+            text-decoration:none;
+            border:1px solid var(--border);
+        ">
+        📎 ${filename}
+        </a>
+        `;
+    }
+    else{
+        document.getElementById("viewFile").innerHTML="";
     }
 
     document.getElementById("replyViewPopup").style.display="flex";
 }
 
 function closeReplyViewPopup(){
+
     document.getElementById("replyViewPopup").style.display="none";
 }
 
@@ -985,7 +1075,7 @@ function editReplyFromView(){
 
     closeReplyViewPopup();
 
-    openReplyPopup(currentReplyId, currentReplyText);
+    openReplyPopup(currentReplyId,currentReplyText);
 }
 
 </script>
@@ -1042,27 +1132,35 @@ function editReplyFromView(){
 
 </div>
 
-<div id="replyViewPopup" class="popup">
+<div id="replyViewPopup" class="reply-view-popup">
 
-    <div class="popup-content">
+    <div class="reply-view-box">
 
-        <h3>📋 문의 내용</h3>
-        <div id="viewMessage" style="margin-bottom:15px;"></div>
+        <div class="reply-view-title">
+            📋 문의 내용
+        </div>
 
-        <h3>💬 답변</h3>
-        <div id="viewReply" style="margin-bottom:15px;"></div>
+        <div id="viewMessage" class="reply-view-content"></div>
 
-        <div id="viewFile"></div>
+        <div class="reply-view-title">
+            💬 관리자 답변
+        </div>
 
-        <br>
+        <div id="viewReply" class="reply-view-content"></div>
 
-        <button onclick="editReplyFromView()" class="edit-btn">
-            수정
-        </button>
+        <div id="viewFile" class="reply-view-file"></div>
 
-        <button onclick="closeReplyViewPopup()">
+        <div class="reply-view-buttons">
+
+            <button onclick="editReplyFromView()" class="edit-btn">
+                ✏ 수정
+            </button>
+
+            <button onclick="closeReplyViewPopup()" class="delete-btn">
             닫기
-        </button>
+            </button>
+
+        </div>
 
     </div>
 
