@@ -11,36 +11,36 @@
 <style>
 
 :root{
-    --main:#2f7d32;
-    --dark:#1b3a2f;
-    --light:#f4f7f6;
+    --main-green:#2f7d32;
 }
 
 /* 전체 */
 body{
     margin:0;
     font-family:'Noto Sans KR',sans-serif;
-    background:white;
-    color:#1b3a2f;
+    background:#f0f2f5;
+    color:#333;
 }
 
-/* 헤더 */
+/* 헤더 (메인과 동일) */
 .header{
+    background:white;
     height:70px;
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:0 60px;
-    border-bottom:1px solid #eee;
+    padding:0 40px;
+    border-bottom:1px solid #e5ece9;
 }
 
 .logo{
     font-size:22px;
     font-weight:700;
-    color:var(--main);
+    color:var(--main-green);
     cursor:pointer;
 }
 
+/* 메뉴 */
 .nav{
     display:flex;
     gap:30px;
@@ -48,135 +48,181 @@ body{
 
 .nav a{
     text-decoration:none;
-    color:#444;
-    font-weight:500;
+    color:#1e293b;
+    font-size:15px;
 }
 
 .nav a:hover{
-    color:var(--main);
+    color:var(--main-green);
 }
 
-/* 히어로 */
+/* 히어로 카드 */
 .hero{
-    height:400px;
-    background:
-    linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),
-    url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600");
-    background-size:cover;
-    background-position:center;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-
-    color:white;
+    padding:40px 20px;
 }
 
-.hero h1{
-    font-size:48px;
-    margin:0;
-}
+.hero-card{
 
-.hero p{
-    margin-top:15px;
-    font-size:18px;
-}
+    background:white;
 
-/* 섹션 */
-.section{
-    padding:80px 20px;
-    text-align:center;
-}
+    padding:40px;
 
-.section h2{
-    font-size:32px;
-    margin-bottom:20px;
-}
+    width:70%;
 
-.section p{
-    max-width:800px;
     margin:auto;
-    line-height:1.8;
-    color:#555;
+
+    border-radius:15px;
+
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+
+    text-align:center;
+}
+
+.hero-card h1{
+    margin:0;
+    font-size:32px;
+}
+
+.hero-card p{
+    margin-top:10px;
+    color:#666;
+}
+
+/* 섹션 카드 */
+.section{
+
+    padding:20px;
+
+}
+
+.card{
+
+    background:white;
+
+    padding:30px;
+
+    width:70%;
+
+    margin:20px auto;
+
+    border-radius:15px;
+
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+
+    text-align:center;
+
+}
+
+.card h2{
+    margin-bottom:15px;
 }
 
 /* 특징 */
 .features{
+
     display:flex;
+
     justify-content:center;
-    gap:40px;
+
+    gap:30px;
+
     flex-wrap:wrap;
-    margin-top:50px;
+
+    margin-top:20px;
+
 }
 
 .feature{
-    width:260px;
+
+    width:200px;
+
 }
 
 .feature-icon{
-    font-size:40px;
+
+    font-size:36px;
+
 }
 
 .feature-title{
+
     font-weight:600;
+
     margin-top:10px;
+
 }
 
 .feature-text{
-    color:#777;
+
+    color:#666;
+
     font-size:14px;
+
 }
 
 /* 이미지 */
 .gallery{
+
     display:flex;
-    gap:20px;
+
+    gap:15px;
+
     justify-content:center;
+
     flex-wrap:wrap;
-    margin-top:40px;
+
+    margin-top:20px;
+
 }
 
 .gallery img{
-    width:300px;
-    height:200px;
+
+    width:280px;
+
+    height:180px;
+
     object-fit:cover;
-    border-radius:12px;
-    transition:0.3s;
+
+    border-radius:10px;
+
 }
 
-.gallery img:hover{
-    transform:scale(1.05);
-}
+/* 버튼 */
+.btn{
 
-/* CTA */
-.cta{
-    background:var(--main);
-    color:white;
-    padding:60px 20px;
-}
-
-.cta h2{
-    margin:0;
-}
-
-.cta button{
     margin-top:20px;
+
     padding:12px 25px;
-    font-size:16px;
+
+    background:var(--main-green);
+
+    color:white;
+
     border:none;
+
     border-radius:8px;
-    background:white;
-    color:var(--main);
-    font-weight:600;
+
+    font-size:16px;
+
     cursor:pointer;
+
+}
+
+.btn:hover{
+
+    background:#256428;
+
 }
 
 /* footer */
 .footer{
-    padding:30px;
+
     text-align:center;
-    color:#888;
+
+    padding:30px;
+
+    color:#777;
+
 }
 
 </style>
@@ -185,20 +231,25 @@ body{
 
 <body>
 
+
 <!-- 헤더 -->
 <div class="header">
 
 <div class="logo" onclick="location.href='/'">
+
 SASH COMPANY
+
 </div>
 
 <div class="nav">
 
 <a href="/about">회사소개</a>
 
-<a href="/portfolio">시공사례</a>
+<a href="/portfolio">시공 사례</a>
 
-<a href="/inquiries">문의목록</a>
+<a href="/inquiries">문의 목록</a>
+
+<a href="/#contact">문의하기</a>
 
 </div>
 
@@ -208,11 +259,15 @@ SASH COMPANY
 <!-- 히어로 -->
 <div class="hero">
 
-<div>
+<div class="hero-card">
 
-<h1>창호 시공 전문 기업</h1>
+<h1>회사소개</h1>
 
-<p>30년 경력의 전문 기술력으로 최고의 품질을 제공합니다</p>
+<p>
+
+창호 시공 전문 기업 SASH COMPANY
+
+</p>
 
 </div>
 
@@ -222,25 +277,31 @@ SASH COMPANY
 <!-- 회사소개 -->
 <div class="section">
 
-<h2>회사 소개</h2>
+<div class="card">
+
+<h2>회사 개요</h2>
 
 <p>
 
-SASH COMPANY는 창호 시공 전문 기업으로  
-아파트, 주택, 상가 등 다양한 공간에 맞춤형 창호 솔루션을 제공합니다.
+SASH COMPANY는 창호 시공 전문 업체로  
+아파트, 주택, 상가 등 다양한 시공 경험을 보유하고 있습니다.
 
 <br><br>
 
-풍부한 경험과 전문 기술을 바탕으로  
-단열, 방음, 내구성을 모두 만족하는 최고의 시공을 제공합니다.
+고객 만족을 최우선으로 하며  
+최고 품질의 시공을 제공합니다.
 
 </p>
 
 </div>
 
+</div>
+
 
 <!-- 특징 -->
-<div class="section" style="background:var(--light);">
+<div class="section">
+
+<div class="card">
 
 <h2>우리의 강점</h2>
 
@@ -285,7 +346,7 @@ SASH COMPANY는 창호 시공 전문 기업으로
 </div>
 
 <div class="feature-text">
-높은 만족도 유지
+높은 만족도
 </div>
 
 </div>
@@ -294,9 +355,13 @@ SASH COMPANY는 창호 시공 전문 기업으로
 
 </div>
 
+</div>
 
-<!-- 갤러리 -->
+
+<!-- 이미지 -->
 <div class="section">
+
+<div class="card">
 
 <h2>시공 현장</h2>
 
@@ -310,19 +375,13 @@ SASH COMPANY는 창호 시공 전문 기업으로
 
 </div>
 
-</div>
+<button class="btn" onclick="location.href='/portfolio'">
 
-
-<!-- CTA -->
-<div class="cta">
-
-<h2>무료 상담 및 견적 문의</h2>
-
-<button onclick="location.href='/#contact'">
-
-문의하기
+시공 사례 보기
 
 </button>
+
+</div>
 
 </div>
 
@@ -332,6 +391,7 @@ SASH COMPANY는 창호 시공 전문 기업으로
 © 2026 SASH COMPANY
 
 </div>
+
 
 </body>
 </html>
