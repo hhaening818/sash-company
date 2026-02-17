@@ -688,7 +688,7 @@ input, select{
 
             <td onclick="event.stopPropagation()">
 
-                <div class="action-group">
+                <div class="action-group" onclick="event.stopPropagation()">
 
                     {% if i[7] %}
 
@@ -733,9 +733,7 @@ input, select{
 
                     {% endif %}
 
-                    <form action="/delete/{{ i[0] }}"
-                          method="POST"
-                          onsubmit="event.stopPropagation()">
+                    <form onsubmit="event.preventDefault(); deleteInquiry('{{ i[0] }}', this);">
 
                         <input type="hidden"
                                name="csrf_token"
@@ -1137,9 +1135,8 @@ function closeReplyViewPopup(){
 
 function editReplyFromView(){
 
-    closeReplyViewPopup();
+    enableReplyEditMode();
 
-    openReplyPopup(currentReplyId,currentReplyText);
 }
 
 // 수정 완료 팝업 열기
@@ -1191,6 +1188,33 @@ function enableReplyEditMode(){
     // form action 설정
     document.getElementById("replyEditForm").action =
         "/admin/reply/" + currentReplyId;
+}
+
+function deleteInquiry(id, form){
+
+    if(!confirm("정말 삭제하시겠습니까?")) return;
+
+    fetch("/delete/" + id, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(res => {
+
+        if(res.ok){
+
+            // 행 즉시 제거 (딜레이 없음)
+            form.closest("tr").remove();
+
+        }else{
+
+            alert("삭제 실패");
+
+        }
+
+    });
+
 }
 
 </script>
