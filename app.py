@@ -232,12 +232,13 @@ def admin():
     for row in rows:
         row = list(row)
         # created_at 포맷 변환 (index 6)
-        if row[6]:
+        # created_at 포맷 변환 (index 4)
+        if row[4]:
             try:
-                kst_time = row[6] + timedelta(hours=9)
-                row[6] = kst_time.strftime('%Y-%m-%d %H:%M')
+                kst_time = row[4] + timedelta(hours=9)
+                row[4] = kst_time.strftime('%Y-%m-%d %H:%M')
             except:
-                row[6] = str(row[6])
+                row[4] = str(row[4])
         data.append(row)
 
 
