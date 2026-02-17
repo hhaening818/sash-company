@@ -695,7 +695,7 @@ input, select{
                         <div class="reply-box">
 
                             <button type="button"
-                                onclick="openReplyViewPopup(
+                                onclick="event.stopPropagation(); openReplyViewPopup(
                                     '{{ i[0] }}',
                                     `{{ i[3]|escape }}`,
                                     `{{ i[7]|escape }}`,
@@ -1107,7 +1107,7 @@ function openReplyViewPopup(id, message, reply, file){
         document.getElementById("viewFile").innerHTML =
         `
         <a href="${file}" target="_blank"
-        style="
+            style="
             display:inline-block;
             padding:8px 12px;
             background:#1e293b;
@@ -1302,7 +1302,7 @@ function enableReplyEditMode(){
 
         <div class="reply-view-buttons">
 
-            <button onclick="enableReplyEditMode()" class="edit-btn">
+            <button onclick="event.stopPropagation(); enableReplyEditMode()" class="edit-btn">
                 ✏ 수정
             </button>
 
