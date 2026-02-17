@@ -9,7 +9,7 @@
         html{
             scroll-behavior:smooth;
         }
-        
+
         :root{
             --main-green:#2f7d32;   /* ← 로고 초록색 (일단 기본값, 필요하면 바꿔줄게) */
         }
@@ -371,8 +371,10 @@
 
     </div>
 
-    <img src="{{ url_for('static', filename='images/logo.png') }}"
-         class="hero-logo-img">
+    <a href="/about">
+        <img src="{{ url_for('static', filename='images/logo.png') }}"
+            class="hero-logo-img">
+    </a>
 
 </div>
 
