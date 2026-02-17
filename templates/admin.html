@@ -555,13 +555,13 @@ function toggleStats() {
 <table class="admin-table">
     <thead>
         <tr>
-            <th>이름</th>
-            <th>전화번호</th>
-            <th>내용</th>
-            <th>사진</th>
-            <th>상태</th>
-            <th>시간</th>
-            <th>관리</th>
+                <th>이름</th>
+                <th>전화번호</th>
+                <th>내용</th>
+                <th>사진</th>
+                <th>상태</th>
+                <th>시간</th>
+                <th>관리</th>
         </tr>
     </thead>
     <tbody>
@@ -607,7 +607,7 @@ function toggleStats() {
 
             <td onclick="event.stopPropagation()">
 
-            {% if i[5] == "대기" %}
+            {% if i[6] == "대기" %}
             <div style="color:#ef4444;font-weight:bold;">● 대기</div>
             {% else %}
             <div style="color:#10b981;font-weight:bold;">● 완료</div>
@@ -618,12 +618,12 @@ function toggleStats() {
             <select name="status" onclick="event.stopPropagation()">
 
             <option value="대기"
-            {% if i[5] == "대기" %}selected{% endif %}>
+            {% if i[6] == "대기" %}selected{% endif %}>
             ● 대기
             </option>
 
             <option value="완료"
-            {% if i[5] == "완료" %}selected{% endif %}>
+            {% if i[6] == "완료" %}selected{% endif %}>
             ● 완료
             </option>
 
@@ -639,7 +639,7 @@ function toggleStats() {
 
 
             <td class="time">
-                {{ i[6] }}
+                {{ i[4] }}
             </td>
 
             <td onclick="event.stopPropagation()">
