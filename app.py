@@ -163,7 +163,7 @@ def contact():
 
     file = request.files.get("image")
 
-    image_url = None
+    image_url = upload_result["secure_url"]
 
     if file and file.filename != "":
         result = cloudinary.uploader.upload(file)
