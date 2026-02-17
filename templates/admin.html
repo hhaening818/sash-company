@@ -553,27 +553,34 @@ function toggleStats() {
 </script>
 
 <table class="admin-table">
+
     <thead>
         <tr>
-                <th>이름</th>
-                <th>전화번호</th>
-                <th>내용</th>
-                <th>사진</th>
-                <th>상태</th>
-                <th>시간</th>
-                <th>관리</th>
+            <th>이름</th>
+            <th>전화번호</th>
+            <th>내용</th>
+            <th>사진</th>
+            <th>상태</th>
+            <th>시간</th>
+            <th>관리</th>
         </tr>
     </thead>
+
     <tbody>
-         {% for i in inquiries %}
+
+        {% for i in inquiries %}
+
         <tr onclick="showDetail(
-             '{{ i[1] }}',
-             '{{ i[2] }}',
-             `{{ i[3] }}`,
-             '{{ i[6] }}',
-             '{{ i[4] }}'
+            '{{ i[1] }}',
+            '{{ i[2] }}',
+            `{{ i[3] }}`,
+            '{{ i[4] }}',
+            '{{ i[5] }}'
         )">
-            <td>{{ i[1] }}</td>
+
+            <td>
+                {{ i[1] }}
+            </td>
 
             <td>
                 <a href="tel:{{ i[2] }}" class="phone">
@@ -581,62 +588,67 @@ function toggleStats() {
                 </a>
             </td>
 
-            <td class="message">{{ i[3] }}</td>
+            <td class="message">
+                {{ i[3] }}
+            </td>
 
             <td>
-                 {% if i[9] %}
 
-                 {% set original_url = i[9]|string %}
-                 {% set file_url = original_url.replace('/upload/', '/upload/f_auto,q_auto,w_200/') %}
+                {% if i[5] %}
 
-                 <a href="{{ file_url }}" target="_blank">
-                 <img src="{{ file_url }}"
-                 style="
-                 width:60px;
-                 height:60px;
-                 object-fit:cover;
-                 border-radius:6px;
-                 ">
-                 </a>
+                    {% set file_url = i[5].replace('/upload/', '/upload/f_auto,q_auto,w_200/') %}
 
-                 {% else %}
-                 -
-                 {% endif %}
- 
+                    <a href="{{ file_url }}" target="_blank">
+                        <img src="{{ file_url }}"
+                             style="width:60px;height:60px;object-fit:cover;border-radius:6px;">
+                    </a>
+
+                {% else %}
+
+                    -
+
+                {% endif %}
+
             </td>
 
             <td onclick="event.stopPropagation()">
 
-            {% if i[6] == "대기" %}
-            <div style="color:#ef4444;font-weight:bold;">● 대기</div>
-            {% else %}
-            <div style="color:#10b981;font-weight:bold;">● 완료</div>
-            {% endif %}
+                <div>
 
-            <form action="/admin/update_status/{{ i[0] }}" method="POST">
+                    {% if i[6] == "대기" %}
+                        <span style="color:#ef4444;font-weight:bold;">● 대기</span>
+                    {% else %}
+                        <span style="color:#10b981;font-weight:bold;">● 완료</span>
+                    {% endif %}
 
-            <select name="status" onclick="event.stopPropagation()">
+                </div>
 
-            <option value="대기"
-            {% if i[6] == "대기" %}selected{% endif %}>
-            ● 대기
-            </option>
+                <form action="/admin/update_status/{{ i[0] }}"
+                      method="POST"
+                      style="margin-top:6px;">
 
-            <option value="완료"
-            {% if i[6] == "완료" %}selected{% endif %}>
-            ● 완료
-            </option>
+                    <select name="status"
+                            onclick="event.stopPropagation()">
 
-            </select>
+                        <option value="대기"
+                        {% if i[6] == "대기" %}selected{% endif %}>
+                            ● 대기
+                        </option>
 
-            <button type="submit">
-            변경
-            </button>
+                        <option value="완료"
+                        {% if i[6] == "완료" %}selected{% endif %}>
+                            ● 완료
+                        </option>
 
-            </form>
+                    </select>
+
+                    <button type="submit">
+                        변경
+                    </button>
+
+                </form>
 
             </td>
-
 
             <td class="time">
                 {{ i[4] }}
@@ -644,81 +656,75 @@ function toggleStats() {
 
             <td onclick="event.stopPropagation()">
 
-            <div class="action-group">
+                <div class="action-group">
 
-            {% if i[7] %}
-                <!-- 답변 완료 상태 -->
+                    {% if i[7] %}
 
-                <div class="reply-box">
+                        <div class="reply-box">
 
-                    <div class="reply-text">
-                        {{ i[7] }}
-                    </div>
+                            <div class="reply-text">
+                                {{ i[7] }}
+                            </div>
 
-                    {% if i[8] %}
-                    <div class="file-preview">
+                            {% if i[8] %}
 
-                        {% set ext = i[8].split('.')[-1].lower() %}
+                                <div class="file-preview">
 
-                        {% if ext in ['jpg','jpeg','png','gif','webp'] %}
-                            <img src="{{ i[8] }}" class="preview-img">
-                        {% elif ext in ['pdf'] %}
-                            <div class="file-icon">📄 PDF</div>
-                        {% elif ext in ['xls','xlsx'] %}
-                            <div class="file-icon">📊 Excel</div>
-                        {% else %}
-                            <div class="file-icon">📎 File</div>
-                        {% endif %}
+                                    <a href="{{ i[8] }}"
+                                       target="_blank"
+                                       class="download-btn">
 
-                        <a href="{{ i[8] }}" target="_blank"
-                        class="download-btn">
+                                        📎 {{ i[8].split('/')[-1].split('?')[0] }}
 
-                        {{ i[8].split('/')[-1].split('?')[0] }}
+                                    </a>
 
-                        </a>
+                                </div>
 
-                    </div>
+                            {% endif %}
+
+                            <button type="button"
+                                    onclick="openReplyPopup('{{ i[0] }}','{{ i[7]|escape }}')"
+                                    class="edit-btn">
+                                수정
+                            </button>
+
+                        </div>
+
+                    {% else %}
+
+                        <button type="button"
+                                onclick="openReplyPopup('{{ i[0] }}','')"
+                                class="reply-btn">
+                            답변
+                        </button>
+
                     {% endif %}
 
-                    <button type="button"
-                            onclick="openReplyPopup('{{ i[0] }}', '{{ i[7]|escape }}')"
-                            class="edit-btn">
-                        수정
-                    </button>
+                    <form action="/delete/{{ i[0] }}"
+                          method="POST"
+                          onsubmit="event.stopPropagation()">
+
+                        <input type="hidden"
+                               name="csrf_token"
+                               value="{{ csrf_token() }}">
+
+                        <button type="submit"
+                                class="delete-btn">
+                            삭제
+                        </button>
+
+                    </form>
 
                 </div>
 
-            {% else %}
-
-                <button type="button"
-                        onclick="openReplyPopup('{{ i[0] }}', '')"
-                        class="reply-btn">
-                    답변
-                </button>
-
-            {% endif %}
-
-
-            <form action="/delete/{{ i[0] }}" method="POST"
-                onsubmit="event.stopPropagation()">
-
-                <input type="hidden"
-                    name="csrf_token"
-                    value="{{ csrf_token() }}">
-
-                <button type="submit"
-                        class="delete-btn">
-                    삭제
-                </button>
-
-            </form>
-
-            </div>
-
             </td>
 
+        </tr>
+
         {% endfor %}
+
     </tbody>
+
 </table>
 
 <!-- 문의 상세 모달 -->
