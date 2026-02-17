@@ -1091,6 +1091,9 @@ document.querySelectorAll('.file-btn input').forEach(input => {
 
 <script>
 
+let currentReplyId = null;
+let currentReplyText = "";
+
 function openReplyPopup(id, reply){
 
     const popup = document.getElementById("replyPopup");
@@ -1133,13 +1136,17 @@ document.addEventListener("keydown", function(e){
 
 });
 
-document.getElementById("replyPopup").addEventListener("click", function(e){
+const replyPopup = document.getElementById("replyPopup");
 
-    if(e.target === this){
-        closeReplyPopup();
-    }
+if(replyPopup){
+    replyPopup.addEventListener("click", function(e){
 
-});
+        if(e.target === this){
+            closeReplyPopup();
+        }
+
+    });
+}
 
 const popupContent = document.getElementById("replyPopupContent");
 const popupHeader = document.getElementById("popupHeader");
@@ -1147,6 +1154,7 @@ const popupHeader = document.getElementById("popupHeader");
 let isDragging = false;
 let offsetX, offsetY;
 
+if(popupHeader){
 popupHeader.addEventListener("mousedown", function(e){
 
     isDragging = true;
@@ -1157,6 +1165,7 @@ popupHeader.addEventListener("mousedown", function(e){
     popupContent.style.position = "absolute";
 
 });
+}
 
 document.addEventListener("mousemove", function(e){
 
@@ -1265,16 +1274,17 @@ function closeReplySuccessPopup(){
 
 
 // replyForm submit 후 성공 시 팝업 표시
-document.getElementById("replyForm")
-.addEventListener("submit", function(){
+const replyForm = document.getElementById("replyForm");
 
-    setTimeout(function(){
+if(replyForm){
+    replyForm.addEventListener("submit", function(){
 
-        showReplySuccessPopup();
+        setTimeout(function(){
+            showReplySuccessPopup();
+        },500);
 
-    },500);
-
-});
+    });
+}
 
 function enableReplyEditMode(){
 
