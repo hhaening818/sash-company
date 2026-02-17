@@ -457,6 +457,73 @@ input, select{
     font-weight:500;
 }
 
+/* =========================
+   완료 색상 (초록색 통일)
+========================= */
+
+/* 엑셀 다운로드 버튼 */
+.export-btn{
+    background:#10b981 !important;
+    color:white;
+    font-weight:600;
+}
+
+.export-btn:hover{
+    background:#059669 !important;
+}
+
+/* 답변 확인 버튼 */
+.reply-box .reply-btn{
+    background:#10b981 !important;
+    color:white;
+    font-weight:600;
+}
+
+.reply-box .reply-btn:hover{
+    background:#059669 !important;
+}
+
+/* =========================
+   삭제 버튼 (빨간색 강조)
+========================= */
+
+.delete-btn{
+    background:#ef4444 !important;
+    color:white;
+    font-weight:600;
+}
+
+.delete-btn:hover{
+    background:#dc2626 !important;
+}
+
+/* =========================
+   관리 버튼 동일 크기
+========================= */
+
+.reply-box .reply-btn,
+.reply-box .edit-btn,
+.action-group .delete-btn{
+
+    width:110px;
+    height:36px;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:13px;
+    font-weight:600;
+
+    border-radius:8px;
+}
+
+/* 버튼 간격 */
+.reply-box,
+.action-group{
+    gap:6px;
+}
+
 </style>
 
 </head>
