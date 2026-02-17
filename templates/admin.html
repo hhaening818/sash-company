@@ -562,6 +562,29 @@ input, select{
 
 }
 
+.image-close{
+
+    position:absolute;
+    top:20px;
+    right:30px;
+
+    font-size:32px;
+    color:white;
+
+    cursor:pointer;
+
+    z-index:10000;
+
+    transition:0.2s;
+}
+
+.image-close:hover{
+
+    color:#60a5fa;
+    transform:scale(1.2);
+
+}
+
 </style>
 
 </head>
@@ -884,18 +907,20 @@ function showDetail(name, phone, message, time, image) {
     const filename = image.split('/').pop();
 
     imageWrap.innerHTML =
-        `<a href="${image}" target="_blank"
-            style="
-                display:inline-block;
-                padding:8px 12px;
-                background:#1e293b;
-                color:#60a5fa;
-                border-radius:8px;
-                text-decoration:none;
-                margin-top:10px;
-            ">
-            📎 첨부파일 보기 (${filename})
-        </a>`;
+    `<a href="javascript:void(0)"
+        onclick="openImageViewer('${image}')"
+        style="
+            display:inline-block;
+            padding:8px 12px;
+            background:#1e293b;
+            color:#60a5fa;
+            border-radius:8px;
+            text-decoration:none;
+            margin-top:10px;
+            cursor:pointer;
+        ">
+        📎 첨부파일 보기 (${filename})
+    </a>`;
 
 } else {
     imageWrap.innerHTML = "";
@@ -1268,12 +1293,29 @@ function deleteInquiry(id, form){
 
 }
 
+document.addEventListener("keydown", function(e){
+
+    if(e.key === "Escape"){
+
+        closeImageViewer();
+
+    }
+
+});
+
 </script>
 
 <!-- 이미지 전체화면 보기 -->
 <div id="imageViewer" class="image-viewer" onclick="closeImageViewer()" style="display:none;">
-    <span class="image-close">&times;</span>
-    <img id="viewerImage">
+
+    <span class="image-close"
+          onclick="event.stopPropagation(); closeImageViewer();">
+        ×
+    </span>
+
+    <img id="viewerImage"
+         onclick="event.stopPropagation();">
+
 </div>
 
 <div id="replyPopup" class="popup">
