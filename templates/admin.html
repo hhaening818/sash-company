@@ -612,27 +612,70 @@ input, select{
 
 }
 
+.admin-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.header-left{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.header-right{
+
+    display:flex;
+
+    gap:10px;
+
+}
+
+.header-btn{
+
+    background:#4f6ef7;
+
+    color:white;
+
+    padding:8px 16px;
+
+    border-radius:8px;
+
+    text-decoration:none;
+
+    font-size:14px;
+
+}
+
+.header-btn:hover{
+
+    background:#3b55d1;
+
+}
+
 </style>
 
 </head>
 
 <body>
 
-<div class="top-section">
+<div class="admin-header">
 
-    <div>
+    <div class="header-left">
         <h1>📋 문의 관리</h1>
-        <p class="sub">최근 접수된 문의를 확인하세요</p>
+        <p>최근 접수된 문의를 확인하세요</p>
     </div>
 
-    <div>
-        <a href="/" class="logout-btn" style="margin-right:10px;">
-            🏠 웹사이트로 돌아가기
-        </a>
-
-        <a href="/logout" class="logout-btn">
-            로그아웃
-        </a>
+    <div class="header-right">
+        <a href="/" class="header-btn">🏠 웹사이트로 돌아가기</a>
+        <a href="/logout" class="header-btn">로그아웃</a>
     </div>
 
 </div>

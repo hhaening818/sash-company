@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <title>건진창호 | 창호 전문 시공</title>
+    <link rel="preload" as="image" href="/static/logo.png">
+
     <style>
         :root{
             --main-green:#2f7d32;   /* ← 로고 초록색 (일단 기본값, 필요하면 바꿔줄게) */
@@ -279,6 +281,20 @@
             z-index:1;
         }
 
+        .logo img{
+
+            opacity:0;
+
+            transition:opacity 0.4s ease;
+
+        }
+
+        /* 로딩 완료 후 */
+        .logo img.loaded{
+
+            opacity:1;
+
+        }
    
 </style>
 </head>
@@ -831,6 +847,20 @@ function searchInquiry(){
     });
 
 }
+
+</script>
+
+<script>
+
+window.addEventListener("load", function(){
+
+    const logo = document.querySelector(".logo img");
+
+    if(logo){
+        logo.classList.add("loaded");
+    }
+
+});
 
 </script>
 
