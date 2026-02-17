@@ -96,6 +96,31 @@ body{
     max-height:90%;
 }
 
+.back-btn{
+
+    position:absolute;
+    top:20px;
+    left:20px;
+
+    z-index:10000;
+
+    background:#0f172a;
+    color:white;
+
+    border:none;
+    padding:10px 16px;
+
+    border-radius:8px;
+
+    font-size:14px;
+    cursor:pointer;
+
+}
+
+.back-btn:hover{
+    background:#1e293b;
+}
+
 </style>
 
 </head>
@@ -194,8 +219,16 @@ body{
 </div>
 
 
-<div class="modal" id="modal" onclick="closeModal()">
-<img id="modalImg">
+<div class="modal" id="modal">
+
+<button class="back-btn"
+        onclick="event.stopPropagation(); closeModal();">
+    ← 뒤로가기
+</button>
+
+<img id="modalImg"
+     onclick="event.stopPropagation()">
+
 </div>
 
 
@@ -317,6 +350,7 @@ form.addEventListener("submit", function(e){
 }
 
 </script>
+
 
 </body>
 </html>
