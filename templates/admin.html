@@ -640,7 +640,7 @@ input, select{
 
         {% for i in inquiries %}
 
-        <tr onclick="showDetail(
+        <tr onclick="if(event.target.closest('.reply-btn') || event.target.closest('.action-group')) return; showDetail(
             '{{ i[1] }}',
             '{{ i[2] }}',
             `{{ i[3] }}`,
@@ -1129,20 +1129,28 @@ function openReplyViewPopup(id, message, reply, file){
     currentReplyId = id;
     currentReplyText = reply;
 
-    // 문의 내용 표시
-    document.getElementById("viewMessage").innerText = message;
+    const popup = document.getElementById("replyViewPopup");
 
-    // 답변 표시
-    document.getElementById("viewReply").innerText = reply;
+    if(!popup){
+        console.error("replyViewPopup not found");
+        return;
+    }
 
-    // 파일 표시
-    if(file && file !== "None"){
+    const messageEl = document.getElementById("viewMessage");
+    const replyEl = document.getElementById("viewReply");
+    const fileEl = document.getElementById("viewFile");
+    const viewMode = document.getElementById("replyViewMode");
+    const editForm = document.getElementById("replyEditForm");
+
+    if(messageEl) messageEl.innerText = message;
+    if(replyEl) replyEl.innerText = reply;
+
+    if(file && file !== "None" && fileEl){
 
         const filename = file.split('/').pop();
 
-        document.getElementById("viewFile").innerHTML =
-        `
-        <a href="${file}" target="_blank"
+        fileEl.innerHTML =
+        `<a href="${file}" target="_blank"
             style="
             display:inline-block;
             padding:8px 12px;
@@ -1153,22 +1161,27 @@ function openReplyViewPopup(id, message, reply, file){
             border:1px solid var(--border);
         ">
         📎 ${filename}
-        </a>
-        `;
+        </a>`;
     }
-    else{
-        document.getElementById("viewFile").innerHTML="";
+    else if(fileEl){
+        fileEl.innerHTML="";
     }
-    // 초기 상태: 보기모드
-    document.getElementById("replyViewMode").style.display="block";
-    document.getElementById("replyEditForm").style.display="none";
 
-    document.getElementById("replyViewPopup").style.display="flex";
+    // 모드 초기화 (null 체크 포함)
+    if(viewMode) viewMode.style.display="block";
+    if(editForm) editForm.style.display="none";
+
+    // 팝업 열기
+    popup.style.display="flex";
 }
 
 function closeReplyViewPopup(){
 
-    document.getElementById("replyViewPopup").style.display="none";
+    const popup = document.getElementById("replyViewPopup");
+
+    if(popup){
+        popup.style.display="none";
+    }
 }
 
 function editReplyFromView(){
