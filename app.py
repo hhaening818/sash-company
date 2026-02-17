@@ -164,8 +164,9 @@ def contact():
 
     file = request.files.get("image")
 
-    image_url = upload_result["secure_url"]
+    image_url = None   # ✅ 먼저 None으로 초기화
 
+    # 파일 있는 경우만 업로드
     if file and file.filename != "":
         result = cloudinary.uploader.upload(file)
         image_url = result["secure_url"]
@@ -183,7 +184,6 @@ def contact():
     conn.close()
 
     return redirect("/inquiry")
-
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -297,6 +297,24 @@ def admin():
         counts=counts
     )
 
+@app.route("/inquiry")
+def inquiry_list():
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT *
+        FROM inquiries
+        ORDER BY created_at DESC
+    """)
+
+    inquiries = cur.fetchall()
+
+    cur.close()
+    conn.close()
+
+    return render_template("inquiry.html", inquiries=inquiries)
 
 @app.route("/export")
 def export_excel():
