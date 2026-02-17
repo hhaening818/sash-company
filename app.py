@@ -768,7 +768,7 @@ def inquiries():
 
     cur.execute("""
         SELECT *
-        FROM inquiries   # ← 여기 수정
+        FROM inquiries
         ORDER BY created_at DESC
     """)
 
