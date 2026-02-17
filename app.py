@@ -468,10 +468,10 @@ def update_status(id):
     cur = conn.cursor()
 
     cur.execute("""
-    INSERT INTO inquiry_replies
-    (inquiry_id, reply, file, is_selected)
-    VALUES (%s, %s, %s, TRUE)
-    """, (id, reply, file_url))
+        UPDATE inquiries
+        SET status = %s
+        WHERE id = %s
+    """, (status, id))
 
     conn.commit()
     cur.close()
