@@ -760,6 +760,25 @@ def select_reply(reply_id, inquiry_id):
 
     return jsonify({"success":True})
 
+@app.route("/inquiries")
+def inquiries():
+
+    conn = sqlite3.connect("database.db")
+    conn.row_factory = sqlite3.Row
+
+    inquiries = conn.execute("""
+        SELECT * FROM inquiry
+        ORDER BY created_at DESC
+    """).fetchall()
+
+    conn.close()
+
+    return render_template(
+        "inquiries.html",
+        inquiries=inquiries
+    )
+
+
 
 
 

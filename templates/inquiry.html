@@ -1,135 +1,132 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>문의하기</title>
+<title>문의 목록</title>
 
 <style>
 
 body{
-font-family:sans-serif;
-background:#f1f5f9;
-padding:30px;
+    font-family:'Noto Sans KR',sans-serif;
+    background:#f1f5f9;
+    margin:0;
+}
+
+.header{
+    background:#2f7d32;
+    color:white;
+    padding:20px 40px;
+    font-size:22px;
+}
+
+.container{
+    padding:30px 40px;
 }
 
 .card{
-background:white;
-padding:20px;
-margin-bottom:15px;
-border-radius:10px;
+    background:white;
+    padding:20px;
+    margin-bottom:15px;
+    border-radius:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
 }
 
-.wait{
-color:red;
-font-weight:bold;
+.search-box{
+    background:white;
+    padding:20px;
+    margin-bottom:20px;
+    border-radius:10px;
 }
 
-.done{
-color:green;
-font-weight:bold;
-}
-
-.reply{
-background:#eff6ff;
-padding:10px;
-margin-top:10px;
-border-radius:8px;
-}
-
-.download-btn{
-    display:inline-block;
-    margin-top:4px;
-    font-size:12px;
-    color:var(--accent);
-    text-decoration:none;
-    background:var(--card-light);
-    padding:4px 8px;
-    border-radius:6px;
+button{
+    padding:8px 15px;
+    background:#2f7d32;
+    color:white;
+    border:none;
+    border-radius:5px;
 }
 
 </style>
-
 </head>
 <body>
 
-<h2>문의 목록</h2>
+<div class="header">
+문의 목록
+</div>
 
-<a href="/">
-<button>새 문의 작성</button>
-</a>
+<div class="container">
 
-<hr>
+<div class="search-box">
 
-{% for i in inquiries %}
+<input type="text" id="searchName" placeholder="이름">
+<input type="text" id="searchPhone" placeholder="연락처">
+
+<button onclick="searchInquiry()">문의 조회</button>
+
+</div>
+
+<div id="list">
+
+{% for item in inquiries %}
 
 <div class="card">
 
-<div>
-작성자: {{ i[1] }}
-</div>
+<b>이름:</b> {{ item.name }}<br>
+<b>연락처:</b> {{ item.phone }}<br>
+<b>문의내용:</b><br>
+{{ item.message }}<br><br>
 
-<div>
-문의내용: {{ i[3] }}
-</div>
-
-<div>
-상태:
-<span class="{% if i[6]=='대기' %}wait{% else %}done{% endif %}">
-{{ i[6] }}
-</span>
-</div>
-
-{% if i[7] %}
-<div class="reply">
-답변: {{ i[7] }}
-</div>
-{% endif %}
-
-{% if i[8] %}
-
-{% set original_url = i[8] %}
-
-{% set file_url = original_url.replace('/upload/', '/upload/f_auto,q_auto,w_1200/') %}
-
-{% set ext = original_url.split('.')[-1].lower() %}
-{% set filename = original_url.split('/')[-1].split('?')[0] %}
-
-{% if ext in ['jpg','jpeg','png','gif','webp'] %}
-    {% set icon = "🖼️" %}
-{% elif ext == 'pdf' %}
-    {% set icon = "📄" %}
-{% elif ext in ['xls','xlsx'] %}
-    {% set icon = "📊" %}
-{% elif ext in ['doc','docx'] %}
-    {% set icon = "📝" %}
-{% elif ext in ['zip','rar'] %}
-    {% set icon = "🗜️" %}
-{% else %}
-    {% set icon = "📎" %}
-{% endif %}
-
-<div style="margin-top:8px;">
-    <a href="{{ file_url }}" target="_blank"
-       style="
-       display:inline-flex;
-       align-items:center;
-       gap:6px;
-       padding:6px 10px;
-       background:#1e293b;
-       color:#60a5fa;
-       border-radius:6px;
-       text-decoration:none;
-       font-size:13px;
-       ">
-       {{ icon }} {{ filename }}
-    </a>
-</div>
-
-{% endif %}
+<b>답변:</b><br>
+{{ item.reply or "답변 대기중" }}
 
 </div>
 
 {% endfor %}
+
+</div>
+
+</div>
+
+<script>
+
+function searchInquiry(){
+
+const name=document.getElementById("searchName").value;
+const phone=document.getElementById("searchPhone").value;
+
+fetch("/search_inquiry",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({name,phone})
+})
+.then(res=>res.json())
+.then(data=>{
+
+let html="";
+
+data.forEach(item=>{
+
+html+=`
+<div class="card">
+
+<b>문의내용:</b><br>
+${item.message}<br><br>
+
+<b>답변:</b><br>
+${item.reply||"답변 대기중"}
+
+</div>
+`;
+
+});
+
+document.getElementById("list").innerHTML=html;
+
+});
+
+}
+
+</script>
 
 </body>
 </html>

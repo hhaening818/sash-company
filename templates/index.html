@@ -128,7 +128,7 @@
             transform: translateY(-3px);
             box-shadow:0 8px 20px rgba(0,0,0,0.12);
         }
-        
+
         /* ===== 입력 ===== */
         input,textarea{
             width:80%;
@@ -374,7 +374,7 @@
     <a href="#about">회사소개</a>
     <a href="#services">시공 분야</a>
     <a href="/portfolio">시공 사례</a>
-    <a href="#contact">문의하기</a>
+    <a href="/inquiries">문의목록</a>
 
 </nav>
 
@@ -452,37 +452,7 @@
             <button type="submit">견적 요청하기</button>
         </form>
 
-        <div id="inquiryModal" class="modal">
-
-             <div class="modal-box">
-
-                 <h3>문의 조회</h3>
-
-                <input type="text" id="searchName"
-                     placeholder="이름"><br>
-
-                <input type="text" id="searchPhone"
-                     placeholder="연락처"><br>
-
-                <button onclick="searchInquiry()">
-                     조회
-                </button>
-
-                <button onclick="closeInquiryModal()">
-                     닫기
-                </button>
-
-                <div id="inquiryResult"
-                     style="margin-top:15px;text-align:left;">
-                </div>
-
-            </div>
-
         </div>
-        
-        <button type="button" onclick="openInquiryModal()">
-        문의 조회
-        </button>
 
     </div>
 </section>
