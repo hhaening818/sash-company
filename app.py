@@ -763,14 +763,18 @@ def select_reply(reply_id, inquiry_id):
 @app.route("/inquiries")
 def inquiries():
 
-    conn = sqlite3.connect("database.db")
-    conn.row_factory = sqlite3.Row
+    conn = get_connection()
+    cur = conn.cursor()
 
-    inquiries = conn.execute("""
-        SELECT * FROM inquiry
+    cur.execute("""
+        SELECT *
+        FROM inquiries   # ← 여기 수정
         ORDER BY created_at DESC
-    """).fetchall()
+    """)
 
+    inquiries = cur.fetchall()
+
+    cur.close()
     conn.close()
 
     return render_template(
