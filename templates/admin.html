@@ -11,7 +11,7 @@
     --card:#1e293b;
     --card-light:#334155;
     --text:#f1f5f9;
-    --sub:#0e8019;
+    --sub:#e4f5e6eb;
     --accent:#3b82f6;
     --danger:#ef4444;
     --warning:#f59e0b;
@@ -330,6 +330,33 @@ input, select{
     max-width:90%;
     max-height:90%;
 }
+
+/* =========================
+    월별 통계 보기 버튼
+========================= */
+.toggle-tn{
+    background:#1e40af;
+    color:white;
+    font-weight:600;
+}
+
+.toggle-btn:hover{
+    background:#1d4ed8;
+}
+
+/* =========================
+상태 변경 버튼
+========================= */
+.admin-table form button{
+    background:#1e40af;
+    color:white;
+    font-weight:600;
+}
+
+.admin-table form button:hover{
+    background:#1d4ed8;
+}
+
 </style>
 
 </head>
@@ -507,9 +534,16 @@ function toggleStats() {
 
                         <div class="reply-box">
 
-                            <div class="reply-text">
-                                {{ i[7] }}
-                            </div>
+                            <button type="button"
+                                onclick="openReplyViewPopup(
+                                    '{{ i[0] }}',
+                                    `{{ i[3]|escape }}`,
+                                    `{{ i[7]|escape }}`,
+                                    '{{ i[8] }}'
+                                )"
+                                class="reply-btn">
+                                답변 확인
+                            </button>
 
                             {% if i[8] %}
 
@@ -921,6 +955,39 @@ document.addEventListener("mouseup", function(){
 
 });
 
+let currentReplyId = null;
+let currentReplyText = "";
+
+function openReplyViewPopup(id, message, reply, file){
+
+    currentReplyId = id;
+    currentReplyText = reply;
+
+    document.getElementById("viewMessage").innerText = message;
+    document.getElementById("viewReply").innerText = reply;
+
+    if(file && file !== "None"){
+        document.getElementById("viewFile").innerHTML =
+            `<a href="${file}" target="_blank"
+             style="color:#60a5fa;">📎 첨부파일 보기</a>`;
+    }else{
+        document.getElementById("viewFile").innerHTML = "";
+    }
+
+    document.getElementById("replyViewPopup").style.display="flex";
+}
+
+function closeReplyViewPopup(){
+    document.getElementById("replyViewPopup").style.display="none";
+}
+
+function editReplyFromView(){
+
+    closeReplyViewPopup();
+
+    openReplyPopup(currentReplyId, currentReplyText);
+}
+
 </script>
 
 <!-- 이미지 전체화면 보기 -->
@@ -970,6 +1037,32 @@ document.addEventListener("mouseup", function(){
             </button>
 
         </form>
+
+    </div>
+
+</div>
+
+<div id="replyViewPopup" class="popup">
+
+    <div class="popup-content">
+
+        <h3>📋 문의 내용</h3>
+        <div id="viewMessage" style="margin-bottom:15px;"></div>
+
+        <h3>💬 답변</h3>
+        <div id="viewReply" style="margin-bottom:15px;"></div>
+
+        <div id="viewFile"></div>
+
+        <br>
+
+        <button onclick="editReplyFromView()" class="edit-btn">
+            수정
+        </button>
+
+        <button onclick="closeReplyViewPopup()">
+            닫기
+        </button>
 
     </div>
 
