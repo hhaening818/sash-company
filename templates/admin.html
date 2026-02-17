@@ -584,17 +584,18 @@ function toggleStats() {
             <td class="message">{{ i[3] }}</td>
 
             <td>
-                 {% if i[4] %}
+                 {% if i[9] %}
 
-                 {% set original_url = i[4] %}
+                 {% set original_url = i[9]|string %}
                  {% set file_url = original_url.replace('/upload/', '/upload/f_auto,q_auto,w_200/') %}
 
                  <a href="{{ file_url }}" target="_blank">
-                 <img src="{{ file_url }}" style="
+                 <img src="{{ file_url }}"
+                 style="
                  width:60px;
                  height:60px;
                  object-fit:cover;
-                 border-radius:6px; 
+                 border-radius:6px;
                  ">
                  </a>
 
