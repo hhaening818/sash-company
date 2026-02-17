@@ -109,20 +109,26 @@
         }
 
         /* ===== 카드 ===== */
-        section{
-            padding:50px 20px;
+       section{
+            padding:28px 20px;   /* 전체 섹션 간격 최적화 */
             text-align:center;
         }
 
         .card{
             background:white;
-            padding:30px;
-            margin:20px auto;
+            padding:26px;
+            margin:12px auto;   /* 카드 사이 간격 (기존의 약 60%) */
             width:70%;
             border-radius:15px;
-            box-shadow:0 6px 15px rgba(0,0,0,0.1);
+            box-shadow:0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
+        .card:hover{
+            transform: translateY(-3px);
+            box-shadow:0 8px 20px rgba(0,0,0,0.12);
+        }
+        
         /* ===== 입력 ===== */
         input,textarea{
             width:80%;
