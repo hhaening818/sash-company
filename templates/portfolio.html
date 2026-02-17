@@ -89,6 +89,7 @@ body{
     background:rgba(0,0,0,0.9);
     justify-content:center;
     align-items:center;
+    z-index:9999; /* 추가 */
 }
 
 .modal img{
@@ -218,7 +219,6 @@ body{
 
 </div>
 
-
 <div class="modal" id="modal">
 
 <button class="back-btn"
@@ -230,7 +230,6 @@ body{
      onclick="event.stopPropagation()">
 
 </div>
-
 
 <script>
 
@@ -349,8 +348,15 @@ form.addEventListener("submit", function(e){
 
 }
 
-</script>
+document.addEventListener("keydown", function(e){
 
+    if(e.key === "Escape"){
+        closeModal();
+    }
+
+});
+
+</script>
 
 </body>
 </html>
