@@ -772,8 +772,16 @@ def inquiries():
     conn = get_connection()
     cur = conn.cursor()
 
-    # 검색 포함
     if search:
+
+        cur.execute("""
+            SELECT COUNT(*)
+            FROM inquiries
+            WHERE message ILIKE %s
+        """, (f"%{search}%",))
+
+        total = cur.fetchone()[0]
+
         cur.execute("""
             SELECT *
             FROM inquiries
@@ -782,30 +790,17 @@ def inquiries():
             LIMIT %s OFFSET %s
         """, (f"%{search}%", per_page, offset))
 
-        cur.execute("""
-            SELECT COUNT(*)
-            FROM inquiries
-            WHERE message ILIKE %s
-        """, (f"%{search}%",))
-
     else:
+
+        cur.execute("SELECT COUNT(*) FROM inquiries")
+        total = cur.fetchone()[0]
+
         cur.execute("""
             SELECT *
             FROM inquiries
             ORDER BY created_at DESC
             LIMIT %s OFFSET %s
         """, (per_page, offset))
-
-        cur.execute("SELECT COUNT(*) FROM inquiries")
-
-    total = cur.fetchone()[0]
-
-    cur.execute("""
-        SELECT *
-        FROM inquiries
-        ORDER BY created_at DESC
-        LIMIT %s OFFSET %s
-    """, (per_page, offset))
 
     inquiries = cur.fetchall()
 
@@ -821,34 +816,3 @@ def inquiries():
         total_pages=total_pages,
         search=search
     )
-
-@app.route("/my_inquiries", methods=["POST"])
-def my_inquiries():
-
-    name = request.form.get("name")
-    phone = request.form.get("phone")
-
-    conn = get_connection()
-    cur = conn.cursor()
-
-    cur.execute("""
-        SELECT *
-        FROM inquiries
-        WHERE name=%s AND phone=%s
-        ORDER BY created_at DESC
-    """, (name, phone))
-
-    inquiries = cur.fetchall()
-
-    cur.close()
-    conn.close()
-
-    return render_template(
-        "inquiries.html",
-        inquiries=inquiries,
-        search="",
-        page=1,
-        total_pages=1,
-        my_view=True
-    )
-
