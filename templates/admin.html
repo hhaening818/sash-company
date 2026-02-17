@@ -570,9 +570,8 @@ function toggleStats() {
              '{{ i[1] }}',
              '{{ i[2] }}',
              `{{ i[3] }}`,
-             '{{ i[5] }}',
-             '{{ i[4] }}',
-             '{{ i[6] }}'
+             '{{ i[6] }}',
+             '{{ i[4] }}'
         )">
             <td>{{ i[1] }}</td>
 
@@ -585,9 +584,9 @@ function toggleStats() {
             <td class="message">{{ i[3] }}</td>
 
             <td>
-                 {% if i[5] %}
+                 {% if i[4] %}
 
-                 {% set original_url = i[5] %}
+                 {% set original_url = i[4] %}
                  {% set file_url = original_url.replace('/upload/', '/upload/f_auto,q_auto,w_200/') %}
 
                  <a href="{{ file_url }}" target="_blank">
@@ -607,7 +606,7 @@ function toggleStats() {
 
             <td onclick="event.stopPropagation()">
 
-            {% if i[4] == "대기" %}
+            {% if i[5] == "대기" %}
             <div style="color:#ef4444;font-weight:bold;">● 대기</div>
             {% else %}
             <div style="color:#10b981;font-weight:bold;">● 완료</div>
@@ -618,12 +617,12 @@ function toggleStats() {
             <select name="status" onclick="event.stopPropagation()">
 
             <option value="대기"
-            {% if i[4] == "대기" %}selected{% endif %}>
+            {% if i[5] == "대기" %}selected{% endif %}>
             ● 대기
             </option>
 
             <option value="완료"
-            {% if i[4] == "완료" %}selected{% endif %}>
+            {% if i[5] == "완료" %}selected{% endif %}>
             ● 완료
             </option>
 

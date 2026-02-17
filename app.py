@@ -19,6 +19,7 @@ import base64
 from flask import jsonify
 from datetime import timedelta
 from datetime import datetime, timedelta, timezone
+import psycopg2.extras
 
 cloudinary.config(
     cloud_name=os.getenv("CLOUD_NAME"),
@@ -49,7 +50,7 @@ def get_connection():
 def create_table():
 
     conn = get_connection()
-    cur = conn.cursor()
+    cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
     # 기본 테이블 생성
     cur.execute("""
