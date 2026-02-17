@@ -33,7 +33,7 @@ body{
 ========================= */
 .top-section{
     display:flex;
-    justify-content:space-between;
+    justify-content:center;
     align-items:center;
     padding:20px 40px;
     background:var(--card);
@@ -317,12 +317,20 @@ input, select{
 }
 
 .modal-content{
+
     background:var(--card);
-    margin:5% auto;
+
     padding:25px;
-    width:90%;
-    max-width:500px;
+
     border-radius:12px;
+
+    width:400px;
+    max-width:90%;
+
+    border:1px solid var(--border);
+
+    position:relative;
+
 }
 
 /* =========================
@@ -876,7 +884,7 @@ function showDetail(name, phone, message, time, image) {
 }
 
 
-    document.getElementById("detailModal").style.display = "block";
+    document.getElementById("detailModal").style.display = "flex";
 }
 
 function closeModal() {
