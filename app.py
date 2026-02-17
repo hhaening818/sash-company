@@ -110,6 +110,15 @@ def create_table():
     )
     """)
 
+    # portfolio 테이블 생성
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS portfolio (
+        id SERIAL PRIMARY KEY,
+        image_url TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+    """)
+
     conn.commit()
     cur.close()
     conn.close()
