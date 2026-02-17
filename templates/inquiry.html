@@ -92,6 +92,7 @@ border-radius:8px;
 {% set file_url = original_url.replace('/upload/', '/upload/f_auto,q_auto,w_1200/') %}
 
 {% set ext = original_url.split('.')[-1].lower() %}
+{% set filename = original_url.split('/')[-1].split('?')[0] %}
 
 {% if ext in ['jpg','jpeg','png','gif','webp'] %}
     {% set icon = "🖼️" %}
@@ -120,7 +121,7 @@ border-radius:8px;
        text-decoration:none;
        font-size:13px;
        ">
-       {{ icon }} 첨부파일 열기
+       {{ icon }} {{ filename }}
     </a>
 </div>
 
