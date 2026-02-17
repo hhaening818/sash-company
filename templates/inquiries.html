@@ -206,9 +206,16 @@ body{
 <!-- 상단 -->
 <div class="header">
 
-    <div class="logo" onclick="location.href='/'">
+    <div class="logo" onclick="goHome()">
         SASH COMPANY
     </div>
+
+    <script>
+    function goHome(){
+        window.location.href = "/?scroll=top";
+    }
+    </script>
+
 
     <div class="nav">
 
