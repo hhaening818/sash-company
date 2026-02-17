@@ -2,124 +2,102 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>문의 목록 | 건진창호</title>
+<title>문의 목록</title>
 
 <style>
 
 body{
     margin:0;
-    font-family:'Noto Sans KR', sans-serif;
+    font-family:'Noto Sans KR',sans-serif;
     background:#f8f9fb;
-    color:#222;
 }
 
-/* 상단 헤더 */
+/* 상단 */
 .header{
     background:white;
     padding:20px 60px;
     border-bottom:1px solid #ddd;
     display:flex;
     justify-content:space-between;
-    align-items:center;
-}
-
-.logo{
-    font-size:22px;
-    font-weight:bold;
-}
-
-.back-btn{
-    background:#2f7d32;
-    color:white;
-    padding:10px 20px;
-    border-radius:6px;
-    text-decoration:none;
-}
-
-/* 제목 영역 */
-.title-section{
-    text-align:center;
-    padding:60px 20px 30px;
 }
 
 .title{
-    font-size:42px;
-    font-weight:bold;
-    margin-bottom:10px;
+    font-size:40px;
+    text-align:center;
+    margin-top:50px;
 }
 
 .subtitle{
+    text-align:center;
     color:#777;
-    font-size:18px;
+    margin-bottom:30px;
 }
 
-/* 상담 신청 버튼 */
-.apply-btn{
-    display:block;
-    margin:30px auto 50px;
+/* 검색 */
+.search-box{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.search-box input{
+    padding:10px;
+    width:300px;
+}
+
+.search-box button{
+    padding:10px 20px;
     background:#b02a37;
     color:white;
-    padding:16px 50px;
-    border-radius:8px;
-    font-size:18px;
-    text-decoration:none;
-    width:fit-content;
+    border:none;
 }
 
-/* 목록 컨테이너 */
+/* 목록 */
 .container{
     max-width:1000px;
     margin:auto;
     background:white;
 }
 
-/* 문의 row */
 .row{
     display:flex;
     justify-content:space-between;
-    align-items:center;
-    padding:25px 20px;
+    padding:20px;
     border-bottom:1px solid #eee;
     cursor:pointer;
 }
 
 .row:hover{
-    background:#f7f7f7;
+    background:#f5f5f5;
 }
 
-.left{
-    font-size:18px;
-}
-
-.right{
-    display:flex;
-    align-items:center;
-    gap:20px;
-}
-
-/* 이름 */
-.name{
-    color:#555;
-}
-
-/* 상태 */
 .status{
-    background:#aaa;
+    padding:4px 10px;
+    border-radius:5px;
     color:white;
-    padding:5px 12px;
-    border-radius:6px;
     font-size:14px;
 }
 
-/* 날짜 */
-.date{
-    color:#888;
+.status.대기{
+    background:#999;
 }
 
-.no-data{
-    padding:40px;
+.status.완료{
+    background:#2f7d32;
+}
+
+.pagination{
     text-align:center;
-    color:#888;
+    padding:20px;
+}
+
+.pagination a{
+    margin:0 5px;
+    text-decoration:none;
+    color:black;
+}
+
+.active{
+    font-weight:bold;
 }
 
 </style>
@@ -127,10 +105,100 @@ body{
 <body>
 
 
-<div class="header">
-
-<div class="logo">
-건진창호 문의
+<div class="title">
+문의 목록
 </div>
 
-<a href="/" class=
+<div class="subtitle">
+고객 문의 내역
+</div>
+
+
+<div class="search-box">
+
+<form method="get">
+
+<input type="text"
+name="search"
+value="{{ search }}"
+placeholder="문의 검색">
+
+<button type="submit">
+검색
+</button>
+
+</form>
+
+</div>
+
+<div class="search-box">
+
+<form method="post" action="/my_inquiries">
+
+<input type="text"
+name="name"
+placeholder="이름"
+required>
+
+<input type="text"
+name="phone"
+placeholder="전화번호"
+required>
+
+<button type="submit">
+내 문의 조회
+</button>
+
+</form>
+
+</div>
+
+
+<div class="container">
+
+{% for inquiry in inquiries %}
+
+<div class="row"
+onclick="location.href='/inquiry/{{ inquiry[0] }}'">
+
+<div>
+{{ inquiry[3] or "문의 내용" }}
+</div>
+
+<div>
+
+{{ inquiry[1][:1] }}**
+
+</div>
+
+<div class="status {{ inquiry[5] }}">
+{{ inquiry[5] }}
+</div>
+
+<div>
+{{ inquiry[6].strftime('%Y.%m.%d') if inquiry[6] }}
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+
+<div class="pagination">
+
+{% for p in range(1,total_pages+1) %}
+
+<a href="?page={{p}}&search={{search}}"
+class="{% if p==page %}active{% endif %}">
+{{p}}
+</a>
+
+{% endfor %}
+
+</div>
+
+
+</body>
+</html>
