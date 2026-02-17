@@ -548,7 +548,14 @@ def inquiry_detail(id):
     inquiry = list(cur.fetchone())
 
     if inquiry[6]:
-        inquiry[6] = (inquiry[6] + timedelta(hours=9)).strftime('%Y-%m-%d %H:%M')
+
+        # datetime이면 시간 더하기
+        if isinstance(inquiry[6], datetime):
+            inquiry[6] = (inquiry[6] + timedelta(hours=9)).strftime('%Y-%m-%d %H:%M')
+
+        # 문자열이면 그대로 사용하거나 슬라이스
+        else:
+            inquiry[6] = str(inquiry[6])[:16]
 
     conn.commit()
     cur.close()
