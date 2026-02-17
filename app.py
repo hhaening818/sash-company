@@ -684,11 +684,6 @@ def user_login():
 
     return render_template("user_login.html", error=None)
 
-port = int(os.environ.get("PORT", 10000))
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=port)
-
 @app.route("/admin/replies/<int:inquiry_id>")
 def get_replies(inquiry_id):
 
@@ -831,3 +826,8 @@ def inquiries():
         total_pages=total_pages,
         search=search
     )
+
+port = int(os.environ.get("PORT", 10000))
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=port)
