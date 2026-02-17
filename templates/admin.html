@@ -229,8 +229,9 @@ input, select{
 
 .action-group{
     display:flex;
+    flex-direction:column;
+    gap:6px;
     align-items:center;
-    gap:8px;
 }
 
 .admin-table td:last-child{
@@ -488,6 +489,42 @@ input, select{
     padding:5px 10px;
     border-radius:5px;
     cursor:pointer;
+}
+/* 컬럼 너비 고정 (세로 일직선 핵심) */
+
+.admin-table th:nth-child(1),
+.admin-table td:nth-child(1){
+    width:10%;
+}
+
+.admin-table th:nth-child(2),
+.admin-table td:nth-child(2){
+    width:15%;
+}
+
+.admin-table th:nth-child(3),
+.admin-table td:nth-child(3){
+    width:20%;
+}
+
+.admin-table th:nth-child(4),
+.admin-table td:nth-child(4){
+    width:10%;
+}
+
+.admin-table th:nth-child(5),
+.admin-table td:nth-child(5){
+    width:15%;
+}
+
+.admin-table th:nth-child(6),
+.admin-table td:nth-child(6){
+    width:15%;
+}
+
+.admin-table th:nth-child(7),
+.admin-table td:nth-child(7){
+    width:15%;
 }
 
 </style>
