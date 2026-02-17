@@ -849,7 +849,11 @@ input, select{
                                        target="_blank"
                                        class="download-btn">
 
-                                        📎 {{ i[8].split('/')[-1].split('?')[0] }}
+                                        📎 {% if i[8] and i[8]|string %}
+                                                {{ i[8]|string }}
+                                            {% else %}
+                                                파일 없음
+                                            {% endif %}
 
                                     </a>
 
