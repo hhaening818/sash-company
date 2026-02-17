@@ -527,6 +527,7 @@ def search_inquiry():
     FROM inquiries
     WHERE name=%s AND phone=%s
     ORDER BY created_at DESC
+    LIMIT 1
     """,(name,phone))
 
     rows = cur.fetchall()
