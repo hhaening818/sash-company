@@ -3,7 +3,6 @@ import os
 import psycopg2
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_wtf import CSRFProtect
-from datetime import datetime
 from werkzeug.utils import secure_filename
 import cloudinary
 import cloudinary.uploader
@@ -17,7 +16,6 @@ import hashlib
 import time
 import base64
 from flask import jsonify
-from datetime import timedelta
 from datetime import datetime, timedelta, timezone
 import psycopg2.extras
 
@@ -533,28 +531,30 @@ def inquiry_detail(id):
 
     # 조회수 증가
     cur.execute("""
-    UPDATE inquiries
-    SET views = views + 1
-    WHERE id=%s
+        UPDATE inquiries
+        SET views = views + 1
+        WHERE id=%s
     """,(id,))
 
     # 데이터 가져오기
     cur.execute("""
-    SELECT *
-    FROM inquiries
-    WHERE id=%s
+        SELECT *
+        FROM inquiries
+        WHERE id=%s
     """,(id,))
 
     inquiry = list(cur.fetchone())
 
+    # 날짜 안전 처리 (핵심 수정)
     if inquiry[6]:
 
-        # datetime이면 시간 더하기
-        if isinstance(inquiry[6], datetime):
-            inquiry[6] = (inquiry[6] + timedelta(hours=9)).strftime('%Y-%m-%d %H:%M')
+        try:
+            # datetime 객체인 경우
+            inquiry[6] = inquiry[6] + timedelta(hours=9)
+            inquiry[6] = inquiry[6].strftime('%Y-%m-%d %H:%M')
 
-        # 문자열이면 그대로 사용하거나 슬라이스
-        else:
+        except:
+            # 문자열인 경우
             inquiry[6] = str(inquiry[6])[:16]
 
     conn.commit()
