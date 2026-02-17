@@ -543,25 +543,38 @@ def inquiry_detail(id):
         WHERE id=%s
     """,(id,))
 
-    inquiry = list(cur.fetchone())
+    row = cur.fetchone()
 
-    # 날짜 안전 처리 (핵심 수정)
-    if inquiry[6]:
+    # 문의가 없는 경우
+    if not row:
+        cur.close()
+        conn.close()
+        return "존재하지 않는 문의입니다.", 404
+
+    inquiry = list(row)
+
+    # 🔥 created_at 안전 처리 (핵심)
+    created_at = inquiry[6]
+
+    if created_at:
 
         try:
             # datetime 객체인 경우
-            inquiry[6] = inquiry[6] + timedelta(hours=9)
-            inquiry[6] = inquiry[6].strftime('%Y-%m-%d %H:%M')
+            created_at = created_at + timedelta(hours=9)
+            inquiry[6] = created_at.strftime('%Y-%m-%d %H:%M')
 
         except:
             # 문자열인 경우
-            inquiry[6] = str(inquiry[6])[:16]
+            inquiry[6] = str(created_at)[:16]
 
     conn.commit()
     cur.close()
     conn.close()
 
-    return render_template("inquiry_detail.html", inquiry=inquiry)
+    return render_template(
+        "inquiry_detail.html",
+        inquiry=inquiry
+    )
 
 @app.route("/search_inquiry", methods=["POST"])
 def search_inquiry():
