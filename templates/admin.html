@@ -721,12 +721,6 @@ input, select{
 
                             {% endif %}
 
-                            <button type="button"
-                                    onclick="openReplyPopup('{{ i[0] }}','{{ i[7]|escape }}')"
-                                    class="edit-btn">
-                                수정
-                            </button>
-
                         </div>
 
                     {% else %}
@@ -1129,6 +1123,9 @@ function openReplyViewPopup(id, message, reply, file){
     else{
         document.getElementById("viewFile").innerHTML="";
     }
+    // 초기 상태: 보기모드
+    document.getElementById("replyViewMode").style.display="block";
+    document.getElementById("replyEditForm").style.display="none";
 
     document.getElementById("replyViewPopup").style.display="flex";
 }
@@ -1143,6 +1140,57 @@ function editReplyFromView(){
     closeReplyViewPopup();
 
     openReplyPopup(currentReplyId,currentReplyText);
+}
+
+// 수정 완료 팝업 열기
+function showReplySuccessPopup(){
+
+    const popup =
+    document.getElementById("replySuccessPopup");
+
+    popup.style.display="flex";
+
+}
+
+// 수정 완료 팝업 닫기
+function closeReplySuccessPopup(){
+
+    const popup =
+    document.getElementById("replySuccessPopup");
+
+    popup.style.display="none";
+
+    location.reload(); // 새로고침해서 변경 반영
+}
+
+
+// replyForm submit 후 성공 시 팝업 표시
+document.getElementById("replyForm")
+.addEventListener("submit", function(){
+
+    setTimeout(function(){
+
+        showReplySuccessPopup();
+
+    },500);
+
+});
+
+function enableReplyEditMode(){
+
+    // 보기 숨김
+    document.getElementById("replyViewMode").style.display="none";
+
+    // 수정폼 표시
+    document.getElementById("replyEditForm").style.display="block";
+
+    // 기존 답변 채우기
+    document.getElementById("replyEditInput").value =
+        currentReplyText;
+
+    // form action 설정
+    document.getElementById("replyEditForm").action =
+        "/admin/reply/" + currentReplyId;
 }
 
 </script>
@@ -1213,18 +1261,53 @@ function editReplyFromView(){
             💬 관리자 답변
         </div>
 
-        <div id="viewReply" class="reply-view-content"></div>
+        <!-- 보기 모드 -->
+        <div id="replyViewMode">
 
-        <div id="viewFile" class="reply-view-file"></div>
+            <div id="viewReply" class="reply-view-content"></div>
+
+            <div id="viewFile" class="reply-view-file"></div>
+
+        </div>
+
+        <!-- 수정 모드 -->
+        <form id="replyEditForm"
+              method="POST"
+              enctype="multipart/form-data"
+              style="display:none;">
+
+            <textarea name="reply"
+                      id="replyEditInput"
+                      style="
+                      width:100%;
+                      height:80px;
+                      background:#0f172a;
+                      color:white;
+                      border:1px solid var(--border);
+                      border-radius:8px;
+                      padding:8px;
+                      margin-bottom:10px;
+                      "></textarea>
+
+            <input type="file"
+                   name="reply_file"
+                   style="margin-bottom:10px;">
+
+            <button type="submit"
+                    class="reply-btn">
+                수정 완료
+            </button>
+
+        </form>
 
         <div class="reply-view-buttons">
 
-            <button onclick="editReplyFromView()" class="edit-btn">
+            <button onclick="enableReplyEditMode()" class="edit-btn">
                 ✏ 수정
             </button>
 
             <button onclick="closeReplyViewPopup()" class="delete-btn">
-            닫기
+                닫기
             </button>
 
         </div>
