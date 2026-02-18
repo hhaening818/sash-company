@@ -842,7 +842,7 @@ def send_sms():
 
     verification_codes[phone] = code
 
-    message = Message(API_KEY, API_SECRET)
+    message = Message(SMS_API_KEY, SMS_API_SECRET)
 
     message.send({
         "to": phone,
@@ -866,9 +866,13 @@ def verify_sms():
 
     return {"status":"fail"}
 
-@app.route("/register", methods=["POST"])
+@app.route("/register", methods=["GET", "POST"])
 def register():
 
+    if request.method == "GET":
+        return render_template("register.html")
+
+    # POST 처리
     if not session.get("verified_phone"):
         return "전화번호 인증 필요"
 
@@ -880,12 +884,9 @@ def register():
     password = request.form.get("password")
     region = request.form.get("region")
 
-    conn=get_connection()
-    cur=conn.cursor()
+    conn = get_connection()
+    cur = conn.cursor()
 
-    password = request.form.get("password")
-
-    # ⭐ bcrypt 암호화
     hashed = bcrypt.hashpw(
         password.encode(),
         bcrypt.gensalt()
