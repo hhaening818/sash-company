@@ -390,17 +390,19 @@
         }
         }
 
-        /* 헤더 */
-       .signup-container{
+        .signup-container{
             width:460px;
             max-width:90%;
-            background:#1e293b;
+
+            background:white;
+
             border-radius:16px;
             padding:28px;
 
-            max-height:none;   /* 추가 */
-        }
+            box-shadow:0 8px 25px rgba(0,0,0,0.15);
 
+            border:1px solid #e5e7eb;
+        }
 
         .signup-title{
             font-size:22px;
@@ -474,7 +476,8 @@
         display:flex;
         align-items:center;
         gap:8px;
-        color:#e2e8f0;
+        color:#334155;
+        font-weight:500;
         font-size:14px;
         cursor:pointer;
         }
@@ -488,7 +491,7 @@
 
         /* 펼치기 */
         .toggle-btn{
-        color:#3b82f6;
+        color:#2f7d32;
         font-size:13px;
         cursor:pointer;
         }
@@ -506,14 +509,18 @@
         }
 
         /* 전체동의 */
-        .agree-all{
-        display:flex;
-        align-items:center;
-        gap:8px;
-        margin-bottom:16px;
-        color:#f1f5f9;
-        font-size:15px;
-        cursor:pointer;
+       .agree-all{
+            display:flex;
+            align-items:center;
+            gap:8px;
+            margin-bottom:16px;
+
+            color:#1e293b;
+
+            font-size:15px;
+            font-weight:600;
+
+            cursor:pointer;
         }
 
         /* 버튼 */
@@ -548,7 +555,7 @@
         display:none;
         margin-top:10px;
         font-size:13px;
-        color:#cbd5e1;
+        color:#475569;
         max-height:220px;
         overflow:auto;
         line-height:1.6;
@@ -645,6 +652,17 @@
         .signup-container input:focus{
             outline:none;
             border-color:#2f7d32;
+        }
+
+        .agree-all{
+            display:flex;
+            align-items:center;
+            justify-content:flex-start;
+            gap:10px;
+
+            padding:10px 0;
+
+            font-size:16px;
         }
 
 </style>
