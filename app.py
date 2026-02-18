@@ -348,9 +348,8 @@ def admin():
         counts=counts
     )
 
-@app.route("/inquiry")
-def inquiry():
-    return render_template("inquiry.html")
+@app.route("/inquiry/<int:id>")
+def inquiry(id):
 
     conn = get_connection()
     cur = conn.cursor()
@@ -358,15 +357,15 @@ def inquiry():
     cur.execute("""
         SELECT *
         FROM inquiries
-        ORDER BY created_at DESC
-    """)
+        WHERE id = ?
+    """, (id,))
 
-    inquiries = cur.fetchall()
+    inquiry = cur.fetchone()
 
     cur.close()
     conn.close()
 
-    return render_template("inquiry.html", inquiries=inquiries)
+    return render_template("inquiry.html", inquiry=inquiry)
 
 @app.route("/export")
 def export_excel():
