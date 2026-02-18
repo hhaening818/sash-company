@@ -207,12 +207,40 @@ SASH COMPANY
 
 <form id="uploadForm" enctype="multipart/form-data">
 
-<input type="file" name="image" id="fileInput" multiple>
+사진<br>
+<input type="file" name="image" id="fileInput" required>
+
+<br><br>
+
+시공 날짜<br>
+<input type="date" name="date" id="uploadDate" required>
+
+<br><br>
+
+시공 위치<br>
+<input type="text" name="location" id="uploadLocation" placeholder="대구 수성구" required>
+
+<br><br>
+
+카테고리<br>
+<select name="category" id="uploadCategory">
+<option value="아파트">아파트</option>
+<option value="주택">주택</option>
+<option value="상가">상가</option>
+</select>
+
+<br><br>
+
+구분<br>
+<select name="type" id="uploadType">
+<option value="before">Before</option>
+<option value="after">After</option>
+</select>
 
 <br><br>
 
 <button type="submit">
-사진 업로드
+업로드
 </button>
 
 </form>
@@ -260,8 +288,12 @@ SASH COMPANY
 {% endif %}
 
 </div>
+</div>
+
+{% endfor %}
 
 </div>
+
 
 <!-- 모달 -->
 <div class="modal" id="modal" onclick="closeModal()">
@@ -330,24 +362,45 @@ const form = document.getElementById("uploadForm");
 
 if(form){
 
-form.addEventListener("submit",function(e){
+form.addEventListener("submit", function(e){
 
-e.preventDefault();
+    e.preventDefault();
 
-let files = document.getElementById("fileInput").files;
+    let files = document.getElementById("fileInput").files;
 
-for(let file of files){
+    if(files.length === 0){
+        alert("파일을 선택하세요");
+        return;
+    }
 
-let data=new FormData();
-data.append("image",file);
+    let uploaded = 0;
 
-fetch("/admin/upload_portfolio",{
-method:"POST",
-body:data
-})
-.then(()=>location.reload());
+    for(let file of files){
 
-}
+        let data = new FormData();
+
+        data.append("image", file);
+        data.append("date", document.getElementById("uploadDate").value);
+        data.append("location", document.getElementById("uploadLocation").value);
+        data.append("category", document.getElementById("uploadCategory").value);
+        data.append("type", document.getElementById("uploadType").value);
+
+        fetch("/admin/upload_portfolio", {
+            method: "POST",
+            body: data
+        })
+        .then(() => {
+
+            uploaded++;
+
+            // 모든 파일 업로드 완료 후 1번만 reload
+            if(uploaded === files.length){
+                location.reload();
+            }
+
+        });
+
+    }
 
 });
 
