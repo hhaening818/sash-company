@@ -39,9 +39,6 @@ app = Flask(__name__)
 app.secret_key = "super_secret_key"
 verification_codes = {}
 
-with app.app_context():
-    create_table()
-
 app.config['WTF_CSRF_ENABLED'] = False
 
 csrf = CSRFProtect(app)
@@ -162,6 +159,9 @@ def create_table():
     conn.commit()
     cur.close()
     conn.close()
+
+with app.app_context():
+    create_table()
 
 def send_sms(text):
 
