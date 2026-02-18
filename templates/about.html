@@ -24,40 +24,44 @@ body{
     color:#1b3a2f;
 }
 
-/* 헤더 */
+/* 상단 헤더 (문의목록 스타일과 동일) */
 .header{
+    background:white;
     height:70px;
     display:flex;
     align-items:center;
     justify-content:space-between;
     padding:0 60px;
-    border-bottom:1px solid #eee;
-    background:white;
-
-    box-sizing:border-box;
+    border-bottom:1px solid #e5ece9;
+    box-shadow:0 2px 8px rgba(0,0,0,0.04);
 }
 
 .logo{
     font-size:22px;
     font-weight:700;
-    color:var(--main);
+    color:#2f7d32;
     cursor:pointer;
 }
 
 .nav{
     display:flex;
-    gap:30px;
-    align-items:center;   /* 추가 (중요) */
+    gap:35px;
 }
 
 .nav a{
     text-decoration:none;
-    color:#444;
+    color:#4a6358;
     font-weight:500;
+    transition:0.2s;
 }
 
 .nav a:hover{
-    color:var(--main);
+    color:#2f7d32;
+}
+
+.nav a.active{
+    color:#2f7d32;
+    font-weight:700;
 }
 
 /* 히어로 */
@@ -208,21 +212,21 @@ body{
 <!-- 헤더 -->
 <div class="header">
 
-<div class="logo" onclick="location.href='/'">
+<div class="logo" onclick="location.href='/?scroll=top'">
 SASH COMPANY
 </div>
 
 <div class="nav">
 
-<a href="/about">회사소개</a>
+<a href="/about" class="active">회사소개</a>
 
 <a href="/construction">시공 분야</a>
 
-<a href="/portfolio">시공사례</a>
+<a href="/portfolio">시공 사례</a>
 
-<a href="/inquiries">문의목록</a>
+<a href="/inquiries">문의 목록</a>
 
-<a href="/inquiry" class="inquiry-btn">문의하기</a>
+<a href="/#contact">문의하기</a>
 
 </div>
 
