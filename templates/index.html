@@ -310,6 +310,48 @@
             display:block;
             margin:20px auto 0 auto;  /* 중앙 정렬 + 위쪽 간격 */
         }
+
+        .modal{
+        display:none;
+        position:fixed;
+        z-index:1000;
+        left:0;
+        top:0;
+        width:100%;
+        height:100%;
+        background:rgba(0,0,0,0.6);
+        }
+
+        .modal-content{
+        background:#1e293b;
+        margin:10% auto;
+        padding:30px;
+        width:400px;
+        border-radius:12px;
+        color:white;
+        }
+
+        .modal input{
+        width:100%;
+        padding:10px;
+        margin:5px 0;
+        }
+
+        .modal button{
+        width:100%;
+        padding:10px;
+        margin-top:5px;
+        background:#3b82f6;
+        color:white;
+        border:none;
+        cursor:pointer;
+        }
+
+        .close{
+        float:right;
+        font-size:24px;
+        cursor:pointer;
+        }
    
 </style>
 </head>
@@ -363,7 +405,7 @@
                     로그인
                 </a>
 
-                <a href="/register" class="user-btn">
+                <a href="javascript:void(0)" onclick="openSignup()" class="user-btn">
                     회원가입
                 </a>
 
@@ -857,6 +899,139 @@ window.onload = function() {
     window.scrollTo(0, 0);
 };
 </script>
+
+<script>
+
+function openSignup(){
+    document.getElementById("signupModal").style.display = "block";
+}
+
+function closeSignup(){
+    document.getElementById("signupModal").style.display = "none";
+}
+
+function sendCode(){
+
+    const phone =
+        document.getElementById("phone").value;
+
+    if(!phone){
+        alert("전화번호 입력하세요");
+        return;
+    }
+
+    fetch("/send_code",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+            phone:phone
+        })
+
+    })
+    .then(res=>res.json())
+    .then(data=>{
+
+        document.getElementById("signupResult")
+        .innerText = data.message;
+
+    })
+    .catch(err=>{
+        console.error(err);
+        alert("서버 연결 실패");
+    });
+
+}
+
+function verifyCode(){
+
+    const code =
+        document.getElementById("code").value;
+
+    fetch("/verify_code",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+            code:code
+        })
+
+    })
+    .then(res=>res.json())
+    .then(data=>{
+
+        document.getElementById("signupResult")
+        .innerText = data.message;
+
+    });
+
+}
+
+function signup(){
+
+    fetch("/signup",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+
+            phone:document.getElementById("phone").value,
+            name:document.getElementById("name").value,
+            ssn:document.getElementById("ssn").value,
+            userid:document.getElementById("userid").value,
+            password:document.getElementById("password").value
+
+        })
+
+    })
+    .then(res=>res.json())
+    .then(data=>{
+
+        document.getElementById("signupResult")
+        .innerText = data.message;
+
+    });
+
+}
+
+</script>
+
+<!-- 회원가입 팝업 -->
+<div id="signupModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeSignup()">&times;</span>
+
+    <h2>회원가입</h2>
+
+    <input type="text" id="phone" placeholder="전화번호">
+    <button onclick="sendCode()">인증요청</button>
+
+    <input type="text" id="code" placeholder="인증번호">
+    <button onclick="verifyCode()">인증확인</button>
+
+    <input type="text" id="name" placeholder="이름">
+    <input type="text" id="ssn" placeholder="주민번호">
+    <input type="text" id="userid" placeholder="아이디">
+    <input type="password" id="password" placeholder="비밀번호">
+
+    <button onclick="signup()">회원가입 완료</button>
+
+    <div id="signupResult"></div>
+
+  </div>
+</div>
 
 </body>
 </html>
