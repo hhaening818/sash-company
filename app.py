@@ -35,13 +35,6 @@ cloudinary.config(
     api_secret=os.getenv("API_SECRET")
 )
 
-app = Flask(__name__)
-app.secret_key = "super_secret_key"
-
-with app.app_context():
-    print("Creating tables on startup...")
-    create_table()
-
 verification_codes = {}
 
 app.config['WTF_CSRF_ENABLED'] = False
@@ -148,6 +141,12 @@ def create_table():
     )
     """)    
 
+    app = Flask(__name__)
+    app.secret_key = "super_secret_key"
+
+    with app.app_context():
+         print("Creating tables on startup...")
+         create_table()
     conn.commit()
     cur.close()
     conn.close()
