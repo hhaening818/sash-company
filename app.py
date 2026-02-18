@@ -125,7 +125,14 @@ def create_table():
     cur.execute("""
     CREATE TABLE IF NOT EXISTS portfolio (
         id SERIAL PRIMARY KEY,
+
         image_url TEXT,
+
+        date DATE,
+        location TEXT,
+        category TEXT,
+        type TEXT,
+
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
     """)
@@ -447,9 +454,9 @@ def portfolio():
     cur = conn.cursor()
 
     cur.execute("""
-        SELECT id, image_url
-        FROM portfolio
-        ORDER BY id DESC
+    SELECT id, image_url, date, location, category, type
+    FROM portfolio
+    ORDER BY id DESC
     """)
 
     images = cur.fetchall()
@@ -467,25 +474,29 @@ def portfolio():
 def upload_portfolio():
 
     if not session.get("admin"):
-        return redirect("/login")
+        return "forbidden", 403
 
-    files = request.files.getlist("image")
+    file = request.files.get("image")
+
+    date = request.form.get("date")
+    location = request.form.get("location")
+    category = request.form.get("category")
+    type_ = request.form.get("type")
+
+    if not file:
+        return "no file"
+
+    result = cloudinary.uploader.upload(file)
+    image_url = result["secure_url"]
 
     conn = get_connection()
     cur = conn.cursor()
 
-    for file in files:
-
-        if file and file.filename != "":
-
-            result = cloudinary.uploader.upload(file)
-
-            image_url = result["secure_url"]
-
-            cur.execute(
-                "INSERT INTO portfolio (image_url) VALUES (%s)",
-                (image_url,)
-            )
+    cur.execute("""
+    INSERT INTO portfolio
+    (image_url, date, location, category, type)
+    VALUES (%s,%s,%s,%s,%s)
+    """,(image_url, date, location, category, type_))
 
     conn.commit()
     cur.close()
@@ -918,6 +929,54 @@ def construction():
     conn.close()
 
     return render_template("construction.html", images=images)
+
+@app.route("/admin/update_portfolio/<int:id>", methods=["POST"])
+def update_portfolio(id):
+
+    if not session.get("admin"):
+        return "forbidden", 403
+
+    date = request.form.get("date")
+    location = request.form.get("location")
+    category = request.form.get("category")
+    type_ = request.form.get("type")
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+    UPDATE portfolio
+    SET date=%s,
+        location=%s,
+        category=%s,
+        type=%s
+    WHERE id=%s
+    """,(date, location, category, type_, id))
+
+    conn.commit()
+
+    cur.close()
+    conn.close()
+
+    return "OK"
+
+@app.route("/admin/delete_portfolio/<int:id>", methods=["POST"])
+def delete_portfolio(id):
+
+    if not session.get("admin"):
+        return redirect("/login")
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("DELETE FROM portfolio WHERE id=%s",(id,))
+
+    conn.commit()
+
+    cur.close()
+    conn.close()
+
+    return redirect("/portfolio")
 
 
 if __name__ == "__main__":
