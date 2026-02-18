@@ -204,7 +204,17 @@ def home():
 
 @app.route("/about")
 def about():
-    return render_template("about.html")
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("SELECT id, image_url FROM portfolio ORDER BY id DESC")
+
+    images = cur.fetchall()
+
+    conn.close()
+
+    return render_template("about.html", images=images)
 
 @app.route("/contact", methods=["POST"])
 def contact():

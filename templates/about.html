@@ -203,6 +203,55 @@ body{
     background:var(--dark);
 }
 
+.slider-container{
+    position:relative;
+    max-width:1000px;
+    margin:40px auto;
+    overflow:hidden;
+}
+
+.slides{
+    display:flex;
+    align-items:center;
+    transition:transform 0.5s ease;
+}
+
+.slide{
+    flex:0 0 calc(33.33% - 20px);
+    margin:0 10px;
+}
+
+.slide img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    border-radius:12px;
+    cursor:pointer;
+}
+
+/* 버튼 */
+.slider-btn{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    background:rgba(0,0,0,0.6);
+    color:white;
+    border:none;
+    cursor:pointer;
+    z-index:10;
+}
+
+.slider-btn.prev{
+    left:10px;
+}
+
+.slider-btn.next{
+    right:10px;
+}
+
 </style>
 
 </head>
@@ -321,24 +370,35 @@ SASH COMPANY는 창호 시공 전문 기업으로
 
 </div>
 
-
 <!-- 갤러리 -->
 <div class="section">
 
 <h2>시공 현장</h2>
 
-<div class="gallery">
+<div class="slider-container">
 
-<img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c">
+<button class="slider-btn prev">&#10094;</button>
 
-<img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea">
+<div class="slides">
 
-<img src="https://images.unsplash.com/photo-1600607687120-8a6c6a6b8a0c">
+{% for id, img in images %}
+
+<div class="slide">
+
+<img src="{{ img.replace('/upload/', '/upload/w_400,q_auto,f_auto/') }}"
+     data-full="{{ img.replace('/upload/', '/upload/w_1600,q_auto,f_auto/') }}">
+
+</div>
+
+{% endfor %}
+
+</div>
+
+<button class="slider-btn next">&#10095;</button>
 
 </div>
 
 </div>
-
 
 <!-- CTA -->
 <div class="cta">
@@ -359,6 +419,66 @@ SASH COMPANY는 창호 시공 전문 기업으로
 © 2026 SASH COMPANY
 
 </div>
+
+<script>
+
+const slidesContainer = document.querySelector('.slides');
+let slides = document.querySelectorAll('.slide');
+
+let index = 0;
+let isPaused = false;
+
+// 무한루프
+slides.forEach(slide=>{
+    slidesContainer.appendChild(slide.cloneNode(true));
+});
+
+slides = document.querySelectorAll('.slide');
+
+function updateSlides(){
+
+    const offset =
+        slides[index].offsetLeft
+        - slidesContainer.offsetWidth/2
+        + slides[index].offsetWidth/2;
+
+    slidesContainer.style.transform =
+        `translateX(-${offset}px)`;
+
+}
+
+document.querySelector('.next').onclick=()=>{
+    index++;
+    if(index>=slides.length) index=0;
+    updateSlides();
+};
+
+document.querySelector('.prev').onclick=()=>{
+    index--;
+    if(index<0) index=slides.length-1;
+    updateSlides();
+};
+
+// 자동 슬라이드
+setInterval(()=>{
+    if(!isPaused){
+        index++;
+        if(index>=slides.length) index=0;
+        updateSlides();
+    }
+},4000);
+
+slidesContainer.addEventListener('mouseenter',()=>{
+    isPaused=true;
+});
+
+slidesContainer.addEventListener('mouseleave',()=>{
+    isPaused=false;
+});
+
+updateSlides();
+
+</script>
 
 </body>
 </html>
