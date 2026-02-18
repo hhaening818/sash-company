@@ -894,6 +894,10 @@ def register():
 
     return jsonify({"status":"ok"})
 
+@app.route("/construction")
+def construction():
+    return render_template("construction.html")
+
 port = int(os.environ.get("PORT", 10000))
 
 def init_db_safe():
