@@ -901,11 +901,12 @@ def register():
 
     return jsonify({"status":"ok"})
 
-port = int(os.environ.get("PORT", 10000))
-
-with app.app_context():
-    print("Creating tables on startup...")
+@app.before_first_request
+def init_db():
+    print("Initializing database...")
     create_table()
+
+port = int(os.environ.get("PORT", 10000))
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=port)
