@@ -20,7 +20,10 @@ from flask import jsonify
 from datetime import datetime, timedelta, timezone
 import psycopg2.extras
 import random
-from coolsms import Message
+try:
+    from coolsms import Message
+except:
+    Message = None
 
 SMS_API_KEY = "여기 API KEY"
 SMS_API_SECRET = "여기 SECRET"
