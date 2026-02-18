@@ -353,149 +353,121 @@
         cursor:pointer;
         }
 
-        /* 회원가입 모달 */
-.signup-modal{
-    position:fixed;
-    inset:0;
-    background:rgba(15,23,42,0.75);
-    backdrop-filter:blur(6px);
-    display:none;
-    justify-content:center;
-    align-items:center;
-    z-index:9999;
-}
+        /* 회원가입 모달 배경 */
+        .signup-modal{
+            position:fixed;
+            inset:0;
+            background:rgba(15,23,42,0.85);
+            backdrop-filter:blur(4px);
+            display:none;
+            justify-content:center;
+            align-items:center;
+            z-index:9999;
+        }
 
-/* 컨테이너 */
-.signup-container{
-    width:480px;
-    background:#0f172a;
-    border-radius:20px;
-    padding:32px;
-    box-shadow:0 25px 70px rgba(0,0,0,0.6);
-    animation:fadeUp .35s ease;
-}
+        /* 회원가입 박스 */
+        .signup-container{
+            width:480px;
+            background:#1e293b; /* 메인 카드 색상과 동일 */
+            border-radius:16px;
+            padding:28px;
+            border:1px solid #334155;
+            box-shadow:0 10px 30px rgba(0,0,0,0.5);
+        }
 
-/* 애니메이션 */
-@keyframes fadeUp{
-    from{
-        opacity:0;
-        transform:translateY(30px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
+        /* 헤더 */
+        .signup-header{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:20px;
+        }
 
-/* 헤더 */
-.signup-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
-}
+        .signup-title{
+            font-size:24px;
+            font-weight:600;
+            color:#f1f5f9;
+        }
 
-.signup-title{
-    font-size:26px;
-    font-weight:700;
-    color:#22c55e;
-}
+        .signup-close{
+            font-size:24px;
+            cursor:pointer;
+            color:#94a3b8;
+        }
 
-.signup-close{
-    font-size:26px;
-    cursor:pointer;
-    color:#94a3b8;
-}
+        .signup-close:hover{
+            color:#f1f5f9;
+        }
 
-.signup-close:hover{
-    color:white;
-}
+        /* 단계 표시 */
+        .signup-steps{
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:20px;
+        }
 
-/* 단계 */
-.signup-steps{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:25px;
-}
+        .step{
+            font-size:14px;
+            color:#64748b;
+        }
 
-.step{
-    font-size:14px;
-    color:#64748b;
-}
+        .step.active{
+            color:#3b82f6; /* 메인 accent 색상과 동일 */
+            font-weight:600;
+        }
 
-.step.active{
-    color:#22c55e;
-    font-weight:600;
-}
+        /* 단계 내용 */
+        .signup-step{
+            display:none;
+        }
 
-/* step content */
-.signup-step{
-    display:none;
-}
+        .signup-step.active{
+            display:block;
+        }
 
-.signup-step.active{
-    display:block;
-}
+        /* 입력칸 */
+        .signup-step input{
+            width:100%;
+            padding:12px;
+            margin-top:10px;
+            border-radius:8px;
+            border:1px solid #334155;
+            background:#0f172a;
+            color:#f1f5f9;
+            font-size:14px;
+        }
 
-/* 약관 박스 */
-.agree-box{
-    background:#1e293b;
-    border-radius:12px;
-    padding:14px;
-    margin-top:12px;
-}
+        .signup-step input:focus{
+            outline:none;
+            border-color:#3b82f6;
+        }
 
-.agree-box label{
-    font-size:14px;
-}
+        /* 버튼 */
+        .next-btn{
+            width:100%;
+            margin-top:16px;
+            padding:12px;
+            border:none;
+            border-radius:8px;
+            background:#3b82f6; /* 메인 accent 색상 */
+            color:white;
+            font-size:15px;
+            font-weight:500;
+            cursor:pointer;
+        }
 
-/* 약관 내용 */
-.terms-content{
-    margin-top:10px;
-    height:140px;
-    overflow:auto;
-    font-size:13px;
-    color:#cbd5e1;
-    line-height:1.6;
-}
+        .next-btn:hover{
+            background:#2563eb;
+        }
 
-/* signup input만 적용 */
-.signup-step input{
-    width:100%;
-    padding:13px;
-    margin-top:12px;
-    border-radius:10px;
-    border:none;
-    background:#1e293b;
-    color:white;
-    font-size:14px;
-}
+        /* 완료 텍스트 */
+        .complete{
+            text-align:center;
+            font-size:18px;
+            margin-top:30px;
+            color:#3b82f6;
+        }
 
-/* 버튼 */
-.next-btn{
-    width:100%;
-    margin-top:20px;
-    padding:14px;
-    border:none;
-    border-radius:12px;
-    background:linear-gradient(135deg,#22c55e,#16a34a);
-    color:white;
-    font-size:16px;
-    font-weight:600;
-    cursor:pointer;
-}
-
-.next-btn:hover{
-    transform:translateY(-1px);
-}
-
-/* 완료 */
-.complete{
-    text-align:center;
-    font-size:20px;
-    margin-top:40px;
-    color:#22c55e;
-}
 
 </style>
 </head>
@@ -1107,7 +1079,7 @@ showStep(3);
 
 <div id="step1" class="signup-step active">
 
-<label>
+<label style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
 <input type="checkbox" id="agreeAll">
 전체 동의
 </label>
@@ -1119,7 +1091,7 @@ showStep(3);
 <div id="step2" class="signup-step">
 
 <input id="username" placeholder="아이디">
-<input id="password" placeholder="비밀번호">
+<input id="password" type="password" placeholder="비밀번호">
 <input id="name" placeholder="이름">
 <input id="phone" placeholder="전화번호">
 <input id="region" placeholder="지역">
@@ -1130,15 +1102,16 @@ showStep(3);
 
 <div id="step3" class="signup-step">
 
+<div class="complete">
 회원가입 완료
+</div>
 
 <button class="next-btn" onclick="closeSignup()">닫기</button>
 
 </div>
 
-</div>   <!-- signup-container 닫기 -->
-
-</div>   <!-- signup-modal 닫기 (이거 추가해야 함) -->
+</div>
+</div>
 
 </body>
 </html>
