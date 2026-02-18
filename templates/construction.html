@@ -2,185 +2,188 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>시공 분야 | 건진창호</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>시공 분야 | SASH COMPANY</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 
 :root{
-    --main-green:#2f7d32;
+    --main:#2f7d32;
+    --dark:#1b3a2f;
+    --light:#f4f7f6;
 }
 
-/* 기본 */
+/* 전체 */
 body{
     margin:0;
-    font-family:'Noto Sans KR', sans-serif;
-    background:#f0f2f5;
-    color:#333;
-}
-
-/* ===== 헤더 (메인페이지와 동일) ===== */
-
-.hero-logo{
-    width:100%;
+    font-family:'Noto Sans KR',sans-serif;
     background:white;
+    color:#1b3a2f;
 }
 
-.hero-content{
-    position:relative;
+/* 헤더 */
+.header{
+    background:white;
+    height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 60px;
+    border-bottom:1px solid #e5ece9;
+    box-shadow:0 2px 8px rgba(0,0,0,0.04);
+}
+
+.logo{
+    font-size:22px;
+    font-weight:700;
+    color:#2f7d32;
+    cursor:pointer;
+}
+
+.nav{
+    display:flex;
+    gap:35px;
+}
+
+.nav a{
+    text-decoration:none;
+    color:#4a6358;
+    font-weight:500;
+}
+
+.nav a:hover{
+    color:#2f7d32;
+}
+
+.nav a.active{
+    color:#2f7d32;
+    font-weight:700;
+}
+
+/* 히어로 */
+.hero{
+    height:400px;
+    background:
+    linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),
+    url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1600");
+    background-size:cover;
+    background-position:center;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+
+    color:white;
+}
+
+.hero h1{
+    font-size:48px;
+}
+
+.hero p{
+    font-size:18px;
+}
+
+/* 섹션 */
+.section{
+    padding:80px 20px;
     text-align:center;
 }
 
-.hero-logo-img{
-    width:100%;
-    max-width:1800px;
-}
-
-/* 상단 버튼 */
-.header-buttons{
-    position:absolute;
-    top:20px;
-    width:100%;
-}
-
-.left-buttons{
-    position:absolute;
-    left:20px;
-}
-
-.right-buttons{
-    position:absolute;
-    right:20px;
-}
-
-.admin-btn,.user-btn{
-    margin-right:10px;
-    text-decoration:none;
-    color:#1e293b;
-    font-size:14px;
-}
-
-/* 메뉴 */
-.nav-menu{
-    width:100%;
-    background:var(--main-green);
-    display:flex;
-    justify-content:center;
-    gap:50px;
-    padding:15px 0;
-}
-
-.nav-menu a{
-    color:white;
-    text-decoration:none;
-    font-size:17px;
-}
-
-.nav-menu a:hover{
-    opacity:0.7;
-}
-
-/* ===== 컨텐츠 ===== */
-
-.container{
-    max-width:1000px;
-    margin:auto;
-    padding:40px 20px;
-}
-
-/* 제목 */
-.page-title{
+.section h2{
     font-size:32px;
-    font-weight:700;
-    margin-bottom:10px;
-}
-
-.page-sub{
-    color:#64748b;
-    margin-bottom:30px;
-}
-
-/* 카드 그리드 */
-.grid{
-    display:grid;
-    gap:20px;
 }
 
 /* 카드 */
-.card{
-    background:white;
-    border-radius:15px;
-    padding:24px;
-
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
-
-    transition:0.2s;
+.features{
+    display:flex;
+    justify-content:center;
+    gap:40px;
+    flex-wrap:wrap;
+    margin-top:40px;
 }
 
-.card:hover{
-    transform:translateY(-4px);
-    box-shadow:0 8px 20px rgba(0,0,0,0.12);
+.feature{
+    width:260px;
 }
 
-.card-title{
-    font-size:20px;
+.feature-icon{
+    font-size:40px;
+}
+
+.feature-title{
     font-weight:600;
-    color:var(--main-green);
-    margin-bottom:10px;
+    margin-top:10px;
 }
 
-.card-desc{
-    line-height:1.6;
-    color:#475569;
+.feature-text{
+    color:#777;
 }
 
-/* 신뢰 박스 */
-.trust-box{
-    background:white;
-    border-radius:15px;
-    padding:24px;
-    margin-top:30px;
-
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+/* 슬라이더 */
+.slider-container{
+    position:relative;
+    max-width:1000px;
+    margin:40px auto;
+    overflow:hidden;
 }
 
-.trust-title{
-    font-size:20px;
-    font-weight:600;
-    color:var(--main-green);
-    margin-bottom:10px;
+.slides{
+    display:flex;
+    transition:transform 0.5s ease;
 }
 
-/* 프로세스 */
-.process{
-    margin-top:30px;
+.slide{
+    flex:0 0 calc(33.33% - 20px);
+    margin:0 10px;
 }
+
+.slide img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    border-radius:12px;
+}
+
+.slider-btn{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    background:rgba(0,0,0,0.6);
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+
+.prev{ left:10px; }
+.next{ right:10px; }
 
 /* CTA */
 .cta{
-    text-align:center;
-    margin-top:40px;
-}
-
-.cta-button{
-    background:var(--main-green);
+    background:var(--main);
     color:white;
-    padding:14px 30px;
-    border-radius:10px;
-    text-decoration:none;
-    font-weight:600;
+    padding:60px 20px;
 }
 
-.cta-button:hover{
-    background:#256528;
+.cta button{
+    padding:12px 25px;
+    border:none;
+    border-radius:8px;
+    background:white;
+    color:var(--main);
 }
 
 /* footer */
-footer{
-    background:var(--main-green);
-    color:white;
-    padding:20px;
+.footer{
+    padding:30px;
     text-align:center;
-    margin-top:40px;
 }
 
 </style>
@@ -188,111 +191,158 @@ footer{
 
 <body>
 
-<!-- 헤더 -->
-<section class="hero-logo">
+<div class="header">
 
-<div class="hero-content">
-
-<div class="header-buttons">
-
-<div class="left-buttons">
-<a href="/login" class="admin-btn">관리자 로그인</a>
+<div class="logo" onclick="location.href='/'">
+SASH COMPANY
 </div>
 
-<div class="right-buttons">
-<a href="/user_login" class="user-btn">로그인</a>
-<a href="#" onclick="openSignup(); return false;" class="user-btn">회원가입</a>
-</div>
+<div class="nav">
 
-</div>
-
-<img src="/static/images/logo.png" class="hero-logo-img">
-
-</div>
-</section>
-
-<!-- 메뉴 -->
-<nav class="nav-menu">
-<a href="/">홈</a>
 <a href="/about">회사소개</a>
-<a href="/construction">시공 분야</a>
+<a href="/construction" class="active">시공 분야</a>
 <a href="/portfolio">시공 사례</a>
-<a href="/inquiries">문의목록</a>
-</nav>
+<a href="/inquiries">문의 목록</a>
+<a href="/#contact">문의하기</a>
 
-<!-- 내용 -->
-<div class="container">
-
-<div class="page-title">시공 분야</div>
-
-<div class="page-sub">
-건진창호는 고객님의 공간에 최적화된 창호 시공을 제공합니다.
-</div>
-
-<div class="grid">
-
-<div class="card">
-<div class="card-title">아파트 창호 교체</div>
-<div class="card-desc">
-✔ 단열 성능 개선<br>
-✔ 결로 현상 감소<br>
-✔ 냉난방 비용 절감
-</div>
-</div>
-
-<div class="card">
-<div class="card-title">베란다 샷시 시공</div>
-<div class="card-desc">
-✔ 외풍 차단<br>
-✔ 단열 강화<br>
-✔ 내구성 향상
-</div>
-</div>
-
-<div class="card">
-<div class="card-title">상가 창호 시공</div>
-<div class="card-desc">
-✔ 안전한 시공<br>
-✔ 깔끔한 마감<br>
-✔ 빠른 작업
-</div>
 </div>
 
 </div>
 
-<div class="trust-box">
 
-<div class="trust-title">건진창호의 강점</div>
+<div class="hero">
 
-✔ 30년 시공 경험<br>
-✔ 합리적인 비용<br>
-✔ 정확한 진단<br>
-✔ 꼼꼼한 마감
+<div>
+
+<h1>시공 분야</h1>
+
+<p>전문 기술력으로 완벽한 창호 시공을 제공합니다</p>
+
+</div>
 
 </div>
 
-<div class="process">
 
-<div class="trust-title">시공 절차</div>
+<div class="section">
 
-1. 상담 접수<br>
-2. 현장 확인<br>
-3. 시공 진행<br>
-4. 완료 및 점검
+<h2>주요 시공 분야</h2>
+
+<div class="features">
+
+<div class="feature">
+<div class="feature-icon">🏢</div>
+<div class="feature-title">아파트 창호</div>
+<div class="feature-text">단열, 방음, 결로 개선</div>
+</div>
+
+<div class="feature">
+<div class="feature-icon">🏠</div>
+<div class="feature-title">주택 창호</div>
+<div class="feature-text">맞춤형 시공</div>
+</div>
+
+<div class="feature">
+<div class="feature-icon">🏬</div>
+<div class="feature-title">상가 창호</div>
+<div class="feature-text">깔끔한 마감</div>
+</div>
 
 </div>
+
+</div>
+
+
+<div class="section">
+
+<h2>시공 현장</h2>
+
+<div class="slider-container">
+
+<button class="slider-btn prev">&#10094;</button>
+
+<div class="slides">
+
+{% for id, img in images %}
+
+<div class="slide">
+
+<img src="{{ img.replace('/upload/', '/upload/w_400,q_auto,f_auto/') }}">
+
+</div>
+
+{% endfor %}
+
+</div>
+
+<button class="slider-btn next">&#10095;</button>
+
+</div>
+
+</div>
+
 
 <div class="cta">
-<a href="/#contact" class="cta-button">
-무료 상담 요청하기
-</a>
-</div>
+
+<h2>무료 상담 및 견적 문의</h2>
+
+<button onclick="location.href='/#contact'">
+
+문의하기
+
+</button>
 
 </div>
 
-<footer>
-    📞 010-7137-2313 | © 건진창호 | 경북 성주군 선남면 성주로 3573 건진창호 <br />
-</footer>
+
+<div class="footer">
+
+    📞 010-7137-2313 | © SASH COMPANY | 경북 성주군 선남면 성주로 3573 건진창호 <br />
+
+</div>
+
+
+<script>
+
+const slidesContainer=document.querySelector('.slides');
+let slides=document.querySelectorAll('.slide');
+
+let index=0;
+
+slides.forEach(slide=>{
+slidesContainer.appendChild(slide.cloneNode(true));
+});
+
+slides=document.querySelectorAll('.slide');
+
+function updateSlides(){
+
+const offset=slides[index].offsetLeft
+-slidesContainer.offsetWidth/2
++slides[index].offsetWidth/2;
+
+slidesContainer.style.transform=`translateX(-${offset}px)`;
+
+}
+
+document.querySelector('.next').onclick=()=>{
+index++;
+updateSlides();
+};
+
+document.querySelector('.prev').onclick=()=>{
+index--;
+updateSlides();
+};
+
+setInterval(()=>{
+index++;
+updateSlides();
+},4000);
+
+updateSlides();
+
+</script>
 
 </body>
 </html>
+

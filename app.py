@@ -907,18 +907,18 @@ def register():
 # construction page route
 @app.route("/construction")
 def construction():
-    return render_template("construction.html")
 
-port = int(os.environ.get("PORT", 10000))
+    conn=get_connection()
+    cur=conn.cursor()
 
-def init_db_safe():
-    try:
-        print("Initializing database...")
-        create_table()
-    except Exception as e:
-        print("DB init error:", e)
+    cur.execute("SELECT id, image_url FROM portfolio ORDER BY id DESC")
 
-init_db_safe()
+    images=cur.fetchall()
+
+    conn.close()
+
+    return render_template("construction.html", images=images)
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=port)
