@@ -666,6 +666,10 @@
             font-size:16px;
         }
 
+        html{
+            scroll-behavior:smooth;
+        }
+
 </style>
 </head>
 <body>
@@ -808,7 +812,7 @@
     </section>
 
 <section id="contact">
-    <div class="card">
+    <div class="contact-section" id="contact">
         <h2>무료 견적 문의</h2>
         <form id="contactForm" enctype="multipart/form-data">
 
@@ -1883,6 +1887,30 @@ style="opacity:0.5;cursor:not-allowed;">
 
 </div>
 </div>
+
+<script>
+
+// 다른 페이지에서 /#contact 로 들어왔을 때 자동 스크롤
+window.addEventListener("load", function(){
+
+    if(window.location.hash === "#contact"){
+
+        const el = document.getElementById("contact");
+
+        if(el){
+            setTimeout(()=>{
+                el.scrollIntoView({
+                    behavior:"smooth",
+                    block:"start"
+                });
+            },100);
+        }
+
+    }
+
+});
+
+</script>
 
 </body>
 </html>
