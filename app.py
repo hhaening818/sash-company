@@ -20,7 +20,7 @@ from flask import jsonify
 from datetime import datetime, timedelta, timezone
 import psycopg2.extras
 import random
-from coolsms import Coolsms
+from coolsms import Message
 
 SMS_API_KEY = "여기 API KEY"
 SMS_API_SECRET = "여기 SECRET"
@@ -839,12 +839,12 @@ def send_sms():
 
     verification_codes[phone] = code
 
-    sms = Coolsms(API_KEY, API_SECRET)
+    message = Message(API_KEY, API_SECRET)
 
-    sms.send({
+    message.send({
         "to": phone,
         "from": SENDER,
-        "text": f"[SASH] 인증번호: {code}"
+        "text": f"인증번호: {code}"
     })
 
     return {"status":"ok"}
