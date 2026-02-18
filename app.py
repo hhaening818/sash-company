@@ -349,7 +349,8 @@ def admin():
     )
 
 @app.route("/inquiry")
-def inquiry_list():
+def inquiry():
+    return render_template("inquiry.html")
 
     conn = get_connection()
     cur = conn.cursor()
