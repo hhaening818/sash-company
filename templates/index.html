@@ -355,25 +355,27 @@
 
         /* 모달 배경 */
         .signup-modal{
-        position:fixed;
-        inset:0;
-        background:rgba(15,23,42,0.85);
-        backdrop-filter:blur(6px);
-        display:none;
-        justify-content:center;
-        align-items:center;
-        z-index:9999;
+            position:fixed;
+            inset:0;
+            background:rgba(15,23,42,0.85);
+            backdrop-filter:blur(6px);
+            display:none;
+
+            justify-content:center;
+
+            align-items:flex-start;   /* 핵심 수정 */
+            overflow-y:auto;          /* 핵심 수정 */
+            padding:40px 0;           /* 핵심 수정 */
+
+            z-index:9999;
         }
 
         /* 컨테이너 */
         .signup-container{
-        width:460px;
-        background:#1e293b;
-        border-radius:16px;
-        padding:28px;
-        border:1px solid #334155;
-        box-shadow:0 20px 60px rgba(0,0,0,0.6);
-        animation:fadeUp 0.25s ease;
+            width:460px;
+            background:#1e293b;
+            border-radius:16px;
+            padding:28px;
         }
 
         @keyframes fadeUp{
@@ -388,12 +390,16 @@
         }
 
         /* 헤더 */
-        .signup-header{
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        margin-bottom:20px;
+       .signup-container{
+            width:460px;
+            max-width:90%;
+            background:#1e293b;
+            border-radius:16px;
+            padding:28px;
+
+            max-height:none;   /* 추가 */
         }
+
 
         .signup-title{
         font-size:22px;
@@ -597,6 +603,15 @@
 
         }
 
+        .signup-step{
+            display:none;
+            animation:fadeUp 0.25s ease;
+        }
+
+        .signup-step.active{
+            display:block;
+        }
+
 </style>
 </head>
 <body>
@@ -649,7 +664,7 @@
                     로그인
                 </a>
 
-                <a href="javascript:void(0)" onclick="openSignup()" class="user-btn">
+                <a href="/signup_terms" class="user-btn">
                     회원가입
                 </a>
 
