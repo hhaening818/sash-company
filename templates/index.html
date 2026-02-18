@@ -1213,7 +1213,58 @@ document.getElementById("signupModal").style.display="flex";
 }
 
 function closeSignup(){
-document.getElementById("signupModal").style.display="none";
+
+    const modal = document.getElementById("signupModal");
+
+    // 모달 닫기
+    modal.style.display="none";
+
+    // STEP 초기화 (약관동의)
+    showStep(1);
+
+    // 전체동의 + 개별동의 초기화
+    document.querySelectorAll(".agree-item, #agreeAll")
+    .forEach(cb=>{
+        cb.checked=false;
+    });
+
+    // 입력값 초기화
+    document.querySelectorAll("#signupModal input")
+    .forEach(input=>{
+        input.value="";
+        input.disabled=false;   // 인증 후 disabled된 것도 복구
+    });
+
+    // 인증 상태 초기화
+    verified=false;
+
+    // 회원가입 버튼 초기화
+    const signupBtn=document.getElementById("signupBtn");
+    if(signupBtn){
+        signupBtn.disabled=true;
+        signupBtn.style.opacity="0.5";
+        signupBtn.style.cursor="not-allowed";
+    }
+
+    // 인증 버튼 초기화
+    const verifyBtn=document.getElementById("verifyBtn");
+    if(verifyBtn){
+        verifyBtn.disabled=false;
+    }
+
+    const sendBtn=document.getElementById("sendBtn");
+    if(sendBtn){
+        sendBtn.disabled=false;
+        sendBtn.innerText="인증요청";
+    }
+
+    // 상태 텍스트 초기화
+    const verifyStatus=document.getElementById("verifyStatus");
+    if(verifyStatus) verifyStatus.innerText="";
+
+    const timer=document.getElementById("timer");
+    if(timer) timer.innerText="";
+
 }
 
 function toggleTerms(id){
@@ -1460,6 +1511,31 @@ document.getElementById("step"+step+"-ind")
 .classList.add("active");
 
 }
+
+// ESC 키로 닫기
+document.addEventListener("keydown", function(e){
+
+    if(e.key === "Escape"){
+
+        const modal = document.getElementById("signupModal");
+
+        if(modal.style.display === "flex"){
+            closeSignup();
+        }
+
+    }
+
+});
+
+// 바깥 클릭 시 닫기
+document.getElementById("signupModal")
+.addEventListener("click", function(e){
+
+    if(e.target === this){
+        closeSignup();
+    }
+
+});
 
 </script>
 
