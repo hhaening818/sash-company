@@ -33,6 +33,8 @@ body{
     padding:0 60px;
     border-bottom:1px solid #eee;
     background:white;
+
+    box-sizing:border-box;
 }
 
 .logo{
@@ -45,6 +47,7 @@ body{
 .nav{
     display:flex;
     gap:30px;
+    align-items:center;   /* 추가 (중요) */
 }
 
 .nav a{
@@ -183,13 +186,15 @@ body{
 .inquiry-btn{
     background:var(--main);
     color:white !important;
-    padding:8px 18px;
+    padding:10px 20px;    /* 8px → 10px */
     border-radius:8px;
     font-weight:600;
     margin-left:10px;
     transition:0.3s;
-}
 
+    display:flex;         /* 추가 */
+    align-items:center;   /* 추가 */
+}
 .inquiry-btn:hover{
     background:var(--dark);
 }
