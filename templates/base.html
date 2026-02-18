@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>{% block title %}SASH COMPANY{% endblock %}</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --main:#2f7d32;
+    --dark:#1b3a2f;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    font-family:'Noto Sans KR',sans-serif;
+}
+
+/* 헤더 */
+.header{
+    background:white;
+    height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 60px;
+    border-bottom:1px solid #e5ece9;
+    box-shadow:0 2px 8px rgba(0,0,0,0.04);
+
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+.logo{
+    font-size:22px;
+    font-weight:700;
+    color:var(--main);
+    cursor:pointer;
+}
+
+.nav{
+    display:flex;
+    gap:35px;
+}
+
+.nav a{
+    text-decoration:none;
+    color:#4a6358;
+    font-weight:500;
+}
+
+.nav a:hover{
+    color:var(--main);
+}
+
+.inquiry-btn{
+    background:var(--main);
+    color:white !important;
+    padding:8px 16px;
+    border-radius:8px;
+}
+
+.footer{
+    padding:30px;
+    text-align:center;
+    color:#888;
+}
+
+</style>
+
+{% block extra_style %}{% endblock %}
+
+</head>
+<body>
+
+<!-- 공통 헤더 -->
+<div class="header">
+
+<div class="logo"
+onclick="location.href='/'">
+SASH COMPANY
+</div>
+
+<div class="nav">
+
+<a href="/about">회사소개</a>
+
+<a href="/construction">시공 분야</a>
+
+<a href="/portfolio">시공 사례</a>
+
+<a href="/inquiries">문의 목록</a>
+
+<a href="/#contact" class="inquiry-btn">문의하기</a>
+
+</div>
+
+</div>
+
+
+<!-- 페이지 내용 -->
+{% block content %}{% endblock %}
+
+
+<!-- 공통 footer -->
+<div class="footer">
+
+📞 010-7137-2313 | © GUNJIN SASH COMPANY
+
+</div>
+
+
+<script>
+
+// /#contact 이동 시 정확한 위치로 스크롤
+window.addEventListener("load", function(){
+
+    if(window.location.hash === "#contact"){
+
+        const el = document.getElementById("contact");
+
+        if(el){
+            setTimeout(()=>{
+                el.scrollIntoView({
+                    behavior:"smooth"
+                });
+            },100);
+        }
+
+    }
+
+});
+
+</script>
+
+{% block extra_script %}{% endblock %}
+
+</body>
+</html>

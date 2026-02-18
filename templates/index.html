@@ -1,8 +1,8 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8" />
-    <title>건진창호 | 창호 전문 시공</title>
+{% extends "base.html" %}
+
+{% block title %}건진창호 | 창호 전문 시공{% endblock %}
+
+{% block extra_style %}
     <link rel="preload" as="image" href="/static/logo.png">
 
     <style>
@@ -671,108 +671,93 @@
         }
 
 </style>
-</head>
-<body>
+{% endblock %}
 
-    <body onload="window.scrollTo(0,0)"></body>
+{% block content %}
 
 <section class="hero-logo">
 
     <div class="hero-content">
 
-    <div class="header-buttons">
+        <div class="header-buttons">
 
-        <!-- 좌측: 관리자 -->
-        <div class="left-buttons">
+            <!-- 좌측 관리자 -->
+            <div class="left-buttons">
 
-            {% if session.get('admin') %}
-                <a href="/admin" class="admin-btn">
-                    관리자 페이지
-                </a>
+                {% if session.get('admin') %}
+                    <a href="/admin" class="admin-btn">관리자 페이지</a>
+                    <a href="/logout" class="admin-btn">관리자 로그아웃</a>
+                {% else %}
+                    <a href="/login" class="admin-btn">관리자 로그인</a>
+                {% endif %}
 
-                <a href="/logout" class="admin-btn">
-                    관리자 로그아웃
-                </a>
+            </div>
 
-            {% else %}
-                <a href="/login" class="admin-btn">
-                    관리자 로그인
-                </a>
-            {% endif %}
+            <!-- 우측 사용자 -->
+            <div class="right-buttons">
 
-        </div>
+                {% if session.get('user') %}
 
+                    <span class="user-name">
+                        {{ session.get('user') }}님
+                    </span>
 
-        <!-- 우측: 사용자 -->
-        <div class="right-buttons">
+                    <a href="/logout" class="user-btn">로그아웃</a>
 
-            {% if session.get('user') %}
+                {% else %}
 
-                <span class="user-name">
-                    {{ session.get('user') }}님
-                </span>
+                    <a href="/user_login" class="user-btn">로그인</a>
 
-                <a href="/logout" class="user-btn">
-                    로그아웃
-                </a>
+                    <a href="#" onclick="openSignup(); return false;" class="user-btn">
+                        회원가입
+                    </a>
 
-            {% else %}
+                {% endif %}
 
-                <a href="/user_login" class="user-btn">
-                    로그인
-                </a>
-
-                <a href="#" onclick="openSignup(); return false;" class="user-btn">
-                    회원가입
-                </a>
-
-            {% endif %}
+            </div>
 
         </div>
+
+        <img src="{{ url_for('static', filename='images/logo.png') }}"
+             class="hero-logo-img">
 
     </div>
 
-    <img src="{{ url_for('static', filename='images/logo.png') }}"
-         class="hero-logo-img">
-
-
-</div>
-
 </section>
 
-<nav class="nav-menu">
-
-    <a href="/about">회사소개</a>
-    <a href="/construction">시공 분야</a>
-    <a href="/portfolio">시공 사례</a>
-    <a href="/inquiries">문의목록</a>
-    <a href="/inquiry" class="inquiry-btn">문의하기</a>
-
-</nav>
 
 <section id="about">
     <div class="card">
         <h2>회사소개</h2>
-        <p>30년 경력의 전문가가 직접 시공합니다.<br />
-           최고의 단열, 방음, 내구성 보장</p>
+        <p>
+            30년 경력의 전문가가 직접 시공합니다.<br>
+            최고의 단열, 방음, 내구성 보장
+        </p>
     </div>
 </section>
+
 
 <section id="service">
     <div class="card">
         <h2>시공 분야</h2>
-        <p>✔ 아파트 샷시 교체<br />
-           ✔ 단독주택 창호<br />
-           ✔ 상가 유리 시공<br />
-           ✔ 베란다 확장</p>
+        <p>
+            ✔ 아파트 샷시 교체<br>
+            ✔ 단독주택 창호<br>
+            ✔ 상가 유리 시공<br>
+            ✔ 베란다 확장
+        </p>
     </div>
 </section>
 
+
 <section id="portfolio">
+
     <div class="card">
+
         <h2>🛠 시공 사례</h2>
 
         <a href="/portfolio">
+
             <button style="
                 margin-top:-10px;
                 margin-bottom:30px;
@@ -780,71 +765,72 @@
                 font-size:16px;
                 border-radius:10px;
                 cursor:pointer;">
+
                 전체 시공 사례 보기 →
+
             </button>
+
         </a>
 
         <div class="slider">
 
-             <button class="prev">&#10094;</button>
+            <button class="prev">&#10094;</button>
 
-        <div class="slides">
+            <div class="slides">
 
-             {% for img in images %}
+                {% for img in images %}
 
-             <div class="slide">
+                <div class="slide">
 
-                 <img src="{{ img.replace('/upload/', '/upload/w_400,q_auto,f_auto/') }}"
-                 data-full="{{ img.replace('/upload/', '/upload/w_1600,q_auto,f_auto/') }}"
-                 loading="lazy">
+                    <img src="{{ img.replace('/upload/', '/upload/w_400,q_auto,f_auto/') }}"
+                         data-full="{{ img.replace('/upload/', '/upload/w_1600,q_auto,f_auto/') }}"
+                         loading="lazy">
+
+                </div>
+
+                {% endfor %}
 
             </div>
 
-            {% endfor %}
+            <button class="next">&#10095;</button>
 
         </div>
 
-        <button class="next">&#10095;</button>
-
     </div>
 
-    </div>
-    </section>
+</section>
+
 
 <section id="contact">
-    <div class="contact-section" id="contact">
+
+    <div class="contact-section">
+
         <h2>무료 견적 문의</h2>
+
         <form id="contactForm" enctype="multipart/form-data">
 
-            <input type="text" name="name" placeholder="이름" required /><br />
-            <input type="text" name="phone" placeholder="연락처" required /><br />
-            <textarea name="message" placeholder="문의 내용" rows="4"></textarea><br />
+            <input type="text" name="name" placeholder="이름" required><br>
+
+            <input type="text" name="phone" placeholder="연락처" required><br>
+
+            <textarea name="message" placeholder="문의 내용"></textarea><br>
+
             <input type="file" name="image">
 
             <button type="submit">견적 요청하기</button>
+
         </form>
 
-        </div>
-
     </div>
+
 </section>
 
-<div id="successModal" class="modal">
-    <div class="modal-box">
-        <div class="check">✔</div>
-        <h3>문의가 접수되었습니다</h3>
-        <p>빠르게 연락드리겠습니다.</p>
-        <button onclick="closeModal()">확인</button>
-    </div>
-</div>
 
 <footer>
-    📞 010-7137-2313 | © GUNJIN SASH COMPANY | 경북 성주군 선남면 성주로 3573 건진창호 <br />
-</footer>
 
-<div class="modal" id="imageModal">
-    <img id="modalImage">
-</div>
+📞 010-7137-2313 | © GUNJIN SASH COMPANY | 경북 성주군 선남면 성주로 3573 건진창호 <br />
+
+</footer>
 
 <!-- 모바일 고정 전화 버튼 -->
 <a href="tel:01071372313"
@@ -863,6 +849,390 @@
 📞 바로 전화
 </a>
 
+<div id="successModal" class="modal">
+    <div class="modal-box">
+        <div class="check">✔</div>
+        <h3>문의가 접수되었습니다</h3>
+        <p>빠르게 연락드리겠습니다.</p>
+        <button onclick="closeModal()">확인</button>
+    </div>
+</div>
+
+<div class="modal" id="imageModal">
+    <img id="modalImage">
+</div>
+
+<script>
+
+// 모든 modal 강제 비활성화
+window.addEventListener("load", function(){
+
+    document.querySelectorAll(".modal").forEach(function(modal){
+        modal.style.display = "none";
+    });
+
+    document.querySelectorAll(".image-viewer").forEach(function(viewer){
+        viewer.style.display = "none";
+    });
+
+});
+
+</script>
+
+<script>
+
+window.addEventListener("scroll", function(){
+
+    const header = document.getElementById("mainHeader");
+
+});
+
+</script>
+
+<div id="signupModal" class="signup-modal">
+<div class="signup-container">
+
+<div class="signup-header">
+<div class="signup-title">회원가입</div>
+<div class="signup-close" onclick="closeSignup()">×</div>
+</div>
+
+<div class="signup-steps">
+<div class="step active" id="step1-ind">약관동의</div>
+<div class="step" id="step2-ind">정보입력</div>
+<div class="step" id="step3-ind">완료</div>
+</div>
+
+<!-- STEP 1 약관 -->
+<div id="step1" class="signup-step active">
+
+<label class="agree-all">
+<input type="checkbox" id="agreeAll">
+전체 동의
+</label>
+
+<div class="agree-box">
+
+<div class="agree-header">
+<label>
+<input type="checkbox" class="agree-item">
+이용약관 동의 (필수)
+</label>
+
+<span class="toggle-btn"
+onclick="toggleTerms('terms1')">
+펼치기
+</span>
+
+</div>
+
+<div id="terms1" class="terms-content">
+
+<b>건진창호 이용약관</b><br><br>
+
+<b>제1조 (목적)</b><br>
+본 약관은 건진창호(이하 "회사")가 운영하는 웹사이트에서 제공하는 서비스의 이용과 관련하여 회사와 이용자의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.<br><br>
+
+<b>제2조 (정의)</b><br>
+"웹사이트"란 회사가 제공하는 견적 요청, 문의, 정보 제공 등의 서비스를 이용할 수 있도록 제공하는 인터넷 사이트를 의미합니다.<br><br>
+
+"이용자"란 본 약관에 따라 회사가 제공하는 서비스를 이용하는 회원 및 비회원을 말합니다.<br><br>
+
+"회원"이란 웹사이트에 회원가입을 하고 회사가 제공하는 서비스를 이용하는 자를 말합니다.<br><br>
+
+"비회원"이란 회원가입 없이 서비스를 이용하는 자를 말합니다.<br><br>
+
+<b>제3조 (약관의 효력 및 변경)</b><br>
+본 약관은 웹사이트에 게시함으로써 효력이 발생합니다.<br><br>
+
+회사는 관련 법령을 위반하지 않는 범위에서 본 약관을 변경할 수 있습니다.<br><br>
+
+변경된 약관은 웹사이트에 공지함으로써 효력이 발생합니다.<br><br>
+
+<b>제4조 (서비스의 제공)</b><br>
+회사는 다음과 같은 서비스를 제공합니다.<br><br>
+
+샷시 시공 정보 제공<br>
+견적 요청 서비스<br>
+문의 접수 및 답변 서비스<br>
+기타 회사가 제공하는 서비스<br><br>
+
+<b>제5조 (회원가입)</b><br>
+이용자는 회사가 정한 양식에 따라 회원가입을 신청할 수 있습니다.<br><br>
+
+회사는 다음의 경우 회원가입을 거부할 수 있습니다.<br><br>
+
+허위 정보를 입력한 경우<br>
+타인의 정보를 도용한 경우<br>
+기타 회사가 필요하다고 인정하는 경우<br><br>
+
+<b>제6조 (회원의 의무)</b><br>
+회원은 다음 행위를 하여서는 안 됩니다.<br><br>
+
+허위 정보 입력<br>
+타인의 정보 도용<br>
+웹사이트 운영 방해<br>
+법령에 위반되는 행위<br>
+기타 회사에 손해를 끼치는 행위<br><br>
+
+<b>제7조 (서비스 이용 제한)</b><br>
+회사는 다음의 경우 서비스 이용을 제한할 수 있습니다.<br><br>
+
+약관을 위반한 경우<br>
+불법 행위를 한 경우<br>
+웹사이트 운영에 지장을 주는 경우<br><br>
+
+<b>제8조 (서비스 중단)</b><br>
+회사는 다음의 경우 서비스 제공을 일시적으로 중단할 수 있습니다.<br><br>
+
+서버 점검<br>
+시스템 장애<br>
+기타 불가피한 사유<br><br>
+
+<b>제9조 (책임의 제한)</b><br>
+회사는 이용자의 귀책사유로 발생한 문제에 대해 책임을 지지 않습니다.<br><br>
+
+회사는 웹사이트 이용으로 발생한 간접적 손해에 대해 책임을 지지 않습니다.<br><br>
+
+회사는 이용자가 제공한 정보의 정확성에 대해 책임을 지지 않습니다.<br><br>
+
+<b>제10조 (개인정보 보호)</b><br>
+회사는 관련 법령에 따라 이용자의 개인정보를 보호하며, 개인정보 처리에 관한 사항은 개인정보처리방침에 따릅니다.<br><br>
+
+<b>제11조 (분쟁 해결)</b><br>
+본 약관과 관련된 분쟁은 대한민국 법령을 따릅니다.<br><br>
+
+<b>제12조 (관할 법원)</b><br>
+본 약관과 관련된 분쟁은 회사 본점 소재지를 관할하는 법원을 관할 법원으로 합니다.<br><br>
+
+<b>부칙</b><br>
+본 약관은 2026년 2월 18일부터 시행됩니다.
+
+</div>
+
+</div>
+
+<div class="agree-box">
+
+<div class="agree-header">
+<label>
+<input type="checkbox" class="agree-item">
+개인정보처리방침 동의 (필수)
+</label>
+
+<span class="toggle-btn" onclick="toggleTerms('terms3')">펼치기</span>
+</div>
+
+<div id="terms3" class="terms-content">
+
+<b>건진창호 개인정보처리방침</b><br><br>
+
+건진창호(이하 "회사")는 이용자의 개인정보를 중요하게 생각하며, 「개인정보 보호법」 등 관련 법령을 준수합니다.<br><br>
+
+<b>제1조 (수집하는 개인정보 항목)</b><br>
+1. 회원가입 시<br>
+이름<br>
+아이디<br>
+비밀번호<br>
+전화번호<br>
+거주지역<br><br>
+
+2. 문의 및 견적 요청 시<br>
+이름<br>
+전화번호<br>
+문의 내용<br><br>
+
+3. 자동 수집 항목<br>
+IP 주소<br>
+접속 로그<br>
+브라우저 정보<br><br>
+
+<b>제2조 (개인정보 수집 및 이용 목적)</b><br>
+회원 관리<br>
+견적 상담 및 문의 답변<br>
+서비스 제공 및 운영<br>
+고객 문의 대응<br>
+서비스 개선<br><br>
+
+<b>제3조 (개인정보 보유 및 이용 기간)</b><br>
+목적 달성 후 지체 없이 파기합니다.<br><br>
+
+예외:<br>
+계약 또는 청약 철회 기록: 5년<br>
+분쟁 처리 기록: 3년<br>
+접속 기록: 3개월<br><br>
+
+<b>제4조 (개인정보의 제3자 제공)</b><br>
+회사는 개인정보를 외부에 제공하지 않습니다.<br><br>
+
+<b>제5조 (개인정보 보호)</b><br>
+접근 제한<br>
+보안 시스템 운영<br>
+관리자 접근 통제<br><br>
+
+<b>제6조 (이용자의 권리)</b><br>
+개인정보 조회<br>
+수정<br>
+삭제<br>
+회원 탈퇴<br><br>
+
+<b>제7조 (개인정보 파기)</b><br>
+전자 파일: 복구 불가능 삭제<br>
+종이 문서: 파쇄 또는 소각<br><br>
+
+<b>제8조 (개인정보 보호 책임자)</b><br>
+회사명: 건진창호<br>
+개인정보 보호 책임자: 건진창호 관리자<br>
+연락처: (010-9364-2348)<br><br>
+
+<b>제9조 (개인정보처리방침 변경)</b><br>
+관련 법령 및 회사 정책에 따라 변경될 수 있습니다.<br><br>
+
+<b>부칙</b><br>
+2026년 2월 18일부터 시행됩니다.
+
+</div>
+
+</div>
+
+<div class="agree-box">
+
+<div class="agree-header">
+
+<label>
+<input type="checkbox" class="agree-item">
+개인정보 수집 및 이용 동의 (필수)
+</label>
+
+<span class="toggle-btn" onclick="toggleTerms('terms2')">
+펼치기
+</span>
+
+</div>
+
+<div id="terms2" class="terms-content">
+
+<b>건진창호 개인정보 수집 및 이용 동의</b><br><br>
+
+건진창호는 서비스 제공을 위해 아래와 같이 개인정보를 수집 및 이용합니다.<br><br>
+
+<b>1. 수집 항목</b><br><br>
+
+회원가입 시<br>
+이름<br>
+아이디<br>
+비밀번호<br>
+전화번호<br>
+거주지역<br><br>
+
+문의 및 견적 요청 시<br>
+이름<br>
+전화번호<br>
+문의 내용<br><br>
+
+<b>2. 수집 및 이용 목적</b><br><br>
+
+회원 식별 및 관리<br>
+문의 및 견적 상담<br>
+서비스 제공 및 운영<br>
+고객 응대<br><br>
+
+<b>3. 보유 및 이용 기간</b><br><br>
+
+회원 탈퇴 시까지<br>
+또는 수집 목적 달성 시까지<br><br>
+
+단, 관련 법령에 따라 일정 기간 보관할 수 있습니다.<br><br>
+
+<b>4. 동의를 거부할 권리</b><br><br>
+
+이용자는 개인정보 수집 및 이용 동의를 거부할 수 있습니다.<br><br>
+
+단, 동의를 거부할 경우 회원가입 및 서비스 이용이 제한될 수 있습니다.
+
+</div>
+
+<button class="next-btn" onclick="goStep2()" style="margin-top:20px;">
+다음 →
+</button>
+
+</div>
+
+<!-- STEP 2 정보 입력 -->
+<div id="step2" class="signup-step">
+
+<input id="username" placeholder="아이디">
+
+<input id="password" type="password" placeholder="비밀번호">
+
+<input id="name" placeholder="이름">
+
+<div class="phone-row">
+
+<input id="phone" placeholder="전화번호">
+
+<button id="sendBtn"
+onclick="sendCode()"
+class="verify-btn">
+
+인증요청
+
+</button>
+
+</div>
+
+
+<div class="phone-row">
+
+<input id="code"
+placeholder="인증번호"
+oninput="checkCodeInput()">
+
+<button id="verifyBtn"
+onclick="verifyCode()"
+class="verify-btn">
+
+확인
+
+</button>
+
+<span id="verifyStatus" class="verify-status"></span>
+
+</div>
+
+<div id="timer" class="timer"></div>
+
+<input id="region" placeholder="지역">
+
+<button id="signupBtn"
+class="next-btn"
+onclick="register()"
+disabled
+style="opacity:0.5;cursor:not-allowed;">
+회원가입
+</button>
+
+</div>
+
+<!-- STEP 3 완료 -->
+<div id="step3" class="signup-step">
+
+<div class="complete">
+회원가입 완료
+</div>
+
+<button class="next-btn" onclick="closeSignup()">
+닫기
+</button>
+
+</div>
+
+</div>
+</div>
+</div>
+{% endblock %}
+
+{% block extra_script %}
 <script>
 
 const slidesContainer = document.querySelector('.slides');
@@ -995,44 +1365,26 @@ modal.addEventListener("click", () => {
 
 });
 
-</script>
-
-<script>
-
 function closeModal(){
 document.getElementById("successModal").style.display="none";
 }
 
-</script>
-
-<script>
-
-// 모든 modal 강제 비활성화
+// contact 이동 스크롤
 window.addEventListener("load", function(){
 
-    document.querySelectorAll(".modal").forEach(function(modal){
-        modal.style.display = "none";
-    });
+    if(window.location.hash === "#contact"){
 
-    document.querySelectorAll(".image-viewer").forEach(function(viewer){
-        viewer.style.display = "none";
-    });
+        const el = document.getElementById("contact");
 
-});
+        if(el){
+            el.scrollIntoView({
+                behavior:"smooth"
+            });
+        }
 
-</script>
-
-<script>
-
-window.addEventListener("scroll", function(){
-
-    const header = document.getElementById("mainHeader");
+    }
 
 });
-
-</script>
-
-<script>
 
 // 문의 등록 → 팝업 처리
 document.getElementById("contactForm")
@@ -1542,375 +1894,4 @@ document.getElementById("signupModal")
 });
 
 </script>
-
-<div id="signupModal" class="signup-modal">
-
-<div class="signup-container">
-
-<div class="signup-header">
-<div class="signup-title">회원가입</div>
-<div class="signup-close" onclick="closeSignup()">×</div>
-</div>
-
-<div class="signup-steps">
-<div class="step active" id="step1-ind">약관동의</div>
-<div class="step" id="step2-ind">정보입력</div>
-<div class="step" id="step3-ind">완료</div>
-</div>
-
-
-<!-- STEP 1 약관 -->
-<div id="step1" class="signup-step active">
-
-<label class="agree-all">
-<input type="checkbox" id="agreeAll">
-전체 동의
-</label>
-
-<div class="agree-box">
-
-<div class="agree-header">
-<label>
-<input type="checkbox" class="agree-item">
-이용약관 동의 (필수)
-</label>
-
-<span class="toggle-btn"
-onclick="toggleTerms('terms1')">
-펼치기
-</span>
-
-</div>
-
-<div id="terms1" class="terms-content">
-
-<b>건진창호 이용약관</b><br><br>
-
-<b>제1조 (목적)</b><br>
-본 약관은 건진창호(이하 "회사")가 운영하는 웹사이트에서 제공하는 서비스의 이용과 관련하여 회사와 이용자의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.<br><br>
-
-<b>제2조 (정의)</b><br>
-"웹사이트"란 회사가 제공하는 견적 요청, 문의, 정보 제공 등의 서비스를 이용할 수 있도록 제공하는 인터넷 사이트를 의미합니다.<br><br>
-
-"이용자"란 본 약관에 따라 회사가 제공하는 서비스를 이용하는 회원 및 비회원을 말합니다.<br><br>
-
-"회원"이란 웹사이트에 회원가입을 하고 회사가 제공하는 서비스를 이용하는 자를 말합니다.<br><br>
-
-"비회원"이란 회원가입 없이 서비스를 이용하는 자를 말합니다.<br><br>
-
-<b>제3조 (약관의 효력 및 변경)</b><br>
-본 약관은 웹사이트에 게시함으로써 효력이 발생합니다.<br><br>
-
-회사는 관련 법령을 위반하지 않는 범위에서 본 약관을 변경할 수 있습니다.<br><br>
-
-변경된 약관은 웹사이트에 공지함으로써 효력이 발생합니다.<br><br>
-
-<b>제4조 (서비스의 제공)</b><br>
-회사는 다음과 같은 서비스를 제공합니다.<br><br>
-
-샷시 시공 정보 제공<br>
-견적 요청 서비스<br>
-문의 접수 및 답변 서비스<br>
-기타 회사가 제공하는 서비스<br><br>
-
-<b>제5조 (회원가입)</b><br>
-이용자는 회사가 정한 양식에 따라 회원가입을 신청할 수 있습니다.<br><br>
-
-회사는 다음의 경우 회원가입을 거부할 수 있습니다.<br><br>
-
-허위 정보를 입력한 경우<br>
-타인의 정보를 도용한 경우<br>
-기타 회사가 필요하다고 인정하는 경우<br><br>
-
-<b>제6조 (회원의 의무)</b><br>
-회원은 다음 행위를 하여서는 안 됩니다.<br><br>
-
-허위 정보 입력<br>
-타인의 정보 도용<br>
-웹사이트 운영 방해<br>
-법령에 위반되는 행위<br>
-기타 회사에 손해를 끼치는 행위<br><br>
-
-<b>제7조 (서비스 이용 제한)</b><br>
-회사는 다음의 경우 서비스 이용을 제한할 수 있습니다.<br><br>
-
-약관을 위반한 경우<br>
-불법 행위를 한 경우<br>
-웹사이트 운영에 지장을 주는 경우<br><br>
-
-<b>제8조 (서비스 중단)</b><br>
-회사는 다음의 경우 서비스 제공을 일시적으로 중단할 수 있습니다.<br><br>
-
-서버 점검<br>
-시스템 장애<br>
-기타 불가피한 사유<br><br>
-
-<b>제9조 (책임의 제한)</b><br>
-회사는 이용자의 귀책사유로 발생한 문제에 대해 책임을 지지 않습니다.<br><br>
-
-회사는 웹사이트 이용으로 발생한 간접적 손해에 대해 책임을 지지 않습니다.<br><br>
-
-회사는 이용자가 제공한 정보의 정확성에 대해 책임을 지지 않습니다.<br><br>
-
-<b>제10조 (개인정보 보호)</b><br>
-회사는 관련 법령에 따라 이용자의 개인정보를 보호하며, 개인정보 처리에 관한 사항은 개인정보처리방침에 따릅니다.<br><br>
-
-<b>제11조 (분쟁 해결)</b><br>
-본 약관과 관련된 분쟁은 대한민국 법령을 따릅니다.<br><br>
-
-<b>제12조 (관할 법원)</b><br>
-본 약관과 관련된 분쟁은 회사 본점 소재지를 관할하는 법원을 관할 법원으로 합니다.<br><br>
-
-<b>부칙</b><br>
-본 약관은 2026년 2월 18일부터 시행됩니다.
-
-</div>
-
-</div>
-
-<div class="agree-box">
-
-<div class="agree-header">
-<label>
-<input type="checkbox" class="agree-item">
-개인정보처리방침 동의 (필수)
-</label>
-
-<span class="toggle-btn" onclick="toggleTerms('terms3')">펼치기</span>
-</div>
-
-<div id="terms3" class="terms-content">
-
-<b>건진창호 개인정보처리방침</b><br><br>
-
-건진창호(이하 "회사")는 이용자의 개인정보를 중요하게 생각하며, 「개인정보 보호법」 등 관련 법령을 준수합니다.<br><br>
-
-<b>제1조 (수집하는 개인정보 항목)</b><br>
-1. 회원가입 시<br>
-이름<br>
-아이디<br>
-비밀번호<br>
-전화번호<br>
-거주지역<br><br>
-
-2. 문의 및 견적 요청 시<br>
-이름<br>
-전화번호<br>
-문의 내용<br><br>
-
-3. 자동 수집 항목<br>
-IP 주소<br>
-접속 로그<br>
-브라우저 정보<br><br>
-
-<b>제2조 (개인정보 수집 및 이용 목적)</b><br>
-회원 관리<br>
-견적 상담 및 문의 답변<br>
-서비스 제공 및 운영<br>
-고객 문의 대응<br>
-서비스 개선<br><br>
-
-<b>제3조 (개인정보 보유 및 이용 기간)</b><br>
-목적 달성 후 지체 없이 파기합니다.<br><br>
-
-예외:<br>
-계약 또는 청약 철회 기록: 5년<br>
-분쟁 처리 기록: 3년<br>
-접속 기록: 3개월<br><br>
-
-<b>제4조 (개인정보의 제3자 제공)</b><br>
-회사는 개인정보를 외부에 제공하지 않습니다.<br><br>
-
-<b>제5조 (개인정보 보호)</b><br>
-접근 제한<br>
-보안 시스템 운영<br>
-관리자 접근 통제<br><br>
-
-<b>제6조 (이용자의 권리)</b><br>
-개인정보 조회<br>
-수정<br>
-삭제<br>
-회원 탈퇴<br><br>
-
-<b>제7조 (개인정보 파기)</b><br>
-전자 파일: 복구 불가능 삭제<br>
-종이 문서: 파쇄 또는 소각<br><br>
-
-<b>제8조 (개인정보 보호 책임자)</b><br>
-회사명: 건진창호<br>
-개인정보 보호 책임자: 건진창호 관리자<br>
-연락처: (010-9364-2348)<br><br>
-
-<b>제9조 (개인정보처리방침 변경)</b><br>
-관련 법령 및 회사 정책에 따라 변경될 수 있습니다.<br><br>
-
-<b>부칙</b><br>
-2026년 2월 18일부터 시행됩니다.
-
-</div>
-
-</div>
-
-<div class="agree-box">
-
-<div class="agree-header">
-
-<label>
-<input type="checkbox" class="agree-item">
-개인정보 수집 및 이용 동의 (필수)
-</label>
-
-<span class="toggle-btn" onclick="toggleTerms('terms2')">
-펼치기
-</span>
-
-</div>
-
-<div id="terms2" class="terms-content">
-
-<b>건진창호 개인정보 수집 및 이용 동의</b><br><br>
-
-건진창호는 서비스 제공을 위해 아래와 같이 개인정보를 수집 및 이용합니다.<br><br>
-
-<b>1. 수집 항목</b><br><br>
-
-회원가입 시<br>
-이름<br>
-아이디<br>
-비밀번호<br>
-전화번호<br>
-거주지역<br><br>
-
-문의 및 견적 요청 시<br>
-이름<br>
-전화번호<br>
-문의 내용<br><br>
-
-<b>2. 수집 및 이용 목적</b><br><br>
-
-회원 식별 및 관리<br>
-문의 및 견적 상담<br>
-서비스 제공 및 운영<br>
-고객 응대<br><br>
-
-<b>3. 보유 및 이용 기간</b><br><br>
-
-회원 탈퇴 시까지<br>
-또는 수집 목적 달성 시까지<br><br>
-
-단, 관련 법령에 따라 일정 기간 보관할 수 있습니다.<br><br>
-
-<b>4. 동의를 거부할 권리</b><br><br>
-
-이용자는 개인정보 수집 및 이용 동의를 거부할 수 있습니다.<br><br>
-
-단, 동의를 거부할 경우 회원가입 및 서비스 이용이 제한될 수 있습니다.
-
-</div>
-
-<button class="next-btn" onclick="goStep2()" style="margin-top:20px;">
-다음 →
-</button>
-
-</div>
-
-<!-- STEP 2 정보 입력 -->
-<div id="step2" class="signup-step">
-
-<input id="username" placeholder="아이디">
-
-<input id="password" type="password" placeholder="비밀번호">
-
-<input id="name" placeholder="이름">
-
-<div class="phone-row">
-
-<input id="phone" placeholder="전화번호">
-
-<button id="sendBtn"
-onclick="sendCode()"
-class="verify-btn">
-
-인증요청
-
-</button>
-
-</div>
-
-
-<div class="phone-row">
-
-<input id="code"
-placeholder="인증번호"
-oninput="checkCodeInput()">
-
-<button id="verifyBtn"
-onclick="verifyCode()"
-class="verify-btn">
-
-확인
-
-</button>
-
-<span id="verifyStatus" class="verify-status"></span>
-
-</div>
-
-<div id="timer" class="timer"></div>
-
-<input id="region" placeholder="지역">
-
-<button id="signupBtn"
-class="next-btn"
-onclick="register()"
-disabled
-style="opacity:0.5;cursor:not-allowed;">
-회원가입
-</button>
-
-</div>
-
-
-
-<!-- STEP 3 완료 -->
-<div id="step3" class="signup-step">
-
-<div class="complete">
-회원가입 완료
-</div>
-
-<button class="next-btn" onclick="closeSignup()">
-닫기
-</button>
-
-</div>
-
-</div>
-</div>
-
-<script>
-
-// 다른 페이지에서 /#contact 로 들어왔을 때 자동 스크롤
-window.addEventListener("load", function(){
-
-    if(window.location.hash === "#contact"){
-
-        const el = document.getElementById("contact");
-
-        if(el){
-            setTimeout(()=>{
-                el.scrollIntoView({
-                    behavior:"smooth",
-                    block:"start"
-                });
-            },100);
-        }
-
-    }
-
-});
-
-</script>
-
-</body>
-</html>
+{% endblock %}
