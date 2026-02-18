@@ -27,7 +27,7 @@ except:
 
 SMS_API_KEY = "여기 API KEY"
 SMS_API_SECRET = "여기 SECRET"
-SMS_SENDER = "등록된 발신번호"
+SMS_SENDER = "01071372313"
 
 cloudinary.config(
     cloud_name=os.getenv("CLOUD_NAME"),
@@ -170,12 +170,12 @@ def send_sms(text):
     }
 
     data = {
-        "message": {
-            "to": "010XXXXXXXX",  # 네 번호
-            "from": "발신번호등록된번호",
-            "text": text
-        }
+    "message": {
+        "to": phone,
+        "from": os.getenv("SMS_SENDER"),
+        "text": text
     }
+}
 
     requests.post(
         "https://api.solapi.com/messages/v4/send",
@@ -833,10 +833,7 @@ def inquiries():
     )
 
 @app.route("/send_sms", methods=["POST"])
-def send_sms():
-
-    if Message is None:
-        return jsonify({"status":"error","message":"coolsms not installed"})
+def send_sms_route():
 
     phone = request.json.get("phone")
 
@@ -844,13 +841,9 @@ def send_sms():
 
     verification_codes[phone] = code
 
-    message = Message(SMS_API_KEY, SMS_API_SECRET)
+    text = f"[건진창호] 인증번호: {code}"
 
-    message.send({
-        "to": phone,
-        "from": SMS_SENDER,
-        "text": f"인증번호: {code}"
-    })
+    send_sms(text)  # solapi 함수 사용
 
     return jsonify({"status":"ok"})
 
