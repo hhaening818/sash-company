@@ -353,302 +353,149 @@
         cursor:pointer;
         }
 
-        .signup-modal{
-        display:none;
-        position:fixed;
-        top:0;
-        left:0;
-        width:100%;
-        height:100%;
-        background:#1e293bcc;
-        z-index:9999;
-        }
+        /* 회원가입 모달 */
+.signup-modal{
+    position:fixed;
+    inset:0;
+    background:rgba(15,23,42,0.75);
+    backdrop-filter:blur(6px);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+}
 
-        .signup-container{
-        width:420px;
-        margin:60px auto;
-        background:#111827;
-        border-radius:16px;
-        padding:30px;
-        color:white;
-        box-shadow:0 0 30px rgba(0,0,0,0.5);
-        }
+/* 컨테이너 */
+.signup-container{
+    width:480px;
+    background:#0f172a;
+    border-radius:20px;
+    padding:32px;
+    box-shadow:0 25px 70px rgba(0,0,0,0.6);
+    animation:fadeUp .35s ease;
+}
 
-        .signup-header{
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        margin-bottom:20px;
-        }
-
-        .signup-logo{
-        font-size:28px;
-        font-weight:bold;
-        color:#22c55e;
-        }
-
-        .signup-form label{
-        font-size:13px;
-        color:#9ca3af;
-        }
-
-        .input-group{
-        margin-bottom:15px;
-        }
-
-        .signup-form input{
-        width:100%;
-        padding:12px;
-        border-radius:8px;
-        border:none;
-        background:#1f2937;
-        color:white;
-        margin-top:5px;
-        }
-
-        .phone-row{
-        display:flex;
-        gap:8px;
-        }
-
-        .verify-btn{
-        background:#22c55e;
-        border:none;
-        padding:12px;
-        border-radius:8px;
-        color:white;
-        cursor:pointer;
-        white-space:nowrap;
-        }
-
-        .signup-submit{
-        width:100%;
-        padding:14px;
-        margin-top:10px;
-        background:#22c55e;
-        border:none;
-        border-radius:10px;
-        font-size:16px;
-        cursor:pointer;
-        }
-
-        .signup-result{
-        margin-top:10px;
-        text-align:center;
-        font-size:14px;
-        color:#22c55e;
-        }
-   
-        .signup-modal{
-        display:none;
-        position:fixed;
-        width:100%;
-        height:100%;
-        background:rgba(0,0,0,0.8);
-        z-index:9999;
-        }
-
-        .signup-box{
-        width:420px;
-        background:#111827;
-        margin:50px auto;
-        padding:30px;
-        border-radius:15px;
-        color:white;
-        animation:fadeIn 0.3s;
-        }
-
-        .signup-header{
-        display:flex;
-        justify-content:space-between;
-        }
-
-        .signup-title{
-        font-size:24px;
-        color:#22c55e;
-        }
-
-        .signup-close{
-        cursor:pointer;
-        }
-
-        .signup-steps{
-        display:flex;
-        justify-content:space-between;
-        margin:20px 0;
-        }
-
-        .step{
-        opacity:0.3;
-        }
-
-        .step.active{
+/* 애니메이션 */
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
         opacity:1;
-        color:#22c55e;
-        }
+        transform:translateY(0);
+    }
+}
 
-        .signup-step input{
-        width:100%;
-        padding:12px;
-        margin:5px 0;
-        background:#1f2937;
-        border:none;
-        color:white;
-        }
+/* 헤더 */
+.signup-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
 
-        .phone-row{
-        display:flex;
-        gap:5px;
-        }
+.signup-title{
+    font-size:26px;
+    font-weight:700;
+    color:#22c55e;
+}
 
-        .signup-step button{
-        width:100%;
-        padding:12px;
-        margin-top:10px;
-        background:#22c55e;
-        border:none;
-        color:white;
-        }
+.signup-close{
+    font-size:26px;
+    cursor:pointer;
+    color:#94a3b8;
+}
 
-        .hidden{
-        display:none;
-        }
+.signup-close:hover{
+    color:white;
+}
 
-        .complete-icon{
-        font-size:50px;
-        color:#22c55e;
-        text-align:center;
-        }
+/* 단계 */
+.signup-steps{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:25px;
+}
 
-        .complete-text{
-        text-align:center;
-        margin:20px;
-        }
+.step{
+    font-size:14px;
+    color:#64748b;
+}
 
-        @keyframes fadeIn{
-        from{opacity:0}
-        to{opacity:1}
-        }
+.step.active{
+    color:#22c55e;
+    font-weight:600;
+}
 
-        .signup-modal{
-        position:fixed;
-        top:0;
-        left:0;
-        width:100%;
-        height:100%;
-        background:rgba(0,0,0,0.6);
-        display:none;
-        justify-content:center;
-        align-items:center;
-        z-index:9999;
-        }
+/* step content */
+.signup-step{
+    display:none;
+}
 
-        .signup-container{
-        width:480px;
-        background:#0f172a;
-        border-radius:20px;
-        padding:30px;
-        box-shadow:0 20px 60px rgba(0,0,0,0.5);
-        animation:fadeUp 0.3s ease;
-        }
+.signup-step.active{
+    display:block;
+}
 
-        @keyframes fadeUp{
-        from{opacity:0; transform:translateY(20px);}
-        to{opacity:1; transform:translateY(0);}
-        }
+/* 약관 박스 */
+.agree-box{
+    background:#1e293b;
+    border-radius:12px;
+    padding:14px;
+    margin-top:12px;
+}
 
-        .signup-header{
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        }
+.agree-box label{
+    font-size:14px;
+}
 
-        .signup-title{
-        font-size:28px;
-        font-weight:700;
-        color:#22c55e;
-        }
+/* 약관 내용 */
+.terms-content{
+    margin-top:10px;
+    height:140px;
+    overflow:auto;
+    font-size:13px;
+    color:#cbd5e1;
+    line-height:1.6;
+}
 
-        .signup-close{
-        font-size:28px;
-        cursor:pointer;
-        color:#aaa;
-        }
+/* signup input만 적용 */
+.signup-step input{
+    width:100%;
+    padding:13px;
+    margin-top:12px;
+    border-radius:10px;
+    border:none;
+    background:#1e293b;
+    color:white;
+    font-size:14px;
+}
 
-        .signup-close:hover{
-        color:white;
-        }
+/* 버튼 */
+.next-btn{
+    width:100%;
+    margin-top:20px;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(135deg,#22c55e,#16a34a);
+    color:white;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+}
 
-        .signup-steps{
-        display:flex;
-        justify-content:space-between;
-        margin:20px 0;
-        }
+.next-btn:hover{
+    transform:translateY(-1px);
+}
 
-        .step{
-        color:#64748b;
-        }
-
-        .step.active{
-        color:#22c55e;
-        font-weight:700;
-        }
-
-        .signup-step{
-        display:none;
-        }
-
-        .signup-step.active{
-        display:block;
-        }
-
-        .agree-box{
-        background:#1e293b;
-        padding:12px;
-        border-radius:10px;
-        margin-top:10px;
-        }
-
-        .terms-content{
-        height:120px;
-        overflow:auto;
-        font-size:13px;
-        margin-top:10px;
-        color:#cbd5e1;
-        }
-
-        input{
-        width:100%;
-        padding:12px;
-        margin-top:10px;
-        border-radius:10px;
-        border:none;
-        background:#1e293b;
-        color:white;
-        }
-
-        .next-btn{
-        width:100%;
-        margin-top:20px;
-        padding:14px;
-        border:none;
-        border-radius:10px;
-        background:#22c55e;
-        color:white;
-        font-size:16px;
-        font-weight:600;
-        cursor:pointer;
-        }
-
-        .next-btn:hover{
-        background:#16a34a;
-        }
-
-        .complete{
-        text-align:center;
-        font-size:20px;
-        margin-top:40px;
-        }
+/* 완료 */
+.complete{
+    text-align:center;
+    font-size:20px;
+    margin-top:40px;
+    color:#22c55e;
+}
 
 </style>
 </head>
@@ -1175,10 +1022,6 @@ function searchInquiry(){
 
 }
 
-</script>
-
-<script>
-
 window.addEventListener("load", function(){
 
     const logo = document.querySelector(".logo img");
@@ -1189,373 +1032,113 @@ window.addEventListener("load", function(){
 
 });
 
-</script>
-
-<script>
 window.onload = function() {
     window.scrollTo(0, 0);
-};
-</script>
 
-<script>
+
+}
 
 function openSignup(){
-    document.getElementById("signupModal").style.display = "block";
+document.getElementById("signupModal").style.display="flex";
 }
 
 function closeSignup(){
-    document.getElementById("signupModal").style.display = "none";
+document.getElementById("signupModal").style.display="none";
 }
 
-function sendCode(){
+function goStep2(){
+showStep(2);
+}
 
-    const phone =
-        document.getElementById("phone").value;
+function showStep(step){
 
-    if(!phone){
-        alert("전화번호 입력하세요");
-        return;
-    }
+document.querySelectorAll(".signup-step")
+.forEach(el=>el.classList.remove("active"));
 
-    fetch("/send_sms",{
+document.getElementById("step"+step)
+.classList.add("active");
 
-        method:"POST",
+document.querySelectorAll(".step")
+.forEach(el=>el.classList.remove("active"));
 
-        headers:{
-            "Content-Type":"application/json"
-        },
-
-        body:JSON.stringify({
-            phone:phone
-        })
-
-    })
-    .then(res=>res.json())
-    .then(data=>{
-
-        document.getElementById("signupResult")
-        .innerText = data.message;
-
-    })
-    .catch(err=>{
-        console.error(err);
-        alert("서버 연결 실패");
-    });
+document.getElementById("step"+step+"-ind")
+.classList.add("active");
 
 }
 
-function verifyCode(){
-
-    const code =
-        document.getElementById("code").value;
-
-    fetch("/verify_sms",{
-
-        method:"POST",
-
-        headers:{
-            "Content-Type":"application/json"
-        },
-
-        body:JSON.stringify({
-            code:code
-        })
-
-    })
-    .then(res=>res.json())
-    .then(data=>{
-
-        document.getElementById("signupResult")
-        .innerText = data.message;
-
-    });
-
-}
-
-function signup(){
-
-    fetch("/register",{
-
-        method:"POST",
-
-        headers:{
-            "Content-Type":"application/json"
-        },
-
-        body:JSON.stringify({
-
-            phone:phone.value,
-            name:name.value,
-            ssn:ssn.value,
-            username:userid.value,
-            password:password.value,
-            region:"기본"
-
-        })
-
-    })
-    .then(res=>res.text())
-    .then(data=>{
-
-        document.getElementById("signupResult")
-        .innerText = "회원가입 완료";
-
-    });
-
-}
-
-let verified=false;
-let timerInterval;
-
-function openSignup(){
-  signupModal.style.display="block";
-}
-
-function closeSignup(){
-  signupModal.style.display="none";
-}
-
-function goStep(step){
-
-  document.querySelectorAll(".signup-step")
-  .forEach(s=>s.classList.add("hidden"));
-
-  document.getElementById("step"+step)
-  .classList.remove("hidden");
-
-  document.querySelectorAll(".step")
-  .forEach(s=>s.classList.remove("active"));
-
-  document.getElementById("stepIndicator"+step)
-  .classList.add("active");
-
-}
-
-function sendCode(){
-
- fetch("/send_sms",{
-
-  method:"POST",
-
-  headers:{
-    "Content-Type":"application/json"
-  },
-
-  body:JSON.stringify({
-    phone:phone.value
-  })
-
- });
-
- startTimer();
-
-}
-
-function verifyCode(){
-
- fetch("/verify_sms",{
-
-  method:"POST",
-
-  headers:{
-    "Content-Type":"application/json"
-  },
-
-  body:JSON.stringify({
-    phone:phone.value,
-    code:code.value
-  })
-
- })
- .then(res=>res.json())
- .then(data=>{
-
-  if(data.status=="ok"){
-
-    verified=true;
-
-    signupBtn.disabled=false;
-
-    signupResult.innerText="인증 완료";
-
-  }
-
- });
-
-}
-
-function signup(){
-
- fetch("/register",{
-
-  method:"POST",
-
-  headers:{
-    "Content-Type":"application/json"
-  },
-
-  body:JSON.stringify({
-
-   phone:phone.value,
-   name:name.value,
-   ssn:ssn.value,
-   username:userid.value,
-   password:password.value,
-   region:"default"
-
-  })
-
- })
- .then(()=>{
-
-   goStep(3);
-
- });
-
-}
-
-function startTimer(){
-
- let time=180;
-
- clearInterval(timerInterval);
-
- timerInterval=setInterval(()=>{
-
-   let min=Math.floor(time/60);
-   let sec=time%60;
-
-   timer.innerText=
-   `${min}:${sec.toString().padStart(2,'0')}`;
-
-   time--;
-
-   if(time<0){
-
-     clearInterval(timerInterval);
-
-     timer.innerText="시간 만료";
-
-   }
-
- },1000);
+function register(){
+
+fetch("/register",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+username:username.value,
+password:password.value,
+name:name.value,
+phone:phone.value,
+region:region.value
+})
+})
+.then(res=>res.json())
+.then(data=>{
+showStep(3);
+});
 
 }
 
 </script>
 
-<!-- 회원가입 팝업 -->
 <div id="signupModal" class="signup-modal">
-  <div class="signup-container">
 
-    <!-- 헤더 -->
-    <div class="signup-header">
-      <div class="signup-title">회원가입</div>
-      <div class="signup-close" onclick="closeSignup()">×</div>
-    </div>
+<div class="signup-container">
 
-    <!-- 단계 표시 -->
-    <div class="signup-steps">
-      <div class="step active" id="step1-ind">약관동의</div>
-      <div class="step" id="step2-ind">정보입력</div>
-      <div class="step" id="step3-ind">완료</div>
-    </div>
-
-    <!-- STEP 1 약관 -->
-    <div class="signup-step active" id="step1">
-
-      <label class="agree-all">
-        <input type="checkbox" id="agreeAll">
-        전체 동의
-      </label>
-
-      <div class="agree-box">
-        <label>
-          <input type="checkbox" class="agree-item">
-          이용약관 동의 (필수)
-        </label>
-
-        <div class="terms-content">
-<b>이용약관</b>
-
-제1조 (목적)
-본 약관은 sash_company(이하 "회사")가 제공하는 서비스 이용과 관련하여 회사와 회원 간의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.
-
-제2조 (서비스 제공)
-회사는 다음과 같은 서비스를 제공합니다.
-- 시공 상담 및 문의
-- 견적 요청 서비스
-- 고객 지원 서비스
-
-제3조 (회원 의무)
-회원은 다음 행위를 해서는 안 됩니다.
-- 허위 정보 등록
-- 타인 정보 도용
-- 서비스 운영 방해
-        </div>
-      </div>
-
-      <div class="agree-box">
-        <label>
-          <input type="checkbox" class="agree-item">
-          개인정보 수집 및 이용 동의 (필수)
-        </label>
-
-        <div class="terms-content">
-<b>개인정보 수집 및 이용 동의</b>
-
-1. 수집항목
-- 이름
-- 전화번호
-- 아이디
-- 비밀번호
-- 지역
-
-2. 수집목적
-- 회원 식별
-- 상담 및 서비스 제공
-- 고객 지원
-
-3. 보유기간
-회원 탈퇴 시까지 보관
-
-4. 동의 거부 권리
-동의를 거부할 권리가 있으며, 거부 시 회원가입이 제한됩니다.
-        </div>
-      </div>
-
-      <button class="next-btn" onclick="goStep2()">다음</button>
-
-    </div>
-
-
-    <!-- STEP 2 정보입력 -->
-    <div class="signup-step" id="step2">
-
-      <input type="text" placeholder="아이디" id="username">
-      <input type="password" placeholder="비밀번호" id="password">
-      <input type="text" placeholder="이름" id="name">
-      <input type="text" placeholder="전화번호" id="phone">
-      <input type="text" placeholder="지역" id="region">
-
-      <button class="next-btn" onclick="register()">회원가입</button>
-
-    </div>
-
-
-    <!-- STEP 3 완료 -->
-    <div class="signup-step" id="step3">
-
-      <div class="complete">
-        ✔ 회원가입이 완료되었습니다
-      </div>
-
-      <button class="next-btn" onclick="closeSignup()">닫기</button>
-
-    </div>
-
-  </div>
+<div class="signup-header">
+<div class="signup-title">회원가입</div>
+<div class="signup-close" onclick="closeSignup()">×</div>
 </div>
+
+<div class="signup-steps">
+<div class="step active" id="step1-ind">약관동의</div>
+<div class="step" id="step2-ind">정보입력</div>
+<div class="step" id="step3-ind">완료</div>
+</div>
+
+<div id="step1" class="signup-step active">
+
+<label>
+<input type="checkbox" id="agreeAll">
+전체 동의
+</label>
+
+<button class="next-btn" onclick="goStep2()">다음</button>
+
+</div>
+
+<div id="step2" class="signup-step">
+
+<input id="username" placeholder="아이디">
+<input id="password" placeholder="비밀번호">
+<input id="name" placeholder="이름">
+<input id="phone" placeholder="전화번호">
+<input id="region" placeholder="지역">
+
+<button class="next-btn" onclick="register()">회원가입</button>
+
+</div>
+
+<div id="step3" class="signup-step">
+
+회원가입 완료
+
+<button class="next-btn" onclick="closeSignup()">닫기</button>
+
+</div>
+
+</div>   <!-- signup-container 닫기 -->
+
+</div>   <!-- signup-modal 닫기 (이거 추가해야 함) -->
 
 </body>
 </html>
