@@ -846,7 +846,7 @@ def send_sms():
 
     message.send({
         "to": phone,
-        "from": SENDER,
+        "from": SMS_SENDER,
         "text": f"인증번호: {code}"
     })
 
@@ -866,31 +866,25 @@ def verify_sms():
 
     return {"status":"fail"}
 
-@app.route("/register", methods=["GET", "POST"])
+@app.route("/register", methods=["POST"])
 def register():
 
-    if request.method == "GET":
-        return render_template("register.html")
+    data=request.json
 
-    # POST 처리
-    if not session.get("verified_phone"):
-        return "전화번호 인증 필요"
+    phone=data["phone"]
+    name=data["name"]
+    ssn=data["ssn"]
+    username=data["username"]
+    password=data["password"]
+    region=data["region"]
 
-    phone = session.get("verified_phone")
-
-    name = request.form.get("name")
-    ssn = request.form.get("ssn")
-    username = request.form.get("username")
-    password = request.form.get("password")
-    region = request.form.get("region")
-
-    conn = get_connection()
-    cur = conn.cursor()
-
-    hashed = bcrypt.hashpw(
+    hashed=bcrypt.hashpw(
         password.encode(),
         bcrypt.gensalt()
     ).decode()
+
+    conn=get_connection()
+    cur=conn.cursor()
 
     cur.execute("""
     INSERT INTO users
@@ -899,12 +893,11 @@ def register():
     """,(phone,name,ssn,username,hashed,region))
 
     conn.commit()
+
     cur.close()
     conn.close()
 
-    session.pop("verified_phone")
-
-    return redirect("/user_login")
+    return jsonify({"status":"ok"})
 
 port = int(os.environ.get("PORT", 10000))
 

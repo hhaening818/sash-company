@@ -352,7 +352,184 @@
         font-size:24px;
         cursor:pointer;
         }
+
+        .signup-modal{
+        display:none;
+        position:fixed;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        background:#1e293bcc;
+        z-index:9999;
+        }
+
+        .signup-container{
+        width:420px;
+        margin:60px auto;
+        background:#111827;
+        border-radius:16px;
+        padding:30px;
+        color:white;
+        box-shadow:0 0 30px rgba(0,0,0,0.5);
+        }
+
+        .signup-header{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:20px;
+        }
+
+        .signup-logo{
+        font-size:28px;
+        font-weight:bold;
+        color:#22c55e;
+        }
+
+        .signup-form label{
+        font-size:13px;
+        color:#9ca3af;
+        }
+
+        .input-group{
+        margin-bottom:15px;
+        }
+
+        .signup-form input{
+        width:100%;
+        padding:12px;
+        border-radius:8px;
+        border:none;
+        background:#1f2937;
+        color:white;
+        margin-top:5px;
+        }
+
+        .phone-row{
+        display:flex;
+        gap:8px;
+        }
+
+        .verify-btn{
+        background:#22c55e;
+        border:none;
+        padding:12px;
+        border-radius:8px;
+        color:white;
+        cursor:pointer;
+        white-space:nowrap;
+        }
+
+        .signup-submit{
+        width:100%;
+        padding:14px;
+        margin-top:10px;
+        background:#22c55e;
+        border:none;
+        border-radius:10px;
+        font-size:16px;
+        cursor:pointer;
+        }
+
+        .signup-result{
+        margin-top:10px;
+        text-align:center;
+        font-size:14px;
+        color:#22c55e;
+        }
    
+        .signup-modal{
+        display:none;
+        position:fixed;
+        width:100%;
+        height:100%;
+        background:rgba(0,0,0,0.8);
+        z-index:9999;
+        }
+
+        .signup-box{
+        width:420px;
+        background:#111827;
+        margin:50px auto;
+        padding:30px;
+        border-radius:15px;
+        color:white;
+        animation:fadeIn 0.3s;
+        }
+
+        .signup-header{
+        display:flex;
+        justify-content:space-between;
+        }
+
+        .signup-title{
+        font-size:24px;
+        color:#22c55e;
+        }
+
+        .signup-close{
+        cursor:pointer;
+        }
+
+        .signup-steps{
+        display:flex;
+        justify-content:space-between;
+        margin:20px 0;
+        }
+
+        .step{
+        opacity:0.3;
+        }
+
+        .step.active{
+        opacity:1;
+        color:#22c55e;
+        }
+
+        .signup-step input{
+        width:100%;
+        padding:12px;
+        margin:5px 0;
+        background:#1f2937;
+        border:none;
+        color:white;
+        }
+
+        .phone-row{
+        display:flex;
+        gap:5px;
+        }
+
+        .signup-step button{
+        width:100%;
+        padding:12px;
+        margin-top:10px;
+        background:#22c55e;
+        border:none;
+        color:white;
+        }
+
+        .hidden{
+        display:none;
+        }
+
+        .complete-icon{
+        font-size:50px;
+        color:#22c55e;
+        text-align:center;
+        }
+
+        .complete-text{
+        text-align:center;
+        margin:20px;
+        }
+
+        @keyframes fadeIn{
+        from{opacity:0}
+        to{opacity:1}
+        }
+
 </style>
 </head>
 <body>
@@ -920,7 +1097,7 @@ function sendCode(){
         return;
     }
 
-    fetch("/send_code",{
+    fetch("/send_sms",{
 
         method:"POST",
 
@@ -952,7 +1129,7 @@ function verifyCode(){
     const code =
         document.getElementById("code").value;
 
-    fetch("/verify_code",{
+    fetch("/verify_sms",{
 
         method:"POST",
 
@@ -977,7 +1154,7 @@ function verifyCode(){
 
 function signup(){
 
-    fetch("/signup",{
+    fetch("/register",{
 
         method:"POST",
 
@@ -987,20 +1164,21 @@ function signup(){
 
         body:JSON.stringify({
 
-            phone:document.getElementById("phone").value,
-            name:document.getElementById("name").value,
-            ssn:document.getElementById("ssn").value,
-            userid:document.getElementById("userid").value,
-            password:document.getElementById("password").value
+            phone:phone.value,
+            name:name.value,
+            ssn:ssn.value,
+            username:userid.value,
+            password:password.value,
+            region:"기본"
 
         })
 
     })
-    .then(res=>res.json())
+    .then(res=>res.text())
     .then(data=>{
 
         document.getElementById("signupResult")
-        .innerText = data.message;
+        .innerText = "회원가입 완료";
 
     });
 
@@ -1009,28 +1187,98 @@ function signup(){
 </script>
 
 <!-- 회원가입 팝업 -->
-<div id="signupModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeSignup()">&times;</span>
+<div id="signupModal" class="signup-modal">
 
-    <h2>회원가입</h2>
+  <div class="signup-box">
 
-    <input type="text" id="phone" placeholder="전화번호">
-    <button onclick="sendCode()">인증요청</button>
+    <!-- 헤더 -->
+    <div class="signup-header">
+      <div class="signup-title">회원가입</div>
+      <div class="signup-close" onclick="closeSignup()">✕</div>
+    </div>
 
-    <input type="text" id="code" placeholder="인증번호">
-    <button onclick="verifyCode()">인증확인</button>
+    <!-- 단계 표시 -->
+    <div class="signup-steps">
+      <div class="step active" id="stepIndicator1">약관동의</div>
+      <div class="step" id="stepIndicator2">정보입력</div>
+      <div class="step" id="stepIndicator3">완료</div>
+    </div>
 
-    <input type="text" id="name" placeholder="이름">
-    <input type="text" id="ssn" placeholder="주민번호">
-    <input type="text" id="userid" placeholder="아이디">
-    <input type="password" id="password" placeholder="비밀번호">
+    <!-- STEP 1 약관 -->
+    <div class="signup-step" id="step1">
 
-    <button onclick="signup()">회원가입 완료</button>
+      <div class="terms-box">
+        <label>
+          <input type="checkbox" id="agreeAll">
+          전체 동의
+        </label>
 
-    <div id="signupResult"></div>
+        <label>
+          <input type="checkbox" class="agree-item">
+          이용약관 동의 (필수)
+        </label>
+
+        <label>
+          <input type="checkbox" class="agree-item">
+          개인정보 수집 동의 (필수)
+        </label>
+
+      </div>
+
+      <button class="next-btn" onclick="goStep(2)">
+        다음
+      </button>
+
+    </div>
+
+    <!-- STEP 2 입력 -->
+    <div class="signup-step hidden" id="step2">
+
+      <input id="userid" placeholder="아이디">
+
+      <input type="password" id="password" placeholder="비밀번호">
+
+      <input id="name" placeholder="이름">
+
+      <input id="ssn" placeholder="주민번호">
+
+      <div class="phone-row">
+        <input id="phone" placeholder="전화번호">
+        <button onclick="sendCode()">인증요청</button>
+      </div>
+
+      <div class="phone-row">
+        <input id="code" placeholder="인증번호">
+        <button onclick="verifyCode()">확인</button>
+      </div>
+
+      <div id="timer"></div>
+
+      <button id="signupBtn" disabled onclick="signup()">
+        회원가입 완료
+      </button>
+
+      <div id="signupResult"></div>
+
+    </div>
+
+    <!-- STEP 3 완료 -->
+    <div class="signup-step hidden" id="step3">
+
+      <div class="complete-icon">✔</div>
+
+      <div class="complete-text">
+        회원가입 완료
+      </div>
+
+      <button onclick="closeSignup()">
+        닫기
+      </button>
+
+    </div>
 
   </div>
+
 </div>
 
 </body>
