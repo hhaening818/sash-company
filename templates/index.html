@@ -1184,101 +1184,257 @@ function signup(){
 
 }
 
+let verified=false;
+let timerInterval;
+
+function openSignup(){
+  signupModal.style.display="block";
+}
+
+function closeSignup(){
+  signupModal.style.display="none";
+}
+
+function goStep(step){
+
+  document.querySelectorAll(".signup-step")
+  .forEach(s=>s.classList.add("hidden"));
+
+  document.getElementById("step"+step)
+  .classList.remove("hidden");
+
+  document.querySelectorAll(".step")
+  .forEach(s=>s.classList.remove("active"));
+
+  document.getElementById("stepIndicator"+step)
+  .classList.add("active");
+
+}
+
+function sendCode(){
+
+ fetch("/send_sms",{
+
+  method:"POST",
+
+  headers:{
+    "Content-Type":"application/json"
+  },
+
+  body:JSON.stringify({
+    phone:phone.value
+  })
+
+ });
+
+ startTimer();
+
+}
+
+function verifyCode(){
+
+ fetch("/verify_sms",{
+
+  method:"POST",
+
+  headers:{
+    "Content-Type":"application/json"
+  },
+
+  body:JSON.stringify({
+    phone:phone.value,
+    code:code.value
+  })
+
+ })
+ .then(res=>res.json())
+ .then(data=>{
+
+  if(data.status=="ok"){
+
+    verified=true;
+
+    signupBtn.disabled=false;
+
+    signupResult.innerText="인증 완료";
+
+  }
+
+ });
+
+}
+
+function signup(){
+
+ fetch("/register",{
+
+  method:"POST",
+
+  headers:{
+    "Content-Type":"application/json"
+  },
+
+  body:JSON.stringify({
+
+   phone:phone.value,
+   name:name.value,
+   ssn:ssn.value,
+   username:userid.value,
+   password:password.value,
+   region:"default"
+
+  })
+
+ })
+ .then(()=>{
+
+   goStep(3);
+
+ });
+
+}
+
+function startTimer(){
+
+ let time=180;
+
+ clearInterval(timerInterval);
+
+ timerInterval=setInterval(()=>{
+
+   let min=Math.floor(time/60);
+   let sec=time%60;
+
+   timer.innerText=
+   `${min}:${sec.toString().padStart(2,'0')}`;
+
+   time--;
+
+   if(time<0){
+
+     clearInterval(timerInterval);
+
+     timer.innerText="시간 만료";
+
+   }
+
+ },1000);
+
+}
+
 </script>
 
 <!-- 회원가입 팝업 -->
 <div id="signupModal" class="signup-modal">
-
-  <div class="signup-box">
+  <div class="signup-container">
 
     <!-- 헤더 -->
     <div class="signup-header">
       <div class="signup-title">회원가입</div>
-      <div class="signup-close" onclick="closeSignup()">✕</div>
+      <div class="signup-close" onclick="closeSignup()">×</div>
     </div>
 
     <!-- 단계 표시 -->
     <div class="signup-steps">
-      <div class="step active" id="stepIndicator1">약관동의</div>
-      <div class="step" id="stepIndicator2">정보입력</div>
-      <div class="step" id="stepIndicator3">완료</div>
+      <div class="step active" id="step1-ind">약관동의</div>
+      <div class="step" id="step2-ind">정보입력</div>
+      <div class="step" id="step3-ind">완료</div>
     </div>
 
     <!-- STEP 1 약관 -->
-    <div class="signup-step" id="step1">
+    <div class="signup-step active" id="step1">
 
-      <div class="terms-box">
-        <label>
-          <input type="checkbox" id="agreeAll">
-          전체 동의
-        </label>
+      <label class="agree-all">
+        <input type="checkbox" id="agreeAll">
+        전체 동의
+      </label>
 
+      <div class="agree-box">
         <label>
           <input type="checkbox" class="agree-item">
           이용약관 동의 (필수)
         </label>
 
+        <div class="terms-content">
+<b>이용약관</b>
+
+제1조 (목적)
+본 약관은 sash_company(이하 "회사")가 제공하는 서비스 이용과 관련하여 회사와 회원 간의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.
+
+제2조 (서비스 제공)
+회사는 다음과 같은 서비스를 제공합니다.
+- 시공 상담 및 문의
+- 견적 요청 서비스
+- 고객 지원 서비스
+
+제3조 (회원 의무)
+회원은 다음 행위를 해서는 안 됩니다.
+- 허위 정보 등록
+- 타인 정보 도용
+- 서비스 운영 방해
+        </div>
+      </div>
+
+      <div class="agree-box">
         <label>
           <input type="checkbox" class="agree-item">
-          개인정보 수집 동의 (필수)
+          개인정보 수집 및 이용 동의 (필수)
         </label>
 
+        <div class="terms-content">
+<b>개인정보 수집 및 이용 동의</b>
+
+1. 수집항목
+- 이름
+- 전화번호
+- 아이디
+- 비밀번호
+- 지역
+
+2. 수집목적
+- 회원 식별
+- 상담 및 서비스 제공
+- 고객 지원
+
+3. 보유기간
+회원 탈퇴 시까지 보관
+
+4. 동의 거부 권리
+동의를 거부할 권리가 있으며, 거부 시 회원가입이 제한됩니다.
+        </div>
       </div>
 
-      <button class="next-btn" onclick="goStep(2)">
-        다음
-      </button>
+      <button class="next-btn" onclick="goStep2()">다음</button>
 
     </div>
 
-    <!-- STEP 2 입력 -->
-    <div class="signup-step hidden" id="step2">
 
-      <input id="userid" placeholder="아이디">
+    <!-- STEP 2 정보입력 -->
+    <div class="signup-step" id="step2">
 
-      <input type="password" id="password" placeholder="비밀번호">
+      <input type="text" placeholder="아이디" id="username">
+      <input type="password" placeholder="비밀번호" id="password">
+      <input type="text" placeholder="이름" id="name">
+      <input type="text" placeholder="전화번호" id="phone">
+      <input type="text" placeholder="지역" id="region">
 
-      <input id="name" placeholder="이름">
-
-      <input id="ssn" placeholder="주민번호">
-
-      <div class="phone-row">
-        <input id="phone" placeholder="전화번호">
-        <button onclick="sendCode()">인증요청</button>
-      </div>
-
-      <div class="phone-row">
-        <input id="code" placeholder="인증번호">
-        <button onclick="verifyCode()">확인</button>
-      </div>
-
-      <div id="timer"></div>
-
-      <button id="signupBtn" disabled onclick="signup()">
-        회원가입 완료
-      </button>
-
-      <div id="signupResult"></div>
+      <button class="next-btn" onclick="register()">회원가입</button>
 
     </div>
+
 
     <!-- STEP 3 완료 -->
-    <div class="signup-step hidden" id="step3">
+    <div class="signup-step" id="step3">
 
-      <div class="complete-icon">✔</div>
-
-      <div class="complete-text">
-        회원가입 완료
+      <div class="complete">
+        ✔ 회원가입이 완료되었습니다
       </div>
 
-      <button onclick="closeSignup()">
-        닫기
-      </button>
+      <button class="next-btn" onclick="closeSignup()">닫기</button>
 
     </div>
 
   </div>
-
 </div>
 
 </body>
