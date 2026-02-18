@@ -38,6 +38,10 @@ cloudinary.config(
 app = Flask(__name__)
 app.secret_key = "super_secret_key"
 
+with app.app_context():
+    print("Creating tables on startup...")
+    create_table()
+
 verification_codes = {}
 
 app.config['WTF_CSRF_ENABLED'] = False
@@ -836,6 +840,9 @@ def inquiries():
 @app.route("/send_sms", methods=["POST"])
 def send_sms():
 
+    if Message is None:
+        return jsonify({"status":"error","message":"coolsms not installed"})
+
     phone = request.json.get("phone")
 
     code = str(random.randint(100000,999999))
@@ -850,7 +857,7 @@ def send_sms():
         "text": f"인증번호: {code}"
     })
 
-    return {"status":"ok"}
+    return jsonify({"status":"ok"})
 
 @app.route("/verify_sms", methods=["POST"])
 def verify_sms():
@@ -900,12 +907,4 @@ def register():
     return jsonify({"status":"ok"})
 
 port = int(os.environ.get("PORT", 10000))
-
-if __name__ == "__main__":
-    with app.app_context():
-        print("Initializing database...")
-        create_table()
-
-    print("Flask starting on port", port)
-    app.run(host="0.0.0.0", port=port)
 
