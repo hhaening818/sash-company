@@ -137,6 +137,12 @@ def create_table():
     )
     """)
 
+    # ⭐ 기존 테이블에 컬럼 자동 추가 (Shell 없이 해결)
+    cur.execute("ALTER TABLE portfolio ADD COLUMN IF NOT EXISTS date DATE")
+    cur.execute("ALTER TABLE portfolio ADD COLUMN IF NOT EXISTS location TEXT")
+    cur.execute("ALTER TABLE portfolio ADD COLUMN IF NOT EXISTS category TEXT")
+    cur.execute("ALTER TABLE portfolio ADD COLUMN IF NOT EXISTS type TEXT")
+
     cur.execute("""
     CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
@@ -980,4 +986,10 @@ def delete_portfolio(id):
 
 
 if __name__ == "__main__":
+
+    create_table()  # ⭐ 추가
+
+    port = int(os.environ.get("PORT", 10000))
+
     app.run(host="0.0.0.0", port=port)
+
