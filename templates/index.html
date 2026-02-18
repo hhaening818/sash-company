@@ -1106,13 +1106,22 @@ el.style.display=="block" ? "none":"block";
 
 }
 
-document.getElementById("agreeAll").onclick=function(){
+document.addEventListener("DOMContentLoaded", function(){
+
+const agreeAll = document.getElementById("agreeAll");
+
+if(agreeAll){
+
+agreeAll.onclick=function(){
 
 document.querySelectorAll(".agree-item")
 .forEach(cb=>cb.checked=this.checked);
 
+};
+
 }
 
+});
 
 function goStep2(){
 
@@ -1229,6 +1238,8 @@ verifyStatus.innerText="✔ 인증완료";
 verifyStatus.className="verify-status verify-success";
 
 signupBtn.disabled=false;
+signupBtn.style.opacity="1";
+signupBtn.style.cursor="pointer";
 
 verifyBtn.disabled=true;
 code.disabled=true;
@@ -1447,7 +1458,11 @@ class="verify-btn">
 
 <input id="region" placeholder="지역">
 
-<button id="signupBtn" class="next-btn" onclick="register()" disabled>
+<button id="signupBtn"
+class="next-btn"
+onclick="register()"
+disabled
+style="opacity:0.5;cursor:not-allowed;">
 회원가입
 </button>
 
