@@ -1,6 +1,7 @@
 import time
 import os
 import psycopg2
+import bcrypt
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_wtf import CSRFProtect
 from werkzeug.utils import secure_filename
@@ -18,6 +19,12 @@ import base64
 from flask import jsonify
 from datetime import datetime, timedelta, timezone
 import psycopg2.extras
+import random
+from coolsms import Coolsms
+
+SMS_API_KEY = "여기 API KEY"
+SMS_API_SECRET = "여기 SECRET"
+SMS_SENDER = "등록된 발신번호"
 
 cloudinary.config(
     cloud_name=os.getenv("CLOUD_NAME"),
@@ -27,6 +34,8 @@ cloudinary.config(
 
 app = Flask(__name__)
 app.secret_key = "super_secret_key"
+
+verification_codes = {}
 
 app.config['WTF_CSRF_ENABLED'] = False
 
@@ -119,15 +128,22 @@ def create_table():
     )
     """)
 
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        phone TEXT UNIQUE,
+        name TEXT,
+        ssn TEXT,
+        username TEXT UNIQUE,
+        password TEXT,
+        region TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+    """)    
+
     conn.commit()
     cur.close()
     conn.close()
-
- # 🔥 Flask 3.x 대응 방식
-with app.app_context():
-    print("Initializing database...")
-    create_table()
-
 
 def send_sms(text):
 
@@ -639,35 +655,6 @@ def search_inquiry():
 
     return jsonify(result)
 
-@app.route("/register", methods=["GET","POST"])
-def register():
-
-    if request.method == "POST":
-
-        username = request.form.get("username")
-        password = request.form.get("password")
-
-        conn = get_connection()
-        cur = conn.cursor()
-
-        try:
-            cur.execute("""
-            INSERT INTO users (username, password)
-            VALUES (%s,%s)
-            """,(username,password))
-
-            conn.commit()
-
-            cur.close()
-            conn.close()
-
-            return redirect("/user_login")
-
-        except:
-            return "이미 존재하는 아이디입니다"
-
-    return render_template("register.html")
-
 @app.route("/user_login", methods=["GET","POST"])
 def user_login():
 
@@ -681,15 +668,15 @@ def user_login():
 
         cur.execute("""
         SELECT * FROM users
-        WHERE username=%s AND password=%s
-        """,(username,password))
+        WHERE username=%s
+        """,(username,))
 
         user = cur.fetchone()
 
-        cur.close()
-        conn.close()
-
-        if user:
+        if user and bcrypt.checkpw(
+            password.encode(),
+            user[2].encode()
+        ):
             session["user"] = username
             return redirect("/")
         else:
@@ -843,8 +830,85 @@ def inquiries():
         search=search
     )
 
+@app.route("/send_sms", methods=["POST"])
+def send_sms():
+
+    phone = request.json.get("phone")
+
+    code = str(random.randint(100000,999999))
+
+    verification_codes[phone] = code
+
+    sms = Coolsms(API_KEY, API_SECRET)
+
+    sms.send({
+        "to": phone,
+        "from": SENDER,
+        "text": f"[SASH] 인증번호: {code}"
+    })
+
+    return {"status":"ok"}
+
+@app.route("/verify_sms", methods=["POST"])
+def verify_sms():
+
+    phone = request.json.get("phone")
+    code = request.json.get("code")
+
+    if verification_codes.get(phone) == code:
+
+        session["verified_phone"] = phone
+
+        return {"status":"ok"}
+
+    return {"status":"fail"}
+
+@app.route("/register", methods=["POST"])
+def register():
+
+    if not session.get("verified_phone"):
+        return "전화번호 인증 필요"
+
+    phone = session.get("verified_phone")
+
+    name = request.form.get("name")
+    ssn = request.form.get("ssn")
+    username = request.form.get("username")
+    password = request.form.get("password")
+    region = request.form.get("region")
+
+    conn=get_connection()
+    cur=conn.cursor()
+
+    password = request.form.get("password")
+
+    # ⭐ bcrypt 암호화
+    hashed = bcrypt.hashpw(
+        password.encode(),
+        bcrypt.gensalt()
+    ).decode()
+
+    cur.execute("""
+    INSERT INTO users
+    (phone,name,ssn,username,password,region)
+    VALUES (%s,%s,%s,%s,%s,%s)
+    """,(phone,name,ssn,username,hashed,region))
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    session.pop("verified_phone")
+
+    return redirect("/user_login")
+
 port = int(os.environ.get("PORT", 10000))
 
 if __name__ == "__main__":
+    with app.app_context():
+        print("Initializing database...")
+        create_table()
+
     print("Flask starting on port", port)
     app.run(host="0.0.0.0", port=port)
+
