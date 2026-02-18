@@ -894,6 +894,7 @@ def register():
 
     return jsonify({"status":"ok"})
 
+# construction page route
 @app.route("/construction")
 def construction():
     return render_template("construction.html")
