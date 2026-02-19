@@ -84,10 +84,10 @@ body{
 /* 기본 상태 */
 .fade-up{
     opacity:0;
-    transform:translateY(40px);
+    transform:translateY(30px);
     transition:
-        opacity 0.8s ease,
-        transform 0.8s ease;
+        opacity 0.6s ease,
+        transform 0.6s ease;
 }
 
 /* 나타날 때 */
@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     const elements =
         document.querySelectorAll(
-            ".box, .card, .about-card, .slides img, .section, .footer"
+            ".hero-content, .hero-logo, .box, .card, .about-card, .slides img, .section, .footer"
         );
 
     elements.forEach(function(el){
