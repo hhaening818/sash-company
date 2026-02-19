@@ -32,7 +32,23 @@ cloudinary.config(
 # =========================
 
 def get_connection():
-    return psycopg2.connect(DATABASE_URL)
+
+    try:
+
+        if not DATABASE_URL:
+            print("DATABASE_URL not set")
+            return None
+
+        return psycopg2.connect(
+            DATABASE_URL,
+            connect_timeout=5
+        )
+
+    except Exception as e:
+
+        print("DB connection failed:", e)
+
+        return None
 
 
 # =========================
@@ -61,7 +77,7 @@ def get_random_hero(page_folder, default_image):
         conn = get_connection()
         cur = conn.cursor()
 
-        cur.execute("SELECT image_url FROM portfolio")
+        cur.execute("SELECT id, image_url FROM portfolio ORDER BY id DESC")
 
         images = [row[0] for row in cur.fetchall()]
 
@@ -86,23 +102,16 @@ def get_random_hero(page_folder, default_image):
 @app.route("/")
 def home():
 
-    try:
-
-        hero_image = get_random_hero(
-            "about",
-            "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600"
-        )
-
-    except Exception as e:
-
-        print("Home hero error:", e)
-
-        hero_image = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600"
+    hero_image = get_random_hero(
+        "about",
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600"
+    )
 
     return render_template(
         "index.html",
         hero_image=hero_image
     )
+
 
 # =========================
 # ABOUT
