@@ -55,19 +55,25 @@ def get_random_hero(page_folder, default_image):
             return f"/static/hero/{page_folder}/" + random.choice(files)
 
 
-    # 2순위: portfolio
-    conn = get_connection()
-    cur = conn.cursor()
+    # 2순위: portfolio (DB) — 안전 처리
+    try:
 
-    cur.execute("SELECT image_url FROM portfolio")
+        conn = get_connection()
+        cur = conn.cursor()
 
-    images = [row[0] for row in cur.fetchall()]
+        cur.execute("SELECT image_url FROM portfolio")
 
-    cur.close()
-    conn.close()
+        images = [row[0] for row in cur.fetchall()]
 
-    if images:
-        return random.choice(images)
+        cur.close()
+        conn.close()
+
+        if images:
+            return random.choice(images)
+
+    except Exception as e:
+
+        print("Hero DB error:", e)
 
 
     # 3순위: 기본 이미지
@@ -80,10 +86,18 @@ def get_random_hero(page_folder, default_image):
 @app.route("/")
 def home():
 
-    hero_image = get_random_hero(
-        "about",
-        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600"
-    )
+    try:
+
+        hero_image = get_random_hero(
+            "about",
+            "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600"
+        )
+
+    except Exception as e:
+
+        print("Home hero error:", e)
+
+        hero_image = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600"
 
     return render_template(
         "index.html",
