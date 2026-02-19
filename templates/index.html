@@ -24,31 +24,115 @@
         }
 
         /* ===== 히어로 로고 (여백 제거 핵심) ===== */
-            .hero-logo{
-            width:100%;
+        /* ===== 기업 스타일 HERO ===== */
+
+        .hero{
+
             height:100vh;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+
+            background:linear-gradient(
+                to bottom,
+                #ffffff 0%,
+                #f8fafc 100%
+            );
+
             position:relative;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            background:white;
-            overflow:hidden;
+
         }
 
-        .hero-content{
-            width:100%;
-            height:100%;
-            display:flex;
-            align-items:center;
-            justify-content:center;
+
+        /* 내부 */
+        .hero-inner{
+
+            text-align:center;
+
         }
 
+
+        /* 로고 */
         .hero-logo-img{
-            max-width:100%;
-            max-height:100%;
-            width:20;
-            height:20;
-            display:block;
+
+            height:120px;
+
+            margin-bottom:20px;
+
+            opacity:0;
+            transform:translateY(30px);
+
+            animation:fadeUp 1s ease forwards;
+
+        }
+
+
+        /* 제목 */
+        .hero-title{
+
+            font-size:34px;
+            font-weight:700;
+
+            margin-bottom:10px;
+
+            color:#0f172a;
+
+            opacity:0;
+
+            animation:fadeUp 1s ease forwards;
+            animation-delay:0.2s;
+
+        }
+
+
+        /* 설명 */
+        .hero-sub{
+
+            font-size:18px;
+
+            color:#64748b;
+
+            opacity:0;
+
+            animation:fadeUp 1s ease forwards;
+            animation-delay:0.4s;
+
+        }
+
+
+        /* 스크롤 표시 */
+        .scroll-indicator{
+
+            position:absolute;
+
+            bottom:40px;
+
+            left:50%;
+
+            transform:translateX(-50%);
+
+        }
+
+
+        .scroll-line{
+
+            width:2px;
+            height:40px;
+
+            background:#94a3b8;
+
+            animation:scrollAnim 1.5s infinite;
+
+        }
+
+
+        @keyframes scrollAnim{
+
+            0%{opacity:0; transform:translateY(0);}
+            50%{opacity:1;}
+            100%{opacity:0; transform:translateY(15px);}
+
         }
 
         .hero-logo-img:hover{
@@ -708,56 +792,53 @@
 
 {% block content %}
 
-<section class="hero-logo fade-up">
+<section class="hero">
 
-    <div class="hero-content fade-up">
+    <div class="header-buttons">
 
-        <div class="header-buttons">
-
-            <!-- 좌측 관리자 -->
-            <div class="left-buttons">
-
-                {% if session.get('admin') %}
-                    <a href="/admin" class="admin-btn">관리자 페이지</a>
-                    <a href="/logout" class="admin-btn">관리자 로그아웃</a>
-                {% else %}
-                    <a href="/login" class="admin-btn">관리자 로그인</a>
-                {% endif %}
-
-            </div>
-
-            <!-- 우측 사용자 -->
-            <div class="right-buttons">
-
-                {% if session.get('user') %}
-
-                    <span class="user-name">
-                        {{ session.get('user') }}님
-                    </span>
-
-                    <a href="/logout" class="user-btn">로그아웃</a>
-
-                {% else %}
-
-                    <a href="/user_login" class="user-btn">로그인</a>
-
-                    <a href="#" onclick="openSignup(); return false;" class="user-btn">
-                        회원가입
-                    </a>
-
-                {% endif %}
-
-            </div>
-
+        <div class="left-buttons">
+            {% if session.get('admin') %}
+                <a href="/admin" class="admin-btn">관리자 페이지</a>
+                <a href="/logout" class="admin-btn">관리자 로그아웃</a>
+            {% else %}
+                <a href="/login" class="admin-btn">관리자 로그인</a>
+            {% endif %}
         </div>
+
+        <div class="right-buttons">
+            {% if session.get('user') %}
+                <span class="user-name">{{ session.get('user') }}님</span>
+                <a href="/logout" class="user-btn">로그아웃</a>
+            {% else %}
+                <a href="/user_login" class="user-btn">로그인</a>
+                <a href="#" onclick="openSignup(); return false;" class="user-btn">
+                    회원가입
+                </a>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <div class="hero-inner">
 
         <img src="{{ url_for('static', filename='images/logo.png') }}"
              class="hero-logo-img">
 
+        <h1 class="hero-title">
+            건진창호
+        </h1>
+
+        <p class="hero-sub">
+            30년 경력 창호 전문 시공
+        </p>
+
+    </div>
+
+    <div class="scroll-indicator">
+        <div class="scroll-line"></div>
     </div>
 
 </section>
-
 
 <section id="about">
     <div class="card">
