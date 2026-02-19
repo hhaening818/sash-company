@@ -84,7 +84,7 @@ body{
 /* 기본 상태 */
 .fade-up{
     opacity:0;
-    transform:translateY(30px);
+    transform:translateY(40px);
     transition:
         opacity 0.6s ease,
         transform 0.6s ease;
@@ -168,15 +168,6 @@ window.addEventListener("load", function(){
 
 document.addEventListener("DOMContentLoaded", function(){
 
-    const elements =
-        document.querySelectorAll(
-            ".hero, .hero-content, .hero-logo, .box, .card, .about-card, .slides img, .section, .footer"
-        );
-
-    elements.forEach(function(el){
-        el.classList.add("fade-up");
-    });
-
     const observer =
         new IntersectionObserver(function(entries){
 
@@ -186,17 +177,28 @@ document.addEventListener("DOMContentLoaded", function(){
 
                     entry.target.classList.add("show");
 
+                    // 한 번만 실행
                     observer.unobserve(entry.target);
 
                 }
+
             });
 
         },{
-            threshold:0.15
+            threshold:0.2
         });
 
+    const elements =
+        document.querySelectorAll(
+            ".hero-logo, .hero-content, .box, .card, .about-card, .slides img, .estimate-card, .footer"
+        );
+
     elements.forEach(function(el){
+
+        el.classList.add("fade-up");
+
         observer.observe(el);
+
     });
 
 });
