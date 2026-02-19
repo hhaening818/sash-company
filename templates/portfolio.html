@@ -52,6 +52,52 @@
     margin-top:5px;
 }
 
+/* 관리자 버튼 */
+.admin-box{
+    margin-top:10px;
+    display:flex;
+    gap:5px;
+}
+
+.admin-box button{
+    font-size:12px;
+    padding:5px 8px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.edit-btn{
+    background:#2563eb;
+    color:white;
+}
+
+.delete-btn{
+    background:#dc2626;
+    color:white;
+}
+
+.save-btn{
+    background:#16a34a;
+    color:white;
+}
+
+.cancel-btn{
+    background:#6b7280;
+    color:white;
+}
+
+.edit-form{
+    display:none;
+    margin-top:10px;
+}
+
+.edit-form input{
+    width:100%;
+    margin-bottom:5px;
+    padding:5px;
+}
+
 </style>
 {% endblock %}
 
@@ -60,44 +106,136 @@
 
 <div class="page-wrap">
 
-    <div class="page-title">
-        시공 사례
-    </div>
+<div class="page-title">
+시공 사례
+</div>
 
-    <div class="grid">
+<div class="grid">
 
-        {% for id, img, date, location, category, type in images %}
+{% for id, img, date, location, category, type in images %}
 
-        <div class="card">
+<div class="card">
 
-            <img src="{{ img }}">
+<img src="{{ img }}">
 
-            <div class="card-body">
+<div class="card-body">
 
-                <div class="card-title">
-                    {{ category }}
-                </div>
+<div class="card-title">
+{{ category }}
+</div>
 
-                <div class="card-sub">
-                    📍 {{ location }}
-                </div>
+<div class="card-sub">
+📍 {{ location }}
+</div>
 
-                <div class="card-sub">
-                    📅 {{ date }}
-                </div>
+<div class="card-sub">
+📅 {{ date }}
+</div>
 
-                <div class="card-sub">
-                    {{ type }}
-                </div>
+<div class="card-sub">
+{{ type }}
+</div>
 
-            </div>
+{% if is_admin %}
 
-        </div>
+<div class="admin-box">
 
-        {% endfor %}
+<button class="edit-btn"
+onclick="toggleEdit('{{ id }}')">
+수정
+</button>
 
-    </div>
+<form action="/admin/delete_portfolio/{{ id }}"
+method="POST">
+<button class="delete-btn">
+삭제
+</button>
+</form>
 
 </div>
 
+<form class="edit-form"
+id="form-{{ id }}"
+onsubmit="saveEdit(event,'{{ id }}')">
+
+<input name="date"
+value="{{ date }}"
+placeholder="시공 날짜">
+
+<input name="location"
+value="{{ location }}"
+placeholder="시공 위치">
+
+<input name="category"
+value="{{ category }}"
+placeholder="카테고리">
+
+<input name="type"
+value="{{ type }}"
+placeholder="Before / After">
+
+<button class="save-btn">
+저장
+</button>
+
+<button type="button"
+class="cancel-btn"
+onclick="toggleEdit('{{ id }}')">
+취소
+</button>
+
+</form>
+
+{% endif %}
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+{% endblock %}
+
+
+{% block extra_script %}
+<script>
+
+function toggleEdit(id){
+
+const form =
+document.getElementById("form-"+id);
+
+if(form.style.display==="block"){
+form.style.display="none";
+}else{
+form.style.display="block";
+}
+
+}
+
+function saveEdit(e,id){
+
+e.preventDefault();
+
+const form =
+document.getElementById("form-"+id);
+
+const data =
+new FormData(form);
+
+fetch("/admin/update_portfolio/"+id,{
+method:"POST",
+body:data
+})
+.then(()=>{
+location.reload();
+});
+
+}
+
+</script>
 {% endblock %}
