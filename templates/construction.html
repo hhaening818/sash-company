@@ -6,170 +6,61 @@
 <style>
 
 .hero{
-    height:420px;
-    background:
-    linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.45)),
-    url("https://images.unsplash.com/photo-1600566752355-35792bedcfea?q=80&w=1600");
-    background-size:cover;
-    background-position:center;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:white;
-    text-align:center;
-}
-
-.hero h1{
-    font-size:42px;
-    margin-bottom:10px;
-}
-
-.hero p{
-    font-size:18px;
-    opacity:0.9;
+height:420px;
+background:
+linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.45)),
+url("{{ hero_image }}");
+background-size:cover;
+background-position:center;
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+text-align:center;
 }
 
 .section{
-    padding:80px 20px;
-    text-align:center;
-}
-
-.section h2{
-    font-size:28px;
-    margin-bottom:20px;
-}
-
-.section p{
-    max-width:700px;
-    margin:auto;
-    line-height:1.7;
-    color:#555;
+padding:80px 20px;
+text-align:center;
 }
 
 .grid{
-    max-width:900px;
-    margin:50px auto 0 auto;
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:20px;
+max-width:900px;
+margin:50px auto;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:20px;
 }
 
 .box{
-    background:white;
-    padding:25px;
-    border-radius:14px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
-    text-align:left;
-}
-
-.box-title{
-    font-size:18px;
-    font-weight:700;
-    margin-bottom:10px;
-}
-
-.box-desc{
-    color:#555;
-    line-height:1.6;
-    font-size:14px;
+background:white;
+padding:25px;
+border-radius:14px;
 }
 
 </style>
 {% endblock %}
 
-
 {% block content %}
 
 <div class="hero">
-    <div>
-        <h1>시공 분야</h1>
-        <p>다양한 창호 시공 경험과 전문 기술력</p>
-    </div>
+<h1>시공 분야</h1>
 </div>
-
 
 <div class="section">
 
-    <h2>전문 시공 분야</h2>
+<div class="grid">
 
-    <p>
-        건진창호는 다양한 공간에 맞는 창호 시공을 전문으로 하며,<br>
-        정확한 시공과 철저한 품질 관리로 최상의 결과를 제공합니다.
-    </p>
+<div class="box">아파트 샷시 시공</div>
 
+<div class="box">주택 창호 시공</div>
 
-    <div class="grid">
+<div class="box">상가 창호 시공</div>
 
-
-        <div class="box">
-            <div class="box-title">
-            🏢 아파트 샷시 시공
-            </div>
-            <div class="box-desc">
-            노후된 창호를 고성능 샷시로 교체하여 단열 및 방음 성능을 향상시키고,<br>
-            쾌적한 실내 환경과 에너지 절감 효과를 제공합니다.
-            </div>
-        </div>
-
-
-        <div class="box">
-            <div class="box-title">
-            🏠 단독주택 창호 시공
-            </div>
-            <div class="box-desc">
-            주택 구조에 맞춘 맞춤 창호 시공으로 외풍을 차단하고,<br>
-            단열 성능과 내구성을 동시에 개선합니다.
-            </div>
-        </div>
-
-
-        <div class="box">
-            <div class="box-title">
-            🏬 상가 유리 및 창호 시공
-            </div>
-            <div class="box-desc">
-            강화유리 및 상업용 창호 시공으로 안전성과 내구성을 확보하며,<br>
-            매장의 미관과 개방감을 향상시킵니다.
-            </div>
-        </div>
-
-
-        <div class="box">
-            <div class="box-title">
-            🌿 베란다 확장 및 창호 시공
-            </div>
-            <div class="box-desc">
-            베란다 공간을 효율적으로 활용할 수 있도록 확장 시공을 진행하며,<br>
-            단열 성능을 강화하여 쾌적한 공간을 제공합니다.
-            </div>
-        </div>
-
-
-        <div class="box">
-            <div class="box-title">
-            🔇 방음 창호 시공
-            </div>
-            <div class="box-desc">
-            외부 소음을 효과적으로 차단하는 창호 시공으로<br>
-            조용하고 안정적인 실내 환경을 제공합니다.
-            </div>
-        </div>
-
-
-        <div class="box">
-            <div class="box-title">
-            🔧 창호 교체 및 리모델링
-            </div>
-            <div class="box-desc">
-            노후 창호를 최신 창호로 교체하여 단열, 방음, 안전 성능을 개선하고,<br>
-            주거 환경의 품질을 향상시킵니다.
-            </div>
-        </div>
-
-
-    </div>
+<div class="box">방음 창호 시공</div>
 
 </div>
 
+</div>
 
 {% endblock %}

@@ -6,106 +6,60 @@
 <style>
 
 .hero{
-    height:420px;
-    background:
-    linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.45)),
-    url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600");
-    background-size:cover;
-    background-position:center;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:white;
-    text-align:center;
-}
-
-.hero h1{
-    font-size:42px;
-    margin-bottom:10px;
-}
-
-.hero p{
-    font-size:18px;
-    opacity:0.9;
+height:420px;
+background:
+linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.45)),
+url("{{ hero_image }}");
+background-size:cover;
+background-position:center;
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+text-align:center;
 }
 
 .section{
-    padding:80px 20px;
-    text-align:center;
+padding:80px 20px;
+text-align:center;
 }
 
-.section h2{
-    font-size:28px;
-    margin-bottom:20px;
-}
-
-.section p{
-    max-width:700px;
-    margin:auto;
-    line-height:1.7;
-    color:#555;
-}
-
-/* 시공 이미지 슬라이드 */
 .slides{
-    display:flex;
-    gap:20px;
-    overflow-x:auto;
-    padding-top:20px;
-    justify-content:center;
+display:flex;
+gap:20px;
+overflow-x:auto;
+padding-top:20px;
+justify-content:center;
 }
 
 .slides img{
-    height:200px;
-    border-radius:12px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+height:200px;
+border-radius:12px;
 }
 
 </style>
 {% endblock %}
 
-
 {% block content %}
 
 <div class="hero">
-    <div>
-        <h1>창호 시공 전문 기업</h1>
-        <p>30년 경력의 전문 기술력과 신뢰</p>
-    </div>
+<h1>창호 시공 전문 기업</h1>
 </div>
-
 
 <div class="section">
-
-    <h2>회사 소개</h2>
-
-    <p>
-        건진창호는 창호 시공 전문 업체로서 아파트, 주택, 상가 등 다양한 공간에 최적의 창호 시공을 제공합니다.<br><br>
-
-        30년 이상의 시공 경험을 바탕으로 정확한 시공과 철저한 품질 관리를 통해<br>
-        고객 만족을 최우선으로 생각합니다.<br><br>
-
-        단열, 방음, 내구성을 모두 고려한 고품질 창호 시공을 제공합니다.
-    </p>
-
+<h2>회사 소개</h2>
+<p>건진창호는 창호 시공 전문 업체입니다.</p>
 </div>
-
 
 <div class="section">
+<h2>시공 현장</h2>
 
-    <h2>시공 현장</h2>
-
-    <div class="slides">
-
-        {% for id, img in images %}
-
-        <img src="{{ img }}">
-
-        {% endfor %}
-
-    </div>
-
+<div class="slides">
+{% for id, img in images %}
+<img src="{{ img }}">
+{% endfor %}
 </div>
 
+</div>
 
 {% endblock %}
