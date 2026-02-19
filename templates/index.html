@@ -148,21 +148,31 @@
 
         /* ===== 상단 버튼 ===== */
         .header-buttons{
-            position:absolute;
-            top:20px;
-            left:0;
+
+            position:relative;
+
             width:100%;
-            z-index:1000;
+
+            display:flex;                     /* 핵심 */
+
+            justify-content:space-between;   /* 좌우 정렬 */
+
+            align-items:center;
+
+            padding:10px 20px;
+
+            box-sizing:border-box;
+
+            z-index:10;
+
         }
 
         .left-buttons{
-            position:absolute;
-            left:20px;
+            position:relative;   /* absolute 제거 */
         }
 
         .right-buttons{
-            position:absolute;
-            right:20px;
+            position:relative;   /* absolute 제거 */
         }
 
         .admin-btn,
