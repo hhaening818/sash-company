@@ -147,6 +147,36 @@ def construction():
         hero_image=hero_image
     )
 
+# =========================
+# PORTFOLIO (시공 사례 페이지) ← 이거 추가
+# =========================
+
+# =========================
+# PORTFOLIO (시공 사례 페이지)
+# =========================
+
+@app.route("/portfolio")
+def portfolio():
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT id, image_url, date, location, category, type
+        FROM portfolio
+        ORDER BY id DESC
+    """)
+
+    images = cur.fetchall()
+
+    cur.close()
+    conn.close()
+
+    return render_template(
+        "portfolio.html",
+        images=images,
+        is_admin=False
+    )
 
 # =========================
 # 문의 등록
