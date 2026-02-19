@@ -65,18 +65,19 @@
 
         }
 
-        .hero-logo-img{
+       .hero-logo-img{
 
-            width:100%;
+            width:auto;
 
-            max-width:1800px;
+            height:80vh;   /* 핵심: 화면 높이 기준으로 확대 */
 
-            height:auto;
+            max-width:95vw;
+
+            object-fit:contain;
 
             display:block;
 
         }
-
 
         .hero-logo-img:hover{
             transform: scale(1.05);            /* 확대 */
