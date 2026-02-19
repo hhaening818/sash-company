@@ -830,8 +830,7 @@
 
 <section>
 
-    <div class="estimate-card"
-         onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+    <div class="estimate-card" id="contact">
 
         <h2>무료 견적 요청</h2>
 
@@ -840,34 +839,35 @@
             빠르고 정확하게 안내드립니다
         </p>
 
-    </div>
+        <form id="contactForm"
+              enctype="multipart/form-data"
+              style="margin-top:20px;">
 
-</section>
+            <input type="text"
+                   name="name"
+                   placeholder="이름"
+                   required>
 
-<section id="contact">
+            <input type="text"
+                   name="phone"
+                   placeholder="연락처"
+                   required>
 
-    <div class="contact-section">
+            <textarea name="message"
+                      placeholder="문의 내용"></textarea>
 
-        <h2>무료 견적 문의</h2>
+            <input type="file"
+                   name="image">
 
-        <form id="contactForm" enctype="multipart/form-data">
-
-            <input type="text" name="name" placeholder="이름" required><br>
-
-            <input type="text" name="phone" placeholder="연락처" required><br>
-
-            <textarea name="message" placeholder="문의 내용"></textarea><br>
-
-            <input type="file" name="image">
-
-            <button type="submit">견적 요청하기</button>
+            <button type="submit">
+                견적 요청하기
+            </button>
 
         </form>
 
     </div>
 
 </section>
-
 
 <footer>
 
