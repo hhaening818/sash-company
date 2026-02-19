@@ -34,7 +34,9 @@
 
             overflow:hidden;
 
-            min-height:420px;      /* ← 핵심 추가 */
+            height:100vh;          /* 핵심: 화면 전체 높이 */
+            min-height:100vh;
+
             display:flex;
             align-items:center;
             justify-content:center;
@@ -51,8 +53,8 @@
 
             width:100%;
 
-            min-height:420px;   /* ← 추가 */
-
+            height:100%;           /* 추가 */
+            
             display:flex;
 
             align-items:center;
@@ -62,7 +64,6 @@
             flex-direction:column;
 
         }
-
 
         .hero-logo-img{
 
@@ -784,7 +785,7 @@
 </section>
 
 
-<section id="about" style="margin-top:120px;">
+<section id="about">
     <div class="card">
         <h2>회사소개</h2>
         <p>
