@@ -186,8 +186,9 @@ document.addEventListener("DOMContentLoaded", function(){
 
                     entry.target.classList.add("show");
 
-                }
+                    observer.unobserve(entry.target);
 
+                }
             });
 
         },{
