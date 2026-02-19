@@ -73,6 +73,22 @@ def get_random_hero(page_folder, default_image):
     # 3순위: 기본 이미지
     return default_image
 
+# =========================
+# HOME
+# =========================
+
+@app.route("/")
+def home():
+
+    hero_image = get_random_hero(
+        "about",
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600"
+    )
+
+    return render_template(
+        "index.html",
+        hero_image=hero_image
+    )
 
 # =========================
 # ABOUT
