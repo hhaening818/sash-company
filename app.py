@@ -988,10 +988,6 @@ def delete_portfolio(id):
     return redirect("/portfolio")
 
 
-if __name__ == "__main__":
-
-    port = int(os.environ.get("PORT", 10000))
-
-    app.run(host="0.0.0.0", port=port)
+# Render에서는 gunicorn이 실행하므로 app.run() 필요 없음
 
 
