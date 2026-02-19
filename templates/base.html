@@ -69,10 +69,31 @@ body{
     border-radius:8px;
 }
 
+/* footer */
 .footer{
     padding:30px;
     text-align:center;
     color:#888;
+}
+
+
+/* =========================
+   애니메이션 (아래 → 위)
+========================= */
+
+/* 기본 상태 */
+.fade-up{
+    opacity:0;
+    transform:translateY(40px);
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s ease;
+}
+
+/* 나타날 때 */
+.fade-up.show{
+    opacity:1;
+    transform:translateY(0);
 }
 
 </style>
@@ -82,8 +103,9 @@ body{
 </head>
 <body>
 
+
 <!-- 공통 헤더 -->
-<div class="header">
+<div class="header fade-up">
 
 <div class="logo"
 onclick="location.href='/'">
@@ -112,16 +134,17 @@ SASH COMPANY
 
 
 <!-- 공통 footer -->
-<div class="footer">
+<div class="footer fade-up">
 
 📞 010-7137-2313 | © GUNJIN SASH COMPANY
 
 </div>
 
 
+
 <script>
 
-// /#contact 이동 시 정확한 위치로 스크롤
+/* contact 이동 스크롤 */
 window.addEventListener("load", function(){
 
     if(window.location.hash === "#contact"){
@@ -140,9 +163,50 @@ window.addEventListener("load", function(){
 
 });
 
+
+/* =========================
+   fade-up 애니메이션 적용
+========================= */
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    const elements =
+        document.querySelectorAll(
+            ".box, .card, .about-card, .slides img, .section, .hero, .hero-content, .footer, .header"
+        );
+
+    elements.forEach(function(el){
+        el.classList.add("fade-up");
+    });
+
+    const observer =
+        new IntersectionObserver(function(entries){
+
+            entries.forEach(function(entry){
+
+                if(entry.isIntersecting){
+
+                    entry.target.classList.add("show");
+
+                }
+
+            });
+
+        },{
+            threshold:0.15
+        });
+
+    elements.forEach(function(el){
+        observer.observe(el);
+    });
+
+});
+
 </script>
 
+
 {% block extra_script %}{% endblock %}
+
 
 </body>
 </html>
