@@ -16,7 +16,7 @@
 }
 
 html{
-    scroll-behavior:smooth;
+    scroll-behavior:auto;
 }
 
 body{
@@ -152,11 +152,9 @@ window.addEventListener("load", function(){
         const el = document.getElementById("contact");
 
         if(el){
-            setTimeout(()=>{
-                el.scrollIntoView({
-                    behavior:"smooth"
-                });
-            },100);
+            el.scrollIntoView({
+                behavior:"auto"
+            });
         }
 
     }
