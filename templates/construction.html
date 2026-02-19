@@ -5,68 +5,73 @@
 {% block extra_style %}
 <style>
 
-.page-wrap{
-    max-width:1100px;
-    margin:80px auto;
-    padding:0 20px;
+.hero{
+    height:420px;
+    background:
+    linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.45)),
+    url("https://images.unsplash.com/photo-1600566752355-35792bedcfea?q=80&w=1600");
+    background-size:cover;
+    background-position:center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    text-align:center;
 }
 
-.page-title{
-    font-size:34px;
+.hero h1{
+    font-size:42px;
+    margin-bottom:10px;
+}
+
+.hero p{
+    font-size:18px;
+    opacity:0.9;
+}
+
+.section{
+    padding:80px 20px;
+    text-align:center;
+}
+
+.section h2{
+    font-size:28px;
+    margin-bottom:20px;
+}
+
+.section p{
+    max-width:700px;
+    margin:auto;
+    line-height:1.7;
+    color:#555;
+}
+
+.grid{
+    max-width:900px;
+    margin:50px auto 0 auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:20px;
+}
+
+.box{
+    background:white;
+    padding:25px;
+    border-radius:14px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    text-align:left;
+}
+
+.box-title{
+    font-size:18px;
     font-weight:700;
     margin-bottom:10px;
-    text-align:center;
 }
 
-.page-sub{
-    text-align:center;
-    color:#777;
-    margin-bottom:50px;
-}
-
-/* 카드 그리드 */
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-    gap:30px;
-}
-
-/* 카드 */
-.card{
-    background:white;
-    border-radius:16px;
-    overflow:hidden;
-    box-shadow:0 6px 20px rgba(0,0,0,0.08);
-    transition:0.3s;
-}
-
-.card:hover{
-    transform:translateY(-8px);
-    box-shadow:0 12px 28px rgba(0,0,0,0.15);
-}
-
-/* 이미지 */
-.card img{
-    width:100%;
-    height:180px;
-    object-fit:cover;
-}
-
-/* 내용 */
-.card-body{
-    padding:20px;
-}
-
-.card-title{
-    font-size:20px;
-    font-weight:700;
-    margin-bottom:8px;
-}
-
-.card-desc{
-    font-size:14px;
-    color:#666;
+.box-desc{
+    color:#555;
     line-height:1.6;
+    font-size:14px;
 }
 
 </style>
@@ -75,103 +80,96 @@
 
 {% block content %}
 
-<div class="page-wrap">
-
-    <div class="page-title">
-        시공 분야
+<div class="hero">
+    <div>
+        <h1>시공 분야</h1>
+        <p>다양한 창호 시공 경험과 전문 기술력</p>
     </div>
+</div>
 
-    <div class="page-sub">
-        다양한 창호 시공 경험으로 최적의 솔루션을 제공합니다
-    </div>
+
+<div class="section">
+
+    <h2>전문 시공 분야</h2>
+
+    <p>
+        건진창호는 다양한 공간에 맞는 창호 시공을 전문으로 하며,<br>
+        정확한 시공과 철저한 품질 관리로 최상의 결과를 제공합니다.
+    </p>
+
 
     <div class="grid">
 
-        <!-- 아파트 -->
-        <div class="card">
-            <img src="/static/images/apt.jpg">
-            <div class="card-body">
-                <div class="card-title">🏢 아파트 샷시</div>
-                <div class="card-desc">
-                    단열 및 방음 성능을 높여 쾌적한 실내 환경을 제공합니다.<br>
-                    관리비 절감과 결로 방지 효과를 기대할 수 있습니다.<br>
-                    ✔ 무료 방문 상담 및 견적 제공
-                </div>
+
+        <div class="box">
+            <div class="box-title">
+            🏢 아파트 샷시 시공
+            </div>
+            <div class="box-desc">
+            노후된 창호를 고성능 샷시로 교체하여 단열 및 방음 성능을 향상시키고,<br>
+            쾌적한 실내 환경과 에너지 절감 효과를 제공합니다.
             </div>
         </div>
 
 
-        <!-- 주택 -->
-        <div class="card">
-            <img src="/static/images/house.jpg">
-            <div class="card-body">
-                <div class="card-title">🏠 단독주택 창호</div>
-                <div class="card-desc">
-                    주택 구조에 맞춘 맞춤 창호 시공을 진행합니다.<br>
-                    외풍 차단 및 단열 성능을 효과적으로 개선합니다.<br>
-                    ✔ 무료 방문 상담 및 견적 제공
-                </div>
+        <div class="box">
+            <div class="box-title">
+            🏠 단독주택 창호 시공
+            </div>
+            <div class="box-desc">
+            주택 구조에 맞춘 맞춤 창호 시공으로 외풍을 차단하고,<br>
+            단열 성능과 내구성을 동시에 개선합니다.
             </div>
         </div>
 
 
-        <!-- 상가 -->
-        <div class="card">
-            <img src="/static/images/store.jpg">
-            <div class="card-body">
-                <div class="card-title">🏬 상가 유리 시공</div>
-                <div class="card-desc">
-                    강화유리 및 상업용 창호를 안전하게 시공합니다.<br>
-                    매장의 개방감과 미관을 동시에 향상시킵니다.<br>
-                    ✔ 무료 방문 상담 및 견적 제공
-                </div>
+        <div class="box">
+            <div class="box-title">
+            🏬 상가 유리 및 창호 시공
+            </div>
+            <div class="box-desc">
+            강화유리 및 상업용 창호 시공으로 안전성과 내구성을 확보하며,<br>
+            매장의 미관과 개방감을 향상시킵니다.
             </div>
         </div>
 
 
-        <!-- 베란다 -->
-        <div class="card">
-            <img src="/static/images/balcony.jpg">
-            <div class="card-body">
-                <div class="card-title">🌿 베란다 확장</div>
-                <div class="card-desc">
-                    베란다 공간을 효율적으로 확장하여 활용도를 높입니다.<br>
-                    단열 성능을 강화하여 쾌적한 공간을 제공합니다.<br>
-                    ✔ 무료 방문 상담 및 견적 제공
-                </div>
+        <div class="box">
+            <div class="box-title">
+            🌿 베란다 확장 및 창호 시공
+            </div>
+            <div class="box-desc">
+            베란다 공간을 효율적으로 활용할 수 있도록 확장 시공을 진행하며,<br>
+            단열 성능을 강화하여 쾌적한 공간을 제공합니다.
             </div>
         </div>
 
 
-        <!-- 방음 -->
-        <div class="card">
-            <img src="/static/images/window.jpg">
-            <div class="card-body">
-                <div class="card-title">🔇 방음 창호</div>
-                <div class="card-desc">
-                    외부 소음을 효과적으로 차단하는 창호 시공입니다.<br>
-                    조용하고 안정적인 실내 환경을 제공합니다.<br>
-                    ✔ 무료 방문 상담 및 견적 제공
-                </div>
+        <div class="box">
+            <div class="box-title">
+            🔇 방음 창호 시공
+            </div>
+            <div class="box-desc">
+            외부 소음을 효과적으로 차단하는 창호 시공으로<br>
+            조용하고 안정적인 실내 환경을 제공합니다.
             </div>
         </div>
 
 
-        <!-- 리모델링 -->
-        <div class="card">
-            <img src="/static/images/remodel.jpg">
-            <div class="card-body">
-                <div class="card-title">🔧 창호 리모델링</div>
-                <div class="card-desc">
-                    노후 창호를 최신 창호로 교체하여 성능을 개선합니다.<br>
-                    단열, 방음, 안전성을 동시에 향상시킵니다.<br>
-                    ✔ 무료 방문 상담 및 견적 제공
-                </div>
+        <div class="box">
+            <div class="box-title">
+            🔧 창호 교체 및 리모델링
+            </div>
+            <div class="box-desc">
+            노후 창호를 최신 창호로 교체하여 단열, 방음, 안전 성능을 개선하고,<br>
+            주거 환경의 품질을 향상시킵니다.
             </div>
         </div>
+
 
     </div>
 
 </div>
+
 
 {% endblock %}
