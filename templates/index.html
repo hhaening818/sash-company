@@ -23,13 +23,11 @@
         }
 
         /* ===== 히어로 로고 (여백 제거 핵심) ===== */
-        .hero-logo{
+       .hero-logo{
 
             width:100%;
 
-            height:auto;
-
-            padding:40px 0;
+            height:calc(100vh - 70px); /* 상단 메뉴 높이 제외 */
 
             background:white;
 
@@ -38,6 +36,8 @@
             align-items:center;
 
             justify-content:center;
+
+            overflow:hidden;
 
         }
 
@@ -63,13 +63,26 @@
 
         }
 
-      .hero-logo-img{
+        .hero-logo-img{
 
-            width:100%;
+            max-width:90%;
 
-            max-width:900px;
+            max-height:90%;
+
+            width:auto;
 
             height:auto;
+
+            object-fit:contain;
+
+        }
+
+        @keyframes fadeLogo{
+
+            to{
+                opacity:1;
+                transform:translateY(0);
+            }
 
         }
         
