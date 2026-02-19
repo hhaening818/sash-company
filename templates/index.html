@@ -27,9 +27,7 @@
 
             width:100%;
 
-            height:calc(100vh - 70px); /* 상단 메뉴 높이 제외 */
-
-            background:white;
+            height:calc(100vh - var(--header-height, 80px)); /* ← 헤더 높이만큼 빼기 */
 
             display:flex;
 
@@ -37,7 +35,7 @@
 
             justify-content:center;
 
-            overflow:hidden;
+            background:white;
 
         }
 
@@ -63,15 +61,13 @@
 
         }
 
-        .hero-logo-img{
-
-            max-width:90%;
-
-            max-height:90%;
+       .hero-logo-img{
 
             width:auto;
 
-            height:auto;
+            height:100%;
+
+            max-width:100%;
 
             object-fit:contain;
 
@@ -85,7 +81,7 @@
             }
 
         }
-        
+
         .hero-logo-img:hover{
             transform: scale(1.05);            /* 확대 */
         }
