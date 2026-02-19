@@ -288,7 +288,7 @@ onclick="location.href='/inquiry/{{ inquiry[0] }}'">
 </div>
 
 <div class="date-cell">
-{{ inquiry[6][:10] if inquiry[6] }}
+{{ inquiry[6].strftime("%Y-%m-%d %H:%M") if inquiry[6] }}
 </div>
 
 </div>
