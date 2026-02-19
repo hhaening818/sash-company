@@ -670,6 +670,34 @@
             scroll-behavior:smooth;
         }
 
+        /* 견적요청 카드 */
+        .estimate-card{
+
+            background:#eef2f1;
+
+            padding:26px;
+            margin:12px auto;
+            width:70%;
+
+            border-radius:15px;
+
+            box-shadow:0 4px 12px rgba(0,0,0,0.08);
+
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+            cursor:pointer;
+        }
+
+        .estimate-card:hover{
+
+            transform: translateY(-3px);
+
+            box-shadow:0 8px 20px rgba(0,0,0,0.12);
+
+            background:#e4e9e7;
+
+        }
+
 </style>
 {% endblock %}
 
@@ -776,19 +804,19 @@
 
             <button class="prev">&#10094;</button>
 
-            <div class="slides">
+            <div class="slides" id="slides">
 
-                {% for img in images %}
+            {% for img in images %}
+            <div class="slide">
+            <img src="{{ img }}" loading="lazy">
+            </div>
+            {% endfor %}
 
-                <div class="slide">
-
-                    <img src="{{ img.replace('/upload/', '/upload/w_400,q_auto,f_auto/') }}"
-                         data-full="{{ img.replace('/upload/', '/upload/w_1600,q_auto,f_auto/') }}"
-                         loading="lazy">
-
-                </div>
-
-                {% endfor %}
+            {% for img in images %}
+            <div class="slide clone">
+            <img src="{{ img }}" loading="lazy">
+            </div>
+            {% endfor %}
 
             </div>
 
@@ -800,6 +828,21 @@
 
 </section>
 
+<section>
+
+    <div class="estimate-card"
+         onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+
+        <h2>무료 견적 요청</h2>
+
+        <p>
+            무료 견적 상담을 받아보세요<br>
+            빠르고 정확하게 안내드립니다
+        </p>
+
+    </div>
+
+</section>
 
 <section id="contact">
 
@@ -1235,113 +1278,105 @@ style="opacity:0.5;cursor:not-allowed;">
 {% block extra_script %}
 <script>
 
-const slidesContainer = document.querySelector('.slides');
-let slides = document.querySelectorAll('.slide');
+const slidesContainer =
+document.getElementById("slides");
+
+const slides =
+document.querySelectorAll(".slide");
 
 let index = 0;
 let isPaused = false;
 
+const visibleSlides = 3;
 
-// 무한루프 복제
-slides.forEach(slide => {
-    slidesContainer.appendChild(slide.cloneNode(true));
-});
+function updateSlides(animate=true){
 
-slides = document.querySelectorAll('.slide');
+    const slideWidth =
+        slides[0].offsetWidth + 20;
 
+    if(!animate){
 
-function updateSlides() {
+        slidesContainer.style.transition = "none";
 
-    slides.forEach(slide =>
-        slide.classList.remove('active')
-    );
+    }else{
 
-    slides[index].classList.add('active');
-
-    const offset =
-        slides[index].offsetLeft
-        - slidesContainer.offsetWidth / 2
-        + slides[index].offsetWidth / 2;
-
-    slidesContainer.style.transform =
-        `translateX(-${offset}px)`;
-
-}
-
-
-// 버튼
-document.querySelector('.next').onclick = () => {
-
-    index++;
-
-    if(index >= slides.length)
-        index = 0;
-
-    updateSlides();
-
-};
-
-document.querySelector('.prev').onclick = () => {
-
-    index--;
-
-    if(index < 0)
-        index = slides.length - 1;
-
-    updateSlides();
-
-};
-
-
-// 자동 슬라이드
-setInterval(() => {
-
-    if(!isPaused) {
-
-        index++;
-
-        if(index >= slides.length)
-            index = 0;
-
-        updateSlides();
+        slidesContainer.style.transition = "transform 0.5s ease";
 
     }
 
-}, 4000);
+    slidesContainer.style.transform =
+        `translateX(-${index * slideWidth}px)`;
 
+}
 
-// 마우스 멈춤
-slidesContainer.addEventListener('mouseenter', () => {
+// 다음
+function nextSlide(){
+
+    index++;
+
+    updateSlides(true);
+
+    if(index >= slides.length - visibleSlides){
+
+        setTimeout(()=>{
+
+            index = 0;
+
+            updateSlides(false);
+
+        },500);
+
+    }
+
+}
+
+// 이전
+function prevSlide(){
+
+    if(index === 0){
+
+        index = slides.length - visibleSlides;
+
+        updateSlides(false);
+
+    }
+
+    index--;
+
+    updateSlides(true);
+
+}
+
+document.querySelector(".next").onclick = nextSlide;
+document.querySelector(".prev").onclick = prevSlide;
+
+// 자동 슬라이드
+setInterval(()=>{
+
+    if(!isPaused){
+
+        nextSlide();
+
+    }
+
+},4000);
+
+// hover 정지
+slidesContainer.addEventListener("mouseenter",()=>{
+
     isPaused = true;
+
 });
 
-slidesContainer.addEventListener('mouseleave', () => {
+slidesContainer.addEventListener("mouseleave",()=>{
+
     isPaused = false;
-});
-
-
-// 터치
-let startX = 0;
-
-slidesContainer.addEventListener('touchstart', e => {
-    startX = e.touches[0].clientX;
-});
-
-slidesContainer.addEventListener('touchend', e => {
-
-    let endX = e.changedTouches[0].clientX;
-
-    if(startX - endX > 50)
-        document.querySelector('.next').click();
-
-    if(endX - startX > 50)
-        document.querySelector('.prev').click();
 
 });
-
 
 // 시작
-updateSlides();
+updateSlides(false);
+
 
 const modal = document.getElementById("imageModal");
 const modalImg = document.getElementById("modalImage");

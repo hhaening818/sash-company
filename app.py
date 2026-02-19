@@ -148,10 +148,6 @@ def construction():
     )
 
 # =========================
-# PORTFOLIO (시공 사례 페이지) ← 이거 추가
-# =========================
-
-# =========================
 # PORTFOLIO (시공 사례 페이지)
 # =========================
 
@@ -176,6 +172,67 @@ def portfolio():
         "portfolio.html",
         images=images,
         is_admin=False
+    )
+
+# =========================
+# INQUIRIES (문의 목록 페이지)
+# =========================
+
+@app.route("/inquiries")
+def inquiries():
+
+    page = request.args.get("page", 1, type=int)
+    search = request.args.get("search", "", type=str)
+
+    per_page = 10
+    offset = (page - 1) * per_page
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    # 검색 조건
+    if search:
+        cur.execute("""
+            SELECT COUNT(*)
+            FROM inquiries
+            WHERE message ILIKE %s
+        """, ("%" + search + "%",))
+    else:
+        cur.execute("SELECT COUNT(*) FROM inquiries")
+
+    total = cur.fetchone()[0]
+
+    total_pages = (total + per_page - 1) // per_page
+
+
+    # 목록 조회
+    if search:
+        cur.execute("""
+            SELECT id, name, phone, message, image, status, created_at
+            FROM inquiries
+            WHERE message ILIKE %s
+            ORDER BY id DESC
+            LIMIT %s OFFSET %s
+        """, ("%" + search + "%", per_page, offset))
+    else:
+        cur.execute("""
+            SELECT id, name, phone, message, image, status, created_at
+            FROM inquiries
+            ORDER BY id DESC
+            LIMIT %s OFFSET %s
+        """, (per_page, offset))
+
+    inquiries = cur.fetchall()
+
+    cur.close()
+    conn.close()
+
+    return render_template(
+        "inquiries.html",
+        inquiries=inquiries,
+        page=page,
+        total_pages=total_pages,
+        search=search
     )
 
 # =========================
