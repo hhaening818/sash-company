@@ -290,6 +290,26 @@ def contact():
 
     return redirect("/")
 
+@app.route("/check_portfolio")
+def check_portfolio():
+    try:
+        conn = psycopg2.connect(os.environ.get("DATABASE_URL"))
+        cur = conn.cursor()
+
+        cur.execute("SELECT id, image_url FROM portfolio ORDER BY id DESC LIMIT 10;")
+        rows = cur.fetchall()
+
+        result = "<h2>Portfolio images</h2>"
+        for row in rows:
+            result += f"<p>ID: {row[0]}<br>URL: {row[1]}</p><hr>"
+
+        cur.close()
+        conn.close()
+
+        return result
+
+    except Exception as e:
+        return f"Error: {str(e)}"
 
 if __name__ == "__main__":
 
