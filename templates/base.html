@@ -275,15 +275,15 @@ body{
 }
 
 .modal-content{
-    background:white !important;   /* 강제로 흰색 */
+    background:white !important;
     width:100%;
     max-width:600px;
     max-height:80vh;
-    border-radius:12px;
+
+    border-radius:0;          /* ← 각지게 만드는 핵심 */
 
     display:flex;
     flex-direction:column;
-
     overflow:hidden;
 
     animation:modalFade 0.25s ease;
@@ -297,7 +297,7 @@ body{
     color:white;              
 
     padding:16px 20px;
-
+    border-radius:0;
     font-size:18px;
     font-weight:700;
 
