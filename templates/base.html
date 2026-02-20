@@ -145,6 +145,75 @@ body{
     margin-top:10px;
 }
 
+.footer-inner{
+    max-width:1100px;
+    margin:0 auto;
+    padding:40px 20px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+
+    gap:40px;
+}
+/* 브랜드 영역 */
+.footer-brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    margin-bottom:15px;
+}
+
+.footer-brand-logo{
+    height:28px;
+    width:auto;
+}
+
+.footer-brand-text{
+    font-size:18px;
+    font-weight:700;
+    color:var(--main);
+}
+/* 왼쪽 영역 */
+.footer-left{
+    flex:1;
+}
+/* 정보 */
+.footer-info{
+    font-size:14px;
+    color:#666;
+    line-height:1.8;
+    margin-bottom:15px;
+}
+
+.footer-line{
+    margin-bottom:3px;
+}
+
+.footer-copy{
+    font-size:13px;
+    color:#999;
+}
+/* 오른쪽 영역 */
+.footer-right{
+    text-align:right;
+}
+.footer-links{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.footer-links a{
+    color:#555;
+    text-decoration:none;
+    font-size:14px;
+}
+
+.footer-links a:hover{
+    color:var(--main);
+}
 
 /* =========================
    애니메이션 (아래 → 위)
@@ -250,6 +319,30 @@ body{
         transform:translate3d(0,0,0);
     }
 }
+
+@media (max-width:768px){
+
+    .footer-inner{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .footer-brand{
+        justify-content:center;
+    }
+
+    .footer-right{
+        text-align:center;
+        margin-top:20px;
+    }
+
+    .footer-links{
+        flex-direction:row;
+        justify-content:center;
+        gap:20px;
+    }
+
+}
 </style>
 
 {% block extra_style %}{% endblock %}
@@ -294,43 +387,35 @@ body{
 <div class="footer fade-up">
 
     <div class="footer-inner">
+        <!-- 왼쪽 -->
+        <div class="footer-left">
+            <div class="footer-logo">
+                GUNJIN SASH COMPANY
+            </div>
 
-        <div class="footer-logo">
-            GUNJIN SASH COMPANY
+            <img src="{{ url_for('static', filename='logo-header.png') }}"
+                     class="footer-brand-logo"
+                     alt="건진창호 로고">
+
+            <div class="footer-info">
+                <div class="footer-line">상호: 건진창호</div>
+                <div class="footer-line">주소: 경북 성주군 선남면 성주로 3573 건진창호</div>
+                <div class="footer-line">전화: 010-7137-2313</div>
+                <div class="footer-line">사업자등록번호: 123-45-67890</div>
+                <div class="footer-line">이메일: gunjinsash@email.com</div>
+            </div>
+            <div class="footer-copy">
+                © 2026 GUNJIN SASH Co. All rights reserved.
+            </div>
         </div>
+        <!-- 오른쪽 -->
+        <div class="footer-right">
 
-        <div class="footer-info">
-
-            <div class="footer-line">
-                상호: 건진창호
+            <div class="footer-links">
+                <a href="#" onclick="openTerms()">이용약관</a>
+                <a href="#" onclick="openPrivacy()">개인정보처리방침</a>
             </div>
 
-            <div class="footer-line">
-                주소: 경북 성주군 선남면 성주로 3573 건진창호
-            </div>
-
-            <div class="footer-line">
-                전화: 010-7137-2313
-            </div>
-
-            <div class="footer-line">
-                사업자등록번호: 123-45-67890
-            </div>
-
-            <div class="footer-line">
-                이메일: gunjinsash@email.com
-            </div>
-
-        </div>
-
-        <div class="footer-links">
-            <a href="#" onclick="openTerms()">이용약관</a>
-            <span>|</span>
-            <a href="#" onclick="openPrivacy()">개인정보처리방침</a>
-        </div>
-
-        <div class="footer-copy">
-            © 2026 GUNJIN SASH Co. All rights reserved.
         </div>
 
     </div>
