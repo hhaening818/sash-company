@@ -794,12 +794,20 @@ document.addEventListener("DOMContentLoaded", function(){
 
 function openTerms(){
     const modal = document.getElementById("termsModal");
-    modal.style.display="flex";
+    const content = modal.querySelector(".modal-content");
+
+    modal.style.display = "flex";
+
+    centerModal(content);   // 중앙 복귀
 }
 
 function openPrivacy(){
     const modal = document.getElementById("privacyModal");
-    modal.style.display="flex";
+    const content = modal.querySelector(".modal-content");
+
+    modal.style.display = "flex";
+
+    centerModal(content);   // 중앙 복귀
 }
 
 /* 닫기 */
@@ -844,31 +852,32 @@ let hasDragged = false;
 
 document.querySelectorAll('.modal-content').forEach(function(modal){
     modal.addEventListener('mousedown', function(e){
-        /* 버튼 클릭은 드래그 무시 */
+
         if(e.target.classList.contains('modal-btn') || e.target.closest('.modal-buttons')){
             return;
         }
-        
-        /* 링크나 클릭 가능한 요소는 드래그 무시 */
-        if(e.target.tagName === 'A' || e.target.tagName === 'BUTTON'){
-            return;
-        }
-        
+
         hasDragged = false;
         draggedModal = modal;
-        dragStartX = e.clientX;
-        dragStartY = e.clientY;
-        
+
         const rect = modal.getBoundingClientRect();
+
         dragOffsetX = e.clientX - rect.left;
         dragOffsetY = e.clientY - rect.top;
-        
+
         modal.style.position = 'fixed';
         modal.style.margin = '0';
-        
+
+        /* 핵심: transform 제거 */
+        modal.style.transform = 'none';
+
+        /* 현재 위치 고정 */
+        modal.style.left = rect.left + 'px';
+        modal.style.top = rect.top + 'px';
+
         e.preventDefault();
     });
-})
+});
 
 document.addEventListener('mousemove', function(e){
     if(!draggedModal) return;
@@ -906,6 +915,16 @@ function maximizeModal(btn){
     if(modal) modal.classList.toggle('maximized');
 }
 
+function centerModal(modal){
+
+    modal.style.position = 'fixed';
+
+    modal.style.left = '50%';
+    modal.style.top = '50%';
+
+    modal.style.transform = 'translate(-50%, -50%)';
+
+}
 </script>
 
 {% block extra_script %}{% endblock %}
