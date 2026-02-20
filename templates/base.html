@@ -110,21 +110,44 @@ body{
    애니메이션 (아래 → 위)
 ========================= */
 
-/* 기본 상태 */
+/* 애플 스타일 fade-up */
 .fade-up{
     opacity:0;
-    transform:translate3d(0,40px,0);
+
+    transform:
+        translate3d(0,30px,0)
+        scale(0.96);
+
     transition:
-        opacity 0.6s ease,
-        transform 0.6s ease;
+        opacity 0.8s cubic-bezier(0.22,1,0.36,1),
+        transform 0.8s cubic-bezier(0.22,1,0.36,1);
 
     will-change:opacity, transform;
 }
 
 .fade-up.show{
     opacity:1;
-    transform:translate3d(0,0,0);
+
+    transform:
+        translate3d(0,0,0)
+        scale(1);
 }
+
+.card{
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.card:hover{
+    transform:
+        translateY(-6px)
+        scale(1.02);
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,0.12);
+}
+
 
 @keyframes headerFadeDown{
     from{
@@ -236,12 +259,14 @@ document.addEventListener("DOMContentLoaded", function(){
             ".hero-content, .box, .card, .about-card, .slides img, .estimate-card, .footer"
         );
 
-    elements.forEach(function(el){
+    elements.forEach(function(el, index){
 
-    /* header, hero-logo 애니메이션 제외 */
         if(el.closest(".header") || el.closest(".hero-logo")) return;
 
         el.classList.add("fade-up");
+
+        /* 순차 등장 딜레이 (애플 스타일 핵심) */
+        el.style.transitionDelay = (index * 0.12) + "s";
 
         observer.observe(el);
 
