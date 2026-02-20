@@ -491,21 +491,15 @@ body{
 <div class="modal" id="termsModal">
     <div class="modal-content">
         <div class="modal-header">
-
             <div>이용약관</div>
-
-            <div class="modal-buttons"></div>
-
+            <div class="modal-buttons">
                 <span class="modal-btn" onclick="minimizeModal(this)">—</span>
-
                 <span class="modal-btn" onclick="maximizeModal(this)">□</span>
-
-                <span class="modal-btn close-btn"
-                    onclick="closeModal('termsModal')">×</span>
-
+                <span class="modal-btn close-btn" onclick="closeModal('termsModal')">×</span>
             </div>
+        </div>
 
-            <div class="modal-body">
+        <div class="modal-body">
                 <b>건진창호 이용약관</b><br><br>
 
                 <b style="color:var(--main);">제1조 (목적)</b><br>
@@ -600,19 +594,15 @@ body{
 <div class="modal" id="privacyModal">
     <div class="modal-content">
         <div class="modal-header">
-            개인정보처리방침
-            <div class="modal-buttons"></div>
-
+            <div>개인정보처리방침</div>
+            <div class="modal-buttons">
                 <span class="modal-btn" onclick="minimizeModal(this)">—</span>
-
                 <span class="modal-btn" onclick="maximizeModal(this)">□</span>
-
-                <span class="modal-btn close-btn"
-                    onclick="closeModal('termsModal')">×</span>
-
+                <span class="modal-btn close-btn" onclick="closeModal('privacyModal')">×</span>
             </div>
+        </div>
 
-            <div class="modal-body">
+        <div class="modal-body">
                 <b>건진창호 개인정보처리방침</b><br><br>
 
                 건진창호(이하 "회사")는 이용자의 개인정보를 중요하게 생각하며, 「개인정보 보호법」 등 관련 법령을 준수합니다.<br><br>
@@ -844,9 +834,7 @@ function maximizeModal(btn){
 
 /* 닫기 */
 function closeModal(id){
-
     document.getElementById(id).style.display="none";
-
 }
 
 </script>
