@@ -31,7 +31,7 @@ body{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:0 60px;
+    padding:0 15px;
     border-bottom:1px solid #e5ece9;
     box-shadow:0 2px 8px rgba(0,0,0,0.04);
 
@@ -79,6 +79,8 @@ body{
 .logo img{
     height:42px;
     width:auto;
+    display:block;
+    opacity:1;
 }
 
 .logo span{
@@ -107,6 +109,13 @@ body{
     transform:translateY(0);
 }
 
+.header .logo img{
+    opacity:1 !important;
+    visibility:visible !important;
+    transform:none !important;
+    animation:none !important;
+    transition:none !important;
+}
 </style>
 
 {% block extra_style %}{% endblock %}
