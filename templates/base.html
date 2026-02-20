@@ -279,14 +279,15 @@ body{
 
 .modal-content{
     background:white !important;
-    padding:0;
+
     position:fixed;
 
     width:700px;
-    height:500px;
-
     max-width:90vw;
-    max-height:90vh;
+
+    /* 높이 자동 */
+    height:auto;
+    max-height:none;
 
     top:50%;
     left:50%;
@@ -296,12 +297,13 @@ body{
     display:flex;
     flex-direction:column;
 
-    overflow:hidden;
+    overflow:visible;
 
-    /* 핵심 추가 */
     border:6px solid #78dd7c;
 
     box-shadow:0 20px 60px rgba(0,0,0,0.25);
+
+    box-sizing:border-box;
 }
 
 .modal-header{
@@ -320,9 +322,7 @@ body{
     font-weight:700;
 
     cursor:move;
-    user-select:none;
 
-    /* 핵심 추가 */
     width:100%;
     box-sizing:border-box;
 
@@ -372,30 +372,21 @@ body{
 }
 
 .modal-body{
-    position:absolute;
-    top:50px;
-    left:0;
-    right:0;
-    bottom:0;
-    padding:0px;
+    position:relative;
+
+    padding:20px;
+
     font-size:14px;
     line-height:1.7;
+
     color:#1b3a2f;
-    overflow-y:auto;
-    flex:1;
-    min-height:0;
+
+    overflow:visible;   /* 내부 스크롤 제거 */
+
     width:100%;
-    height:100%;
+    height:auto;
+
     box-sizing:border-box;
-}
-
-.modal-body::-webkit-scrollbar{
-    width:8px;
-}
-
-.modal-body::-webkit-scrollbar-thumb{
-    background:var(--main);
-    border-radius:4px;
 }
 
 .modal-close{
@@ -801,33 +792,29 @@ document.addEventListener("DOMContentLoaded", function(){
 });
 
 function openTerms(){
+
     const modal = document.getElementById("termsModal");
     const content = modal.querySelector(".modal-content");
 
     modal.style.display = "flex";
 
-    centerModal(content);   // 중앙 복귀
-}
+    centerModal(content);
 
-function openPrivacy(){
-    const modal = document.getElementById("privacyModal");
-    const content = modal.querySelector(".modal-content");
-
-    modal.style.display = "flex";
-
-    centerModal(content);   // 중앙 복귀
 }
 
 /* 닫기 */
 function closeModal(id){
-    if(!id){
-        const success = document.getElementById('successModal');
-        if(success) success.style.display = 'none';
-        return;
-    }
 
-    const el = document.getElementById(id);
-    if(el) el.style.display = "none";
+    const modal = document.getElementById(id);
+    const content = modal.querySelector(".modal-content");
+
+    modal.style.display = "none";
+
+    /* 위치 초기화 */
+    content.style.left = "50%";
+    content.style.top = "50%";
+    content.style.transform = "translate(-50%, -50%)";
+
 }
 
 /* 바깥 클릭 시 닫기 (드래그 후 클릭은 무시) */
@@ -931,6 +918,17 @@ function centerModal(modal){
     modal.style.top = '50%';
 
     modal.style.transform = 'translate(-50%, -50%)';
+
+}
+
+function openPrivacy(){
+
+    const modal = document.getElementById("privacyModal");
+    const content = modal.querySelector(".modal-content");
+
+    modal.style.display = "flex";
+
+    centerModal(content);
 
 }
 </script>
