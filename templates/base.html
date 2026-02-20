@@ -124,6 +124,18 @@ body{
     transition:none !important;
 }
 
+/* 히어로 로고 깜빡임 완전 제거 */
+.hero-logo,
+.hero-logo img{
+    opacity:1 !important;
+    transform:none !important;
+    animation:none !important;
+    transition:none !important;
+
+    transform:translateZ(0);
+    backface-visibility:hidden;
+}
+
 </style>
 
 {% block extra_style %}{% endblock %}
@@ -221,13 +233,13 @@ document.addEventListener("DOMContentLoaded", function(){
 
     const elements =
         document.querySelectorAll(
-            ".hero-logo, .hero-content, .box, .card, .about-card, .slides img, .estimate-card, .footer"
+            ".hero-content, .box, .card, .about-card, .slides img, .estimate-card, .footer"
         );
 
     elements.forEach(function(el){
 
-        /* header 내부 요소는 애니메이션 제외 */
-        if(el.closest(".header")) return;
+    /* header, hero-logo 애니메이션 제외 */
+        if(el.closest(".header") || el.closest(".hero-logo")) return;
 
         el.classList.add("fade-up");
 
