@@ -6,19 +6,26 @@ import cloudinary.uploader
 
 from flask import Flask, render_template, request, redirect
 from flask_wtf import CSRFProtect
-
+from psycopg2.pool import SimpleConnectionPool
 
 # =========================
 # Flask 설정
 # =========================
 
-app = Flask(__name__)
+app = Flask(__name__,
+            static_folder='static',
+            template_folder='templates')
 app.secret_key = "super_secret_key"
 
 app.config['WTF_CSRF_ENABLED'] = False
 csrf = CSRFProtect(app)
 
 DATABASE_URL = os.getenv("DATABASE_URL")
+db_pool = SimpleConnectionPool(
+    minconn=1,
+    maxconn=10,
+    dsn=DATABASE_URL
+)
 
 cloudinary.config(
     cloud_name=os.getenv("CLOUD_NAME"),
@@ -32,24 +39,11 @@ cloudinary.config(
 # =========================
 
 def get_connection():
-
     try:
-
-        if not DATABASE_URL:
-            print("DATABASE_URL not set")
-            return None
-
-        return psycopg2.connect(
-            DATABASE_URL,
-            connect_timeout=5
-        )
-
+        return db_pool.getconn()
     except Exception as e:
-
-        print("DB connection failed:", e)
-
+        print("DB pool error:", e)
         return None
-
 
 # =========================
 # Hero 자동 선택 (페이지별 폴더 지원)
@@ -82,7 +76,7 @@ def get_random_hero(page_folder, default_image):
         images = [row[0] for row in cur.fetchall()]
 
         cur.close()
-        conn.close()
+        db_pool.putconn(conn)
 
         if images:
             return random.choice(images)
@@ -126,6 +120,9 @@ def about():
     )
 
     conn = get_connection()
+    if not conn:
+        return render_template("error.html")
+
     cur = conn.cursor()
 
     cur.execute("SELECT id, image_url FROM portfolio ORDER BY id DESC")
@@ -133,7 +130,7 @@ def about():
     images = cur.fetchall()
 
     cur.close()
-    conn.close()
+    db_pool.putconn(conn)
 
     return render_template(
         "about.html",
@@ -162,7 +159,7 @@ def construction():
     images = cur.fetchall()
 
     cur.close()
-    conn.close()
+    db_pool.putconn(conn)
 
     return render_template(
         "construction.html",
@@ -189,7 +186,7 @@ def portfolio():
     images = cur.fetchall()
 
     cur.close()
-    conn.close()
+    db_pool.putconn(conn)
 
     return render_template(
         "portfolio.html",
@@ -248,7 +245,7 @@ def inquiries():
     inquiries = cur.fetchall()
 
     cur.close()
-    conn.close()
+    db_pool.putconn(conn)
 
     return render_template(
         "inquiries.html",
@@ -290,7 +287,7 @@ def contact():
     conn.commit()
 
     cur.close()
-    conn.close()
+    db_pool.putconn(conn)
 
     return redirect("/")
 
