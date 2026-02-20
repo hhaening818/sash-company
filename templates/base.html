@@ -38,13 +38,24 @@ body{
     position:sticky;
     top:0;
     z-index:1000;
-
+    overflow:hidden;
     transform:translateZ(0);           
     backface-visibility:hidden;
     will-change:transform;   
     
     opacity:0;
     animation:headerFadeDown 0.6s ease forwards;
+}
+
+.header-inner{
+
+    width:1600px;   /* 기준 해상도 */
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    transform-origin:left center;
 }
 
 .logo{
@@ -438,14 +449,15 @@ body{
 
 }
 
-        /* ===== 완전 고정형 레이아웃 (1920 / 1440 자동 대응) ===== */
+ @media (max-width:1600px){
 
-/*html, body{
-    margin:0;
-    padding:0;
-    overflow-x:hidden;
-    overflow-y:auto;
-}*/
+    .header-inner{
+
+        transform:scale(calc(100vw / 1600));
+
+    }
+
+}
 
 .scale-wrapper{
     width:100%;
@@ -462,32 +474,21 @@ body{
 <div class="scale-wrapper">
 
 <!-- 공통 헤더 -->
-<div class="header">
+<header class="header">
+    <div class="header-inner">
 
-<div class="logo" onclick="location.href='/'">
+        <div class="logo">SASH COMPANY</div>
 
-    <img src="{{ url_for('static', filename='logo-header.png') }}" alt="logo">
+        <nav class="menu">
+            <a href="#">회사소개</a>
+            <a href="#">시공 분야</a>
+            <a href="#">시공 사례</a>
+            <a href="#">문의 목록</a>
+            <a href="#">문의하기</a>
+        </nav>
 
-    <span>SASH COMPANY</span>
-
-</div>
-
-<div class="nav">
-
-<a href="/about">회사소개</a>
-
-<a href="/construction">시공 분야</a>
-
-<a href="/portfolio">시공 사례</a>
-
-<a href="/inquiries">문의 목록</a>
-
-<a href="/#contact">문의하기</a>
-
-</div>
-
-</div>
-
+    </div>
+</header>
 
 <!-- 페이지 내용 -->
 {% block content %}{% endblock %}
