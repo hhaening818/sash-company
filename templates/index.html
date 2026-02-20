@@ -1,9 +1,10 @@
-{% extends "base.html" %}
+ero-logo-img{{% extends "base.html" %}
 
 {% block title %}건진창호 | 창호 전문 시공{% endblock %}
 
 {% block extra_style %}
     <link rel="preload" as="image" href="{{ url_for('static', filename='images/logo.png') }}">
+    <link rel="preload" as="image" href="{{ url_for('static', filename='images/logo-hero.png') }}">
 
     <style>
         html{
@@ -59,7 +60,6 @@
         }
 
 
-        /* 로고 */
         .hero-logo-img{
             height:65vh;
             width:auto;
@@ -67,12 +67,27 @@
             display:block;
             margin:0 auto 30px;
 
-            opacity:1;
-            transform:none;
-            animation:none;
+            opacity:0;
+            transform:translate3d(0,30px,0);
 
-            transform:translateZ(0);
+            animation:heroFadeUp 0.8s ease forwards;
+
+            will-change:transform, opacity;
+
             backface-visibility:hidden;
+            transform-style:preserve-3d;
+        }
+        
+
+        @keyframes heroFadeUp{
+            from{
+                opacity:0;
+                transform:translate3d(0,30px,0);
+            }
+            to{
+                opacity:1;
+                transform:translate3d(0,0,0);
+            }
         }
 
 
