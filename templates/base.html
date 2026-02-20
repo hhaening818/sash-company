@@ -440,7 +440,6 @@ html, body{
 
 .scale-wrapper{
     width:1600px;
-    margin:0;
     transform-origin:top left;
 }
 
@@ -450,16 +449,6 @@ html, body{
         transform:scale(calc(100vw / 1600));
     }
 
-    body{
-        height:calc(100% * calc(100vw / 1600));
-    }
-
-}
-
-.scale-wrapper > *{
-    transform:scale(var(--scale));
-    transform-origin:top left;
-    width:calc(var(--base-width) * 1px);
 }
 
 </style>
