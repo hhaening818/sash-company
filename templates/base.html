@@ -279,7 +279,7 @@ body{
 
 .modal-content{
     background:white !important;
-
+    padding:0;
     position:fixed;
 
     width:700px;
@@ -306,7 +306,6 @@ body{
 
 .modal-header{
     background:#78dd7c;
-
     color:white;
 
     height:50px;
@@ -315,7 +314,7 @@ body{
     align-items:center;
     justify-content:space-between;
 
-    padding:0 15px;     /* padding 위아래 제거 */
+    padding:0 15px;
 
     font-size:18px;
     font-weight:700;
@@ -323,7 +322,11 @@ body{
     cursor:move;
     user-select:none;
 
+    /* 핵심 추가 */
+    width:100%;
     box-sizing:border-box;
+
+    flex-shrink:0;
 }
 
 .modal-header > div:first-child{
