@@ -31,7 +31,7 @@ body{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:0 15px;
+    padding:0 20px 0 10px;  /* 위 오른쪽 아래 왼쪽 */
     border-bottom:1px solid #e5ece9;
     box-shadow:0 2px 8px rgba(0,0,0,0.04);
 
@@ -109,13 +109,16 @@ body{
     transform:translateY(0);
 }
 
+/* 헤더 로고 깜빡임 완전 제거 */
+.header,
+.header .logo,
 .header .logo img{
     opacity:1 !important;
-    visibility:visible !important;
     transform:none !important;
     animation:none !important;
     transition:none !important;
 }
+
 </style>
 
 {% block extra_style %}{% endblock %}
@@ -218,11 +221,15 @@ document.addEventListener("DOMContentLoaded", function(){
 
     elements.forEach(function(el){
 
+        /* header 내부 요소는 애니메이션 제외 */
+        if(el.closest(".header")) return;
+
         el.classList.add("fade-up");
 
         observer.observe(el);
 
     });
+
 
 });
 
