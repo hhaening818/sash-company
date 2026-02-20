@@ -24,11 +24,23 @@
     gap:25px;
 }
 
+.card.fade-up{
+    transform:
+        translate3d(0,50px,0)
+        scale(0.94);
+
+    transition:
+        opacity 1.6s cubic-bezier(0.22,1,0.36,1),
+        transform 1.6s cubic-bezier(0.22,1,0.36,1);
+}
 .card{
     background:white;
     border-radius:12px;
     overflow:hidden;
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
 }
 
 .card img{
