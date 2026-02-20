@@ -290,26 +290,21 @@ def contact():
 
     return redirect("/")
 
-@app.route("/check_portfolio")
-def check_portfolio():
-    try:
-        conn = psycopg2.connect(os.environ.get("DATABASE_URL"))
-        cur = conn.cursor()
+@app.route("/debug_hero/<page>")
+def debug_hero(page):
+    import os
 
-        cur.execute("SELECT id, image_url FROM portfolio ORDER BY id DESC LIMIT 10;")
-        rows = cur.fetchall()
+    hero_folder = f"static/hero/{page}"
 
-        result = "<h2>Portfolio images</h2>"
-        for row in rows:
-            result += f"<p>ID: {row[0]}<br>URL: {row[1]}</p><hr>"
+    result = f"<h2>Checking hero folder: {hero_folder}</h2>"
 
-        cur.close()
-        conn.close()
+    if os.path.exists(hero_folder):
+        files = os.listdir(hero_folder)
+        result += f"<p>Files found: {files}</p>"
+    else:
+        result += "<p>Folder does not exist</p>"
 
-        return result
-
-    except Exception as e:
-        return f"Error: {str(e)}"
+    return result
 
 if __name__ == "__main__":
 
