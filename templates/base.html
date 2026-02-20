@@ -278,23 +278,29 @@ body{
 
 .modal-content{
     background:white !important;
-    width:100vw;     /* 화면 전체 너비 */
-    height:100vh;    /* 화면 전체 높이 */
 
-    max-width:none;
-    max-height:none;
     position:fixed;
-    top:0;
-    left:0;
-    border-radius:0;          /* ← 각지게 만드는 핵심 */
-    margin:0;
-    padding:0;
+
+    width:700px;
+    height:500px;
+
+    max-width:90vw;
+    max-height:90vh;
+
+    top:50%;
+    left:50%;
+
+    transform:translate(-50%, -50%);
+
+    border-radius:0;
+
     display:flex;
     flex-direction:column;
-    overflow:hidden;
-    animation:modalFade 0.25s ease;
 
-    box-shadow:0 20px 60px rgba(0,0,0,0.25); /* 선택: 더 깔끔 */
+    overflow:hidden;
+
+    box-shadow:0 20px 60px rgba(0,0,0,0.25);
+
     z-index:2147483647;
 }
 
@@ -348,11 +354,10 @@ body{
 }
 
 .modal-content.maximized{
-    width:95vw;
-    height:95vh;
-    left:2.5vw;
-    top:2.5vh;
+    width:700px;
+    height:500px;
 }
+
 .modal-body{
     padding:20px;
     font-size:14px;
@@ -423,32 +428,32 @@ body{
 
         /* ===== 완전 고정형 레이아웃 (1920 / 1440 자동 대응) ===== */
 
-    html, body{
-        margin:0;
-        padding:0;
-        width:100%;
-        height:100%;
-        overflow:hidden;
-    }
+html, body{
+    margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
 
     /* 기준 해상도 */
-    .scale-wrapper{
-        position:absolute;
-        top:0;
-        left:0;
+.scale-wrapper{
+    position:absolute;
+    top:0;
+    left:0;
 
-        width:1600px;
-        height:900px;
+    width:1600px;
+    height:900px;
 
-        transform-origin:top left;
+    transform-origin:top left;
 
-        transform:scale(
-            min(
-                calc(100vw / 1600),
-                calc(100vh / 900)
-            )
-        );
-    }
+    transform:scale(
+        min(
+            calc(100vw / 1600),
+            calc(100vh / 900)
+        )
+    );
+}
 
 </style>
 
