@@ -45,6 +45,8 @@ body{
     align-items:center;
     gap:10px;
     cursor:pointer;
+
+    transform:translateZ(0);
 }
 
 .nav{
@@ -76,19 +78,17 @@ body{
     color:#888;
 }
 
-.logo img,
-.logo span{
+.logo img{
     height:42px;
     width:auto;
     display:block;
     opacity:1;
-    font-size:22px;
-    font-weight:700;
-    color:var(--main);
-    letter-spacing:0.5px;
+
+    transform:translateZ(0);
+    backface-visibility:hidden;
 }
 
-/*.logo span{
+.logo span{
     font-size:22px;
     font-weight:700;
     color:var(--main);
