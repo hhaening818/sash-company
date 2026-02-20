@@ -290,7 +290,7 @@ body{
 }
 
 .modal-header{
-    background:var(--main);
+    background:#78dd7c;
 
     color:white;              
 
@@ -302,8 +302,40 @@ body{
     display:flex;
     justify-content:space-between;
     align-items:center;
+
+    cursor:move;
+    user-select:none;
 }
 
+.modal-buttons{
+    display:flex;
+    gap:12px;
+}
+
+.modal-btn{
+    cursor:pointer;
+    font-size:16px;
+    padding:2px 6px;
+    border-radius:4px;
+}
+
+.modal-btn:hover{
+    background:rgba(255,255,255,0.2);
+}
+
+.close-btn:hover{
+    background:#ff4444;
+}
+
+.modal-content.minimized .modal-body{
+    display:none;
+}
+
+.modal-content.maximized{
+    width:90vw;
+    height:85vh;
+    max-width:none;
+}
 .modal-body{
 
     padding:20px;
@@ -333,7 +365,7 @@ body{
 
     font-size:22px;
 
-    color:var(--main);
+    color:white;
 
     transition:0.2s;
 }
@@ -458,9 +490,15 @@ body{
 <!-- 이용약관 팝업 -->
 <div class="modal" id="termsModal">
     <div class="modal-content">
-        <div class="modal-header">
-            이용약관
-            <span class="modal-close" onclick="closeModal('termsModal')">&times;</span>
+        <div class="modal-buttons">
+
+            <span class="modal-btn" onclick="minimizeModal(this)">—</span>
+
+            <span class="modal-btn" onclick="maximizeModal(this)">□</span>
+
+            <span class="modal-btn close-btn"
+                onclick="closeModal('termsModal')">×</span>
+
         </div>
 
         <div class="modal-body">
@@ -735,8 +773,71 @@ document.addEventListener("keydown", function(e){
     }
 
 });
-</script>
 
+/* 팝업 드래그 이동 기능 */
+
+document.querySelectorAll(".modal-content").forEach(function(modal){
+
+    const header = modal.querySelector(".modal-header");
+
+    let isDragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    header.addEventListener("mousedown", function(e){
+
+        isDragging = true;
+
+        offsetX = e.clientX - modal.offsetLeft;
+        offsetY = e.clientY - modal.offsetTop;
+
+        modal.style.position = "absolute";
+
+    });
+
+    document.addEventListener("mousemove", function(e){
+
+        if(!isDragging) return;
+
+        modal.style.left = (e.clientX - offsetX) + "px";
+        modal.style.top = (e.clientY - offsetY) + "px";
+
+    });
+
+    document.addEventListener("mouseup", function(){
+
+        isDragging = false;
+
+    });
+
+});
+
+/* 최소화 */
+function minimizeModal(btn){
+
+    const modal = btn.closest(".modal-content");
+
+    modal.classList.toggle("minimized");
+
+}
+
+/* 최대화 */
+function maximizeModal(btn){
+
+    const modal = btn.closest(".modal-content");
+
+    modal.classList.toggle("maximized");
+
+}
+
+/* 닫기 */
+function closeModal(id){
+
+    document.getElementById(id).style.display="none";
+
+}
+
+</script>
 
 {% block extra_script %}{% endblock %}
 
