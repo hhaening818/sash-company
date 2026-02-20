@@ -283,7 +283,9 @@ body{
 
     max-width:none;
     max-height:none;
-
+    position:fixed;
+    top:0;
+    left:0;
     border-radius:0;          /* ← 각지게 만드는 핵심 */
     margin:0;
     padding:0;
@@ -857,19 +859,15 @@ document.querySelectorAll('.modal-content').forEach(function(modal){
 document.addEventListener('mousemove', function(e){
     if(!draggedModal) return;
     
-    /* 마우스 이동 거리 확인 */
     const moveX = Math.abs(e.clientX - dragStartX);
     const moveY = Math.abs(e.clientY - dragStartY);
     
     if(moveX > 2 || moveY > 2) hasDragged = true;
     if(!hasDragged) return;
     
-    /* 절대 마우스 위치에서 오프셋을 빼서 모달 위치 계산 */
+    /* 화면 밖까지 이동 가능 */
     let newX = e.clientX - dragOffsetX;
     let newY = e.clientY - dragOffsetY;
-    
-    newX = Math.max(0, Math.min(newX, window.innerWidth - draggedModal.offsetWidth));
-    newY = Math.max(0, Math.min(newY, window.innerHeight - draggedModal.offsetHeight));
     
     draggedModal.style.left = newX + 'px';
     draggedModal.style.top = newY + 'px';
