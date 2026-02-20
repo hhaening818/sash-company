@@ -381,7 +381,7 @@ body{
 
     color:#1b3a2f;
 
-    overflow:visible;   /* 내부 스크롤 제거 */
+    overflow:auto;  /* 내부 스크롤 제거 */
 
     width:100%;
     height:auto;
@@ -798,22 +798,19 @@ function openTerms(){
 
     modal.style.display = "flex";
 
-    centerModal(content);
+    document.body.classList.add("modal-open");   // 핵심
 
+    centerModal(content);
 }
 
 /* 닫기 */
 function closeModal(id){
 
     const modal = document.getElementById(id);
-    const content = modal.querySelector(".modal-content");
 
     modal.style.display = "none";
 
-    /* 위치 초기화 */
-    content.style.left = "50%";
-    content.style.top = "50%";
-    content.style.transform = "translate(-50%, -50%)";
+    document.body.classList.remove("modal-open");  // 핵심
 
 }
 
@@ -928,8 +925,9 @@ function openPrivacy(){
 
     modal.style.display = "flex";
 
-    centerModal(content);
+    document.body.classList.add("modal-open");   // 핵심
 
+    centerModal(content);
 }
 </script>
 
