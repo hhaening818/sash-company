@@ -268,7 +268,7 @@ body{
     height:100%;
     background:rgba(255,255,255,0.6);
 
-    z-index:9999;
+    z-index:2147483647;
 
     justify-content:flex-start;
     align-items:flex-start;
@@ -292,10 +292,10 @@ body{
     display:flex;
     flex-direction:column;
     overflow:hidden;
-
     animation:modalFade 0.25s ease;
 
     box-shadow:0 20px 60px rgba(0,0,0,0.25); /* 선택: 더 깔끔 */
+    z-index:2147483647;
 }
 
 .modal-header{
@@ -423,11 +423,18 @@ body{
 
         .scale-wrapper{
             width:1600px;
-            transform-origin:top left;   /* 핵심 */
-            margin:0;
+            height:100vh;
+            transform-origin:top left;
+            transform:scale(calc(100vw / 1600));
         }
 
         @media (max-width:1600px){
+            .scale-wrapper{
+                transform:scale(calc(100vw / 1600));
+            }
+        }
+
+        @media (min-width:1600px){
             .scale-wrapper{
                 transform:scale(calc(100vw / 1600));
             }
