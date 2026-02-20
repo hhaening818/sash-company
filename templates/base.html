@@ -420,17 +420,21 @@ body{
 }
 
         .scale-wrapper{
-            width:1600px;              /* 사이트 기준 너비 */
-            transform-origin:top left;
+            width:1600px;
+            transform-origin:top center;   /* ← center로 변경 */
+            margin:0 auto;                 /* ← 가운데 정렬 */
         }
 
-        @media (max-width:1920px){
+        @media (max-width:1600px){
             .scale-wrapper{
                 transform:scale(calc(100vw / 1600));
             }
         }
 
         body{
+            margin:0;
+            display:flex;
+            justify-content:center;
             overflow-x:hidden;
         }
 
