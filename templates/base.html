@@ -34,7 +34,7 @@ body{
     padding:0 60px;
     border-bottom:1px solid #e5ece9;
     box-shadow:0 2px 8px rgba(0,0,0,0.04);
-
+    white-space:nowrap;
     position:sticky;
     top:0;
     z-index:1000;
@@ -80,12 +80,14 @@ body{
 .nav{
     display:flex;
     gap:35px;
+    white-space:nowrap;
 }
 
 .nav a{
     text-decoration:none;
     color:#4a6358;
     font-weight:500;
+    white-space:nowrap;
 }
 
 .nav a:hover{
@@ -149,7 +151,7 @@ body{
     max-width:1100px;
     margin:0 auto;
     padding:40px 20px;
-
+    white-space:nowrap;
     display:flex;
     justify-content:space-between;
     align-items:flex-start;
@@ -415,13 +417,13 @@ body{
 }
 
         .scale-wrapper{
-            width:1920px;              /* 기준 해상도 (원하는 기준) */
+            width:1600px;              /* 사이트 기준 너비 */
             transform-origin:top left;
         }
 
         @media (max-width:1920px){
             .scale-wrapper{
-                transform:scale(calc(100vw / 1920));
+                transform:scale(calc(100vw / 1600));
             }
         }
 
@@ -435,7 +437,7 @@ body{
 
 </head>
 <body>
-<div class="scale-wrapper"></div>
+<div class="scale-wrapper">
 
 <!-- 공통 헤더 -->
 <div class="header">
@@ -890,6 +892,5 @@ function maximizeModal(btn){
 {% block extra_script %}{% endblock %}
 
 </div>
-</body>
 </body>
 </html>
