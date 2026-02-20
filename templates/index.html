@@ -1,10 +1,13 @@
-ero-logo-img{{% extends "base.html" %}
+{% extends "base.html" %}
 
 {% block title %}건진창호 | 창호 전문 시공{% endblock %}
 
 {% block extra_style %}
-    <link rel="preload" as="image" href="{{ url_for('static', filename='images/logo.png') }}">
-    <link rel="preload" as="image" href="{{ url_for('static', filename='images/logo-hero.png') }}">
+    <link rel="preload" as="image"
+      href="{{ url_for('static', filename='images/logo.png') }}">
+
+    <link rel="preload" as="image"
+        href="{{ url_for('static', filename='images/logo-hero.png') }}">
 
     <style>
         html{
