@@ -445,22 +445,15 @@ html, body{
     overflow-y:auto;
 }
 
- /* ===== 안정 고정형 레이아웃 ===== */
-
 .scale-wrapper{
     width:1600px;
-    transform-origin:top left;
 }
 
+/* 화면이 1600보다 작을 때만 축소 */
 @media (max-width:1600px){
 
     .scale-wrapper{
-        transform:scale(calc(100vw / 1600));
-    }
-
-    /* 핵심: 스크롤 높이 보정 */
-    body{
-        height:calc(100% / calc(100vw / 1600));
+        zoom: calc(100vw / 1600);
     }
 
 }
