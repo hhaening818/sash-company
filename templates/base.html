@@ -101,10 +101,50 @@ body{
 
 /* footer */
 .footer{
-    padding:30px;
-    text-align:center;
-    color:#888;
+    background:#f8faf9;
+    border-top:1px solid #e5ece9;
+    margin-top:80px;
 }
+
+.footer-logo{
+    font-size:18px;
+    font-weight:700;
+    color:var(--main);
+    margin-bottom:18px;
+}
+
+.footer-info{
+    font-size:14px;
+    color:#666;
+    line-height:1.8;
+    margin-bottom:15px;
+}
+
+.footer-line{
+    margin-bottom:3px;
+}
+
+.footer-links{
+    margin:15px 0;
+}
+
+.footer-links a{
+    color:#555;
+    text-decoration:none;
+    font-size:14px;
+    margin:0 8px;
+}
+
+.footer-links a:hover{
+    color:var(--main);
+}
+
+.footer-copy{
+    font-size:13px;
+    color:#999;
+    margin-top:10px;
+}
+
 
 /* =========================
    애니메이션 (아래 → 위)
@@ -148,7 +188,58 @@ body{
         0 12px 30px rgba(0,0,0,0.12);
 }
 
+.modal{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.5);
 
+    z-index:9999;
+
+    justify-content:center;
+    align-items:center;
+}
+
+.modal-content{
+    background:white;
+    width:500px;
+    max-width:90%;
+    border-radius:10px;
+
+    animation:modalFade 0.3s ease;
+}
+
+.modal-header{
+    padding:15px 20px;
+    font-weight:700;
+    border-bottom:1px solid #eee;
+}
+
+.modal-body{
+    padding:20px;
+    font-size:14px;
+    line-height:1.6;
+}
+
+.modal-close{
+    float:right;
+    cursor:pointer;
+    font-size:20px;
+}
+
+@keyframes modalFade{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
 @keyframes headerFadeDown{
     from{
         opacity:0;
@@ -202,14 +293,233 @@ body{
 <!-- 공통 footer -->
 <div class="footer fade-up">
 
-📞 010-7137-2313 | © GUNJIN SASH COMPANY
+    <div class="footer-inner">
+
+        <div class="footer-logo">
+            GUNJIN SASH COMPANY
+        </div>
+
+        <div class="footer-info">
+
+            <div class="footer-line">
+                상호: 건진창호
+            </div>
+
+            <div class="footer-line">
+                주소: 경북 성주군 선남면 성주로 3573 건진창호
+            </div>
+
+            <div class="footer-line">
+                전화: 010-7137-2313
+            </div>
+
+            <div class="footer-line">
+                사업자등록번호: 123-45-67890
+            </div>
+
+            <div class="footer-line">
+                이메일: gunjinsash@email.com
+            </div>
+
+        </div>
+
+        <div class="footer-links">
+            <a href="#" onclick="openTerms()">이용약관</a>
+            <span>|</span>
+            <a href="#" onclick="openPrivacy()">개인정보처리방침</a>
+        </div>
+
+        <div class="footer-copy">
+            © 2026 GUNJIN SASH Co. All rights reserved.
+        </div>
+
+    </div>
 
 </div>
 
+<!-- 이용약관 팝업 -->
+<div class="modal" id="termsModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            이용약관
+            <span class="modal-close" onclick="closeModal('termsModal')">&times;</span>
+        </div>
 
+        <div class="modal-body">
+            <b>건진창호 이용약관</b><br><br>
+
+            <b>제1조 (목적)</b><br>
+            본 약관은 건진창호(이하 "회사")가 운영하는 웹사이트에서 제공하는 서비스의 이용과 관련하여 회사와 이용자의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.<br><br>
+
+            <b>제2조 (정의)</b><br>
+            "웹사이트"란 회사가 제공하는 견적 요청, 문의, 정보 제공 등의 서비스를 이용할 수 있도록 제공하는 인터넷 사이트를 의미합니다.<br><br>
+
+            "이용자"란 본 약관에 따라 회사가 제공하는 서비스를 이용하는 회원 및 비회원을 말합니다.<br><br>
+
+            "회원"이란 웹사이트에 회원가입을 하고 회사가 제공하는 서비스를 이용하는 자를 말합니다.<br><br>
+
+            "비회원"이란 회원가입 없이 서비스를 이용하는 자를 말합니다.<br><br>
+
+            <b>제3조 (약관의 효력 및 변경)</b><br>
+            본 약관은 웹사이트에 게시함으로써 효력이 발생합니다.<br><br>
+
+            회사는 관련 법령을 위반하지 않는 범위에서 본 약관을 변경할 수 있습니다.<br><br>
+
+            변경된 약관은 웹사이트에 공지함으로써 효력이 발생합니다.<br><br>
+
+            <b>제4조 (서비스의 제공)</b><br>
+            회사는 다음과 같은 서비스를 제공합니다.<br><br>
+
+            샷시 시공 정보 제공<br>
+            견적 요청 서비스<br>
+            문의 접수 및 답변 서비스<br>
+            기타 회사가 제공하는 서비스<br><br>
+
+            <b>제5조 (회원가입)</b><br>
+            이용자는 회사가 정한 양식에 따라 회원가입을 신청할 수 있습니다.<br><br>
+
+            회사는 다음의 경우 회원가입을 거부할 수 있습니다.<br><br>
+
+            허위 정보를 입력한 경우<br>
+            타인의 정보를 도용한 경우<br>
+            기타 회사가 필요하다고 인정하는 경우<br><br>
+
+            <b>제6조 (회원의 의무)</b><br>
+            회원은 다음 행위를 하여서는 안 됩니다.<br><br>
+
+            허위 정보 입력<br>
+            타인의 정보 도용<br>
+            웹사이트 운영 방해<br>
+            법령에 위반되는 행위<br>
+            기타 회사에 손해를 끼치는 행위<br><br>
+
+            <b>제7조 (서비스 이용 제한)</b><br>
+            회사는 다음의 경우 서비스 이용을 제한할 수 있습니다.<br><br>
+
+            약관을 위반한 경우<br>
+            불법 행위를 한 경우<br>
+            웹사이트 운영에 지장을 주는 경우<br><br>
+
+            <b>제8조 (서비스 중단)</b><br>
+            회사는 다음의 경우 서비스 제공을 일시적으로 중단할 수 있습니다.<br><br>
+
+            서버 점검<br>
+            시스템 장애<br>
+            기타 불가피한 사유<br><br>
+
+            <b>제9조 (책임의 제한)</b><br>
+            회사는 이용자의 귀책사유로 발생한 문제에 대해 책임을 지지 않습니다.<br><br>
+
+            회사는 웹사이트 이용으로 발생한 간접적 손해에 대해 책임을 지지 않습니다.<br><br>
+
+            회사는 이용자가 제공한 정보의 정확성에 대해 책임을 지지 않습니다.<br><br>
+
+            <b>제10조 (개인정보 보호)</b><br>
+            회사는 관련 법령에 따라 이용자의 개인정보를 보호하며, 개인정보 처리에 관한 사항은 개인정보처리방침에 따릅니다.<br><br>
+
+            <b>제11조 (분쟁 해결)</b><br>
+            본 약관과 관련된 분쟁은 대한민국 법령을 따릅니다.<br><br>
+
+            <b>제12조 (관할 법원)</b><br>
+            본 약관과 관련된 분쟁은 회사 본점 소재지를 관할하는 법원을 관할 법원으로 합니다.<br><br>
+
+            <b>부칙</b><br>
+            본 약관은 2026년 2월 18일부터 시행됩니다.
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 개인정보처리방침 팝업 -->
+<div class="modal" id="privacyModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            개인정보처리방침
+            <span class="modal-close" onclick="closeModal('privacyModal')">&times;</span>
+        </div>
+
+        <div class="modal-body">
+            <b>건진창호 개인정보처리방침</b><br><br>
+
+            건진창호(이하 "회사")는 이용자의 개인정보를 중요하게 생각하며, 「개인정보 보호법」 등 관련 법령을 준수합니다.<br><br>
+
+            <b>제1조 (수집하는 개인정보 항목)</b><br>
+            1. 회원가입 시<br>
+            이름<br>
+            아이디<br>
+            비밀번호<br>
+            전화번호<br>
+            거주지역<br><br>
+
+            2. 문의 및 견적 요청 시<br>
+            이름<br>
+            전화번호<br>
+            문의 내용<br><br>
+
+            3. 자동 수집 항목<br>
+            IP 주소<br>
+            접속 로그<br>
+            브라우저 정보<br><br>
+
+            <b>제2조 (개인정보 수집 및 이용 목적)</b><br>
+            회원 관리<br>
+            견적 상담 및 문의 답변<br>
+            서비스 제공 및 운영<br>
+            고객 문의 대응<br>
+            서비스 개선<br><br>
+
+            <b>제3조 (개인정보 보유 및 이용 기간)</b><br>
+            목적 달성 후 지체 없이 파기합니다.<br><br>
+
+            예외:<br>
+            계약 또는 청약 철회 기록: 5년<br>
+            분쟁 처리 기록: 3년<br>
+            접속 기록: 3개월<br><br>
+
+            <b>제4조 (개인정보의 제3자 제공)</b><br>
+            회사는 개인정보를 외부에 제공하지 않습니다.<br><br>
+
+            <b>제5조 (개인정보 보호)</b><br>
+            접근 제한<br>
+            보안 시스템 운영<br>
+            관리자 접근 통제<br><br>
+
+            <b>제6조 (이용자의 권리)</b><br>
+            개인정보 조회<br>
+            수정<br>
+            삭제<br>
+            회원 탈퇴<br><br>
+
+            <b>제7조 (개인정보 파기)</b><br>
+            전자 파일: 복구 불가능 삭제<br>
+            종이 문서: 파쇄 또는 소각<br><br>
+
+            <b>제8조 (개인정보 보호 책임자)</b><br>
+            회사명: 건진창호<br>
+            개인정보 보호 책임자: 건진창호 관리자<br>
+            연락처: (010-9364-2348)<br><br>
+
+            <b>제9조 (개인정보처리방침 변경)</b><br>
+            관련 법령 및 회사 정책에 따라 변경될 수 있습니다.<br><br>
+
+            <b>부칙</b><br>
+            2026년 2월 18일부터 시행됩니다.
+
+            수집항목:<br>
+            - 이름<br>
+            - 연락처<br><br>
+
+            이용목적:<br>
+            - 상담 및 문의 응답<br><br>
+
+            개인정보는 외부에 제공되지 않습니다.
+        </div>
+    </div>
+</div>
 
 <script>
-
 /* contact 이동 스크롤 */
 window.addEventListener("load", function(){
 
@@ -226,7 +536,6 @@ window.addEventListener("load", function(){
     }
 
 });
-
 
 /* =========================
    fade-up 애니메이션 적용
@@ -275,6 +584,24 @@ document.addEventListener("DOMContentLoaded", function(){
 
 });
 
+function openTerms(){
+    document.getElementById("termsModal").style.display="flex";
+}
+
+function openPrivacy(){
+    document.getElementById("privacyModal").style.display="flex";
+}
+
+function closeModal(id){
+    document.getElementById(id).style.display="none";
+}
+
+/* 바깥 클릭 시 닫기 */
+window.onclick=function(e){
+    if(e.target.classList.contains("modal")){
+        e.target.style.display="none";
+    }
+}
 </script>
 
 
