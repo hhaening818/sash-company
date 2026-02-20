@@ -264,18 +264,18 @@ body{
     left:0;
     width:100%;
     height:100%;
-    background:rgba(0,0,0,0.45);
+    background:rgba(255,255,255,0.6);
 
     z-index:9999;
 
     justify-content:center;
     align-items:center;
 
-    padding:20px;
+    padding:0;
 }
 
 .modal-content{
-    background:white;
+    background:white !important;   /* 강제로 흰색 */
     width:100%;
     max-width:600px;
     max-height:80vh;
@@ -287,6 +287,8 @@ body{
     overflow:hidden;
 
     animation:modalFade 0.25s ease;
+
+    box-shadow:0 20px 60px rgba(0,0,0,0.25); /* 선택: 더 깔끔 */
 }
 
 .modal-header{
@@ -315,16 +317,23 @@ body{
 .modal-btn{
     cursor:pointer;
     font-size:16px;
-    padding:2px 6px;
+    padding:4px 8px;
     border-radius:4px;
+    background:transparent;
+    border:none;
+    color:white;
 }
 
 .modal-btn:hover{
     background:rgba(255,255,255,0.2);
 }
 
+.close-btn{
+    background:transparent !important;
+}
+
 .close-btn:hover{
-    background:#ff4444;
+    background:#ff4444 !important;
 }
 
 .modal-content.minimized .modal-body{
@@ -332,23 +341,19 @@ body{
 }
 
 .modal-content.maximized{
-    width:90vw;
-    height:85vh;
-    max-width:none;
+    width:95vw;
+    height:95vh;
+    left:2.5vw;
+    top:2.5vh;
 }
 .modal-body{
-
     padding:20px;
-
     font-size:14px;
-
     line-height:1.7;
-
-    color:#1b3a2f;   /* 진한 초록 글자 */
-
-    overflow-y:auto;  /* 세로 스크롤 */
-
-    max-height:calc(80vh - 60px);
+    color:#1b3a2f;
+    overflow-y:auto;
+    flex:1;
+    min-height:0;
 }
 
 .modal-body::-webkit-scrollbar{
@@ -747,94 +752,121 @@ document.addEventListener("DOMContentLoaded", function(){
 });
 
 function openTerms(){
-    document.getElementById("termsModal").style.display="flex";
+    const modal = document.getElementById("termsModal");
+    modal.style.display="flex";
 }
 
 function openPrivacy(){
-    document.getElementById("privacyModal").style.display="flex";
-}
-
-function closeModal(id){
-    document.getElementById(id).style.display="none";
-}
-
-/* 바깥 클릭 시 닫기 */
-window.onclick=function(e){
-    if(e.target.classList.contains("modal")){
-        e.target.style.display="none";
-    }
-}
-
-document.addEventListener("keydown", function(e){
-
-    if(e.key === "Escape"){
-
-        document.getElementById("termsModal").style.display="none";
-        document.getElementById("privacyModal").style.display="none";
-
-    }
-
-});
-
-/* 팝업 드래그 이동 기능 */
-
-document.querySelectorAll(".modal-content").forEach(function(modal){
-
-    const header = modal.querySelector(".modal-header");
-
-    let isDragging = false;
-    let offsetX = 0;
-    let offsetY = 0;
-
-    header.addEventListener("mousedown", function(e){
-
-        isDragging = true;
-
-        offsetX = e.clientX - modal.offsetLeft;
-        offsetY = e.clientY - modal.offsetTop;
-
-        modal.style.position = "absolute";
-
-    });
-
-    document.addEventListener("mousemove", function(e){
-
-        if(!isDragging) return;
-
-        modal.style.left = (e.clientX - offsetX) + "px";
-        modal.style.top = (e.clientY - offsetY) + "px";
-
-    });
-
-    document.addEventListener("mouseup", function(){
-
-        isDragging = false;
-
-    });
-
-});
-
-/* 최소화 */
-function minimizeModal(btn){
-
-    const modal = btn.closest(".modal-content");
-
-    modal.classList.toggle("minimized");
-
-}
-
-/* 최대화 */
-function maximizeModal(btn){
-
-    const modal = btn.closest(".modal-content");
-
-    modal.classList.toggle("maximized");
-
+    const modal = document.getElementById("privacyModal");
+    modal.style.display="flex";
 }
 
 /* 닫기 */
 function closeModal(id){
-    document.getElementById(id).style.display="none";
+    if(!id){
+        const success = document.getElementById('successModal');
+        if(success) success.style.display = 'none';
+        return;
+    }
+
+    const el = document.getElementById(id);
+    if(el) el.style.display = "none";
+}
+
+/* 바깥 클릭 시 닫기 (드래그 후 클릭은 무시) */
+let preventClickClose = false;
+window.addEventListener('click', function(e){
+    if(preventClickClose){
+        preventClickClose = false;
+        return;
+    }
+    if(e.target.classList && e.target.classList.contains('modal')){
+        e.target.style.display = 'none';
+    }
+});
+
+/* Esc 키로 닫기 */
+document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){
+        closeModal('termsModal');
+        closeModal('privacyModal');
+    }
+});
+
+/* 드래그: 전체 모달에서 가능 (버튼 제외) */
+let draggedModal = null;
+let dragStartX = 0;
+let dragStartY = 0;
+let dragOffsetX = 0;
+let dragOffsetY = 0;
+let hasDragged = false;
+
+document.querySelectorAll('.modal-content').forEach(function(modal){
+    modal.addEventListener('mousedown', function(e){
+        /* 버튼 클릭은 드래그 무시 */
+        if(e.target.classList.contains('modal-btn') || e.target.closest('.modal-buttons')){
+            return;
+        }
+        
+        /* 링크나 클릭 가능한 요소는 드래그 무시 */
+        if(e.target.tagName === 'A' || e.target.tagName === 'BUTTON'){
+            return;
+        }
+        
+        hasDragged = false;
+        draggedModal = modal;
+        dragStartX = e.clientX;
+        dragStartY = e.clientY;
+        
+        const rect = modal.getBoundingClientRect();
+        dragOffsetX = e.clientX - rect.left;
+        dragOffsetY = e.clientY - rect.top;
+        
+        modal.style.position = 'fixed';
+        modal.style.margin = '0';
+        
+        e.preventDefault();
+    });
+})
+
+document.addEventListener('mousemove', function(e){
+    if(!draggedModal) return;
+    
+    /* 마우스 이동 거리 확인 */
+    const moveX = Math.abs(e.clientX - dragStartX);
+    const moveY = Math.abs(e.clientY - dragStartY);
+    
+    if(moveX > 2 || moveY > 2) hasDragged = true;
+    if(!hasDragged) return;
+    
+    /* 절대 마우스 위치에서 오프셋을 빼서 모달 위치 계산 */
+    let newX = e.clientX - dragOffsetX;
+    let newY = e.clientY - dragOffsetY;
+    
+    newX = Math.max(0, Math.min(newX, window.innerWidth - draggedModal.offsetWidth));
+    newY = Math.max(0, Math.min(newY, window.innerHeight - draggedModal.offsetHeight));
+    
+    draggedModal.style.left = newX + 'px';
+    draggedModal.style.top = newY + 'px';
+});
+
+document.addEventListener('mouseup', function(){
+    if(draggedModal && hasDragged){
+        preventClickClose = true;
+    }
+    draggedModal = null;
+    hasDragged = false;
+});
+
+/* 최소화 / 최대화 */
+function minimizeModal(btn){
+    const modal = btn.closest('.modal-content');
+    if(modal) modal.classList.toggle('minimized');
+}
+
+function maximizeModal(btn){
+    const modal = btn.closest('.modal-content');
+    if(modal) modal.classList.toggle('maximized');
 }
 
 </script>
