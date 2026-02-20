@@ -454,16 +454,9 @@ html, body{
 }
 
 .scale-wrapper{
-    width:1600px;
-}
-
-/* 화면이 1600보다 작을 때만 축소 */
-@media (max-width:1600px){
-
-    .scale-wrapper{
-        zoom: calc(100vw / 1600);
-    }
-
+    width:100%;
+    max-width:1600px;
+    margin:0 auto;
 }
 
 </style>
