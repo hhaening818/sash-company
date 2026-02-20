@@ -396,21 +396,6 @@
             z-index:1;
         }
 
-        .logo img{
-
-            opacity:0;
-
-            transition:opacity 0.4s ease;
-
-        }
-
-        /* 로딩 완료 후 */
-        .logo img.loaded{
-
-            opacity:1;
-
-        }
-
         #contactForm button{
             display:block;
             margin:20px auto 0 auto;  /* 중앙 정렬 + 위쪽 간격 */
@@ -1005,23 +990,6 @@
 <div class="modal" id="imageModal">
     <img id="modalImage">
 </div>
-
-<script>
-
-// 모든 modal 강제 비활성화
-window.addEventListener("load", function(){
-
-    document.querySelectorAll(".modal").forEach(function(modal){
-        modal.style.display = "none";
-    });
-
-    document.querySelectorAll(".image-viewer").forEach(function(viewer){
-        viewer.style.display = "none";
-    });
-
-});
-
-</script>
 
 <script>
 
