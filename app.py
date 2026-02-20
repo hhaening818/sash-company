@@ -7,6 +7,7 @@ import cloudinary.uploader
 from flask import Flask, render_template, request, redirect
 from flask_wtf import CSRFProtect
 from psycopg2.pool import SimpleConnectionPool
+from flask import url_for
 
 # =========================
 # Flask 설정
@@ -49,44 +50,27 @@ def get_connection():
 # Hero 자동 선택 (페이지별 폴더 지원)
 # =========================
 
-def get_random_hero(page_folder, default_image):
+def get_random_hero(page, fallback_url=None):
 
-    # 1순위: static/hero/page_folder/
-    folder = os.path.join("static", "hero", page_folder)
+    hero_folder = os.path.join(app.static_folder, "hero", page)
 
-    if os.path.exists(folder):
+    # 1순위: static/hero/page/
+    if os.path.exists(hero_folder):
 
         files = [
-            f for f in os.listdir(folder)
-            if f.lower().endswith((".jpg",".jpeg",".png",".webp"))
+            f for f in os.listdir(hero_folder)
+            if f.lower().endswith((".jpg", ".jpeg", ".png", ".webp"))
         ]
 
         if files:
-            return f"/static/hero/{page_folder}/" + random.choice(files)
+            selected = random.choice(files)
 
+            # 중요: static/ 제거하고 반환
+            return url_for('static', filename=f'hero/{page}/{selected}')
 
-    # 2순위: portfolio DB
-    try:
+    # 2순위: fallback URL
+    return fallback_url
 
-        conn = get_connection()
-        cur = conn.cursor()
-
-        cur.execute("SELECT id, image_url FROM portfolio ORDER BY id DESC")
-
-        images = [row[1] for row in cur.fetchall()]   # ← 여기 수정
-
-        cur.close()
-        db_pool.putconn(conn)
-
-        if images:
-            return random.choice(images)
-
-    except Exception as e:
-        print("Hero DB error:", e)
-
-
-    # 3순위: 기본 이미지
-    return default_image
 
 # =========================
 # HOME
@@ -120,7 +104,7 @@ def about():
 
     conn = get_connection()
     if not conn:
-        return render_template("error.html")
+        return render_template("about.html")
 
     cur = conn.cursor()
 
