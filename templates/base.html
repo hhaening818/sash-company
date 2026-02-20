@@ -41,7 +41,10 @@ body{
 
     transform:translateZ(0);           
     backface-visibility:hidden;
-    will-change:transform;       
+    will-change:transform;   
+    
+    opacity:0;
+    animation:headerFadeDown 0.6s ease forwards;
 }
 
 .logo{
@@ -49,10 +52,29 @@ body{
     align-items:center;
     gap:10px;
     cursor:pointer;
-
     flex-direction:row-reverse;
-
     transform:translateZ(0);
+    opacity:0;
+    animation:headerFadeDown 0.6s ease forwards;
+    animation-delay:0.2s;
+}
+
+.logo img{
+    height:22px;           /* 이모지 크기처럼 작게 */
+    width:auto;
+    display:inline-block;  /* inline처럼 동작 */
+    vertical-align:middle; /* 텍스트와 정확히 맞춤 */
+    margin-left:6px;       /* 텍스트와 간격 */
+    transform:translateY(-1px); /* 미세 정렬 */
+    opacity:0.95;
+}
+
+.logo span{
+    font-size:22px;
+    font-weight:700;
+    color:var(--main);
+    display:flex;
+    align-items:center;
 }
 
 .nav{
@@ -84,24 +106,6 @@ body{
     color:#888;
 }
 
-.logo img{
-    height:42px;
-    width:auto;
-    display:block;
-    opacity:1;
-
-    transform:translateZ(0);
-    backface-visibility:hidden;
-    will-change:transform;
-}
-
-.logo span{
-    font-size:22px;
-    font-weight:700;
-    color:var(--main);
-    letter-spacing:0.5px;
-}
-
 /* =========================
    애니메이션 (아래 → 위)
 ========================= */
@@ -122,25 +126,16 @@ body{
     transform:translate3d(0,0,0);
 }
 
-/* 헤더 로고 안정화 (애니메이션은 유지) */
-.header{
-    transform:translateZ(0);
-    backface-visibility:hidden;
+@keyframes headerFadeDown{
+    from{
+        opacity:0;
+        transform:translate3d(0,-20px,0);
+    }
+    to{
+        opacity:1;
+        transform:translate3d(0,0,0);
+    }
 }
-
-.logo{
-    transform:translateZ(0);
-}
-
-.logo img{
-    height:42px;
-    width:auto;
-    display:block;
-
-    transform:translateZ(0);
-    backface-visibility:hidden;
-}
-
 </style>
 
 {% block extra_style %}{% endblock %}
