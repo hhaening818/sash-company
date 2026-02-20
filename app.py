@@ -84,11 +84,7 @@ def home():
         "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600"
     )
 
-    return render_template(
-        "index.html",
-        hero_image=hero_image
-    )
-
+    return "Server running OK"
 
 # =========================
 # ABOUT
