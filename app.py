@@ -65,7 +65,7 @@ def get_random_hero(page_folder, default_image):
             return f"/static/hero/{page_folder}/" + random.choice(files)
 
 
-    # 2순위: portfolio (DB) — 안전 처리
+    # 2순위: portfolio DB
     try:
 
         conn = get_connection()
@@ -73,7 +73,7 @@ def get_random_hero(page_folder, default_image):
 
         cur.execute("SELECT id, image_url FROM portfolio ORDER BY id DESC")
 
-        images = [row[0] for row in cur.fetchall()]
+        images = [row[1] for row in cur.fetchall()]   # ← 여기 수정
 
         cur.close()
         db_pool.putconn(conn)
@@ -82,7 +82,6 @@ def get_random_hero(page_folder, default_image):
             return random.choice(images)
 
     except Exception as e:
-
         print("Hero DB error:", e)
 
 
