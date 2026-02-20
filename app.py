@@ -78,13 +78,23 @@ def get_random_hero(page, fallback_url=None):
 
 @app.route("/")
 def home():
+    try:
+        hero_image = get_random_hero(
+            "about",
+            "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600"
+        )
+    except Exception as e:
+        print("get_random_hero error:", e)
+        hero_image = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600"
 
-    hero_image = get_random_hero(
-        "about",
-        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600"
-    )
-
-    return "Server running OK"
+    try:
+        return render_template(
+            "index.html",
+            hero_image=hero_image
+        )
+    except Exception as e:
+        print("Template error:", e)
+        return f"Template error: {e}"
 
 # =========================
 # ABOUT
