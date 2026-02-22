@@ -264,13 +264,15 @@ button{
 {% endblock %}
 
 {% block hero %}
-<section class="hero">
+<section class="hero" style="height:60vh; display:flex; align-items:center; justify-content:center;">
+
     <div class="hero-inner">
 
         <img src="{{ url_for('static', filename='images/logo-hero.png') }}"
              class="hero-logo">
 
     </div>
+
 </section>
 {% endblock %}
 
