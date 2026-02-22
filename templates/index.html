@@ -3,959 +3,460 @@
 {% block title %}건진창호 | 창호 전문 시공{% endblock %}
 
 {% block extra_style %}
-    <link rel="preload" as="image"
+<link rel="preload" as="image"
       href="{{ url_for('static', filename='images/logo.png') }}">
 
-    <link rel="preload" as="image"
-        href="{{ url_for('static', filename='images/logo-hero.png') }}">
-
-    <style>
-        html{
-            scroll-behavior:smooth;
-        }
-
-        :root{
-            --main-green:#2f7d32;   /* ← 로고 초록색 (일단 기본값, 필요하면 바꿔줄게) */
-        }
-
-        /* ===== 기본 ===== */
-        body{
-            margin:0;
-            font-family:'Noto Sans KR', sans-serif;
-            background:#f0f2f5;
-            color:#333;
-            overflow-x:hidden;
-        }
-
-        /* 메인화면에서 헤더 이미지 로고만 숨기기 */
-        .header .logo img{
-            display:none;
-        }
-
-        .header .logo{
-            gap:0;
-        }
-        
-        .hero{
-
-            height:100vh;
-
-            display:flex;
-            align-items:center;
-            justify-content:center;
-
-            background:linear-gradient(
-                to bottom,
-                #ffffff 0%,
-                #f8fafc 100%
-            );
-
-            position:relative;
-
-        }
-
-
-        /* 내부 */
-       .hero-inner{
-            text-align:center;
-            width:100%;
-            max-width:900px;        /* 추가 (중앙 고정 핵심) */
-            margin:0 auto;          /* 추가 */
-            
-            display:flex;
-            flex-direction:column;
-            align-items:center;
-            justify-content:center;
-        }
-
-
-        .hero-logo-img{
-            height:65vh;
-            width:auto;
-
-            display:block;
-            margin:0 auto 30px;
-
-            opacity:0;
-            transform:translate3d(0,30px,0);
-
-            animation:heroFadeUp 0.8s ease forwards;
-
-            will-change:transform, opacity;
-
-            backface-visibility:hidden;
-            transform-style:preserve-3d;
-        }
-        
-
-        @keyframes heroFadeUp{
-            from{
-                opacity:0;
-                transform:translate3d(0,30px,0);
-            }
-            to{
-                opacity:1;
-                transform:translate3d(0,0,0);
-            }
-        }
-
-        /* 설명 */
-        .hero-sub{
-
-            font-size:22px;
-
-            color:#64748b;
-
-            opacity:0;
-
-            animation:fadeUp 1s ease forwards;
-            animation-delay:0.4s;
-
-        }
-
-
-        /* 스크롤 표시 */
-        .scroll-indicator{
-
-            position:absolute;
-
-            bottom:40px;
-
-            left:50%;
-
-            transform:translateX(-50%);
-
-        }
-
-
-        .scroll-line{
-
-            width:2px;
-            height:40px;
-
-            background:#94a3b8;
-
-            animation:scrollAnim 1.5s infinite;
-
-        }
-
-
-        @keyframes scrollAnim{
-
-            0%{opacity:0; transform:translateY(0);}
-            50%{opacity:1;}
-            100%{opacity:0; transform:translateY(15px);}
-
-        }
-
-        .hero-logo-img:hover{
-            transform: scale(1.05);            /* 확대 */
-        }
-
-        .hero-text{
-            margin:10px 0 20px;
-            font-size:20px;
-            color:#334155;
-        }
-
-        /* ===== 상단 버튼 ===== */
-        .header-buttons{
-
-            position:absolute;
-
-            width:100%;
-
-            display:flex;                     /* 핵심 */
-
-            justify-content:space-between;   /* 좌우 정렬 */
-
-            align-items:center;
-
-            padding:10px 20px;
-
-            box-sizing:border-box;
-
-            z-index:10;
-
-        }
-
-        .left-buttons{
-            position:relative;   /* absolute 제거 */
-        }
-
-        .right-buttons{
-            position:relative;   /* absolute 제거 */
-        }
-
-        .admin-btn,
-        .user-btn{
-            margin-right:10px;
-            text-decoration:none;
-            color:#1e293b;
-            font-size:14px;
-        }
-
-        .user-name{
-            margin-right:10px;
-            font-size:14px;
-            color:#334155;
-        }
-
-        /* ===== 메뉴 ===== */
-        .nav-menu{
-            width:100%;
-            background:var(--main-green);
-            display:flex;
-            justify-content:center;
-            gap:50px;
-            padding:15px 0;
-            position:relative;
-            z-index:10;
-
-        }
-
-        .nav-menu a{
-            color:white;
-            text-decoration:none;
-            font-size:17px;
-        }
-
-        .nav-menu a:hover{
-            opacity:0.7;
-        }
-
-        /* ===== 카드 ===== */
-        section{
-            padding:28px 20px;   /* 전체 섹션 간격 최적화 */
-            text-align:center;
-        }
-
-        .card{
-            background:white;
-            padding:26px;
-            margin:12px auto;   /* 카드 사이 간격 (기존의 약 60%) */
-            width:70%;
-            border-radius:15px;
-            box-shadow:0 4px 12px rgba(0,0,0,0.08);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .card:hover{
-            transform: translateY(-3px);
-            box-shadow:0 8px 20px rgba(0,0,0,0.12);
-        }
-
-        /* ===== 입력 ===== */
-        input,textarea{
-            width:80%;
-            padding:10px;
-            margin:10px 0;
-            border-radius:5px;
-            border:1px solid #ccc;
-        }
-
-        button{
-            padding:10px 20px;
-            background:var(--main-green);
-            color:white;
-            border:none;
-            border-radius:8px;
-            cursor:pointer;
-        }
-
-        /* ===== 슬라이더 ===== */
-        .slider{
-            position:relative;
-            max-width:1000px;
-            margin:auto;
-            overflow:hidden;
-        }
-
-        .slides{
-            display:flex;
-            align-items:center;
-            transition:transform 0.5s ease;
-            z-index:1;
-        }
-
-        .slide{
-            flex:0 0 calc(33.33% - 20px);
-            margin:0 10px;
-            opacity:0.7;
-            z-index:1;
-        }
-
-        .slide.active{
-            opacity:1;
-        }
-
-        .slide img{
-            width:100%;
-            height:220px;
-            object-fit:cover;
-            border-radius:10px;
-            cursor:pointer;
-        }
-
-        .prev,.next{
-            position:absolute;
-            top:50%;
-            transform:translateY(-50%);
-            background:rgba(0,0,0,0.5);
-            color:white;
-            border:none;
-            font-size:28px;
-            padding:10px;
-            cursor:pointer;
-            border-radius:50%;
-            z-index:1000;
-        }
-
-        .prev{ left:10px; }
-        .next{ right:10px; }
-
-        /* ===== 모달 ===== */
-        .modal{
-            display:none;
-            position:fixed;
-            top:0;
-            left:0;
-            width:100%;
-            height:100%;
-            background:rgba(0,0,0,0.8);
-            justify-content:center;
-            align-items:center;
-            z-index:9999;
-        }
-
-        .modal img{
-            max-width:90%;
-            max-height:90%;
-        }
-
-        .modal-box{
-            background:white;
-            padding:30px;
-            border-radius:15px;
-        }
-
-        /* ===== 모바일 ===== */
-        @media(max-width:768px){
-            .card{width:90%;}
-            .slide{flex:0 0 90%;}
-        }
-
-        .file-thumb{
-            max-width:120px;
-            border-radius:8px;
-            margin-top:5px;
-        }
-
-        /* 슬라이더 버튼 */
-        .slider-btn{
-
-            position:absolute;
-            top:50%;
-            transform:translateY(-50%);
-
-            width:44px;
-            height:44px;
-
-            border-radius:50%;
-
-            background:rgba(0,0,0,0.6);
-            color:white;
-
-            display:flex;
-            align-items:center;
-            justify-content:center;
-
-            cursor:pointer;
-
-            z-index:1000;   /* 중요 */
-        }
-
-        /* 왼쪽 버튼 */
-        .slider-btn.prev{
-            left:10px;
-        }
-
-        /* 오른쪽 버튼 */
-        .slider-btn.next{
-            right:10px;
-        }
-
-        /* 슬라이더 부모 */
-        .slider-container{
-            position:relative;
-        }
-
-        /* 이미지 */
-        .slide{
-            position:relative;
-            z-index:1;
-        }
-
-        #contactForm button{
-            display:block;
-            margin:20px auto 0 auto;  /* 중앙 정렬 + 위쪽 간격 */
-        }
-
-        .modal{
-        display:none;
-        position:fixed;
-        z-index:1000;
-        left:0;
-        top:0;
-        width:100%;
-        height:100%;
-        background:rgba(0,0,0,0.6);
-        }
-
-        .modal-content{
-        background:#1e293b;
-        margin:10% auto;
-        padding:30px;
-        width:400px;
-        border-radius:12px;
-        color:white;
-        }
-
-        .modal input{
-        width:100%;
-        padding:10px;
-        margin:5px 0;
-        }
-
-        .modal button{
-        width:100%;
-        padding:10px;
-        margin-top:5px;
-        background:#3b82f6;
-        color:white;
-        border:none;
-        cursor:pointer;
-        }
-
-        .close{
-        float:right;
-        font-size:24px;
-        cursor:pointer;
-        }
-
-        .signup-modal{
-            position:fixed;
-            inset:0;
-            background:rgba(0,0,0,0.35);
-            display:none;
-            justify-content:center;
-            align-items:center;
-            z-index:9999;
-        }
-
-        .signup-container{
-            width:460px;
-            max-width:90%;
-
-            background:white;
-
-            border-radius:16px;
-
-            padding:30px;
-
-            box-shadow:0 8px 25px rgba(0,0,0,0.15);
-
-            border:1px solid #e5e7eb;
-        }
-
-
-        @keyframes fadeUp{
-        from{
-        opacity:0;
-        transform:translateY(20px);
-        }
-        to{
-        opacity:1;
-        transform:translateY(0);
-        }
-        }
-
-        .signup-container{
-            width:460px;
-            max-width:90%;
-
-            background:white;
-
-            border-radius:16px;
-            padding:28px;
-
-            box-shadow:0 8px 25px rgba(0,0,0,0.15);
-
-            border:1px solid #e5e7eb;
-        }
-
-        .signup-title{
-            font-size:22px;
-            font-weight:700;
-            color:#2f7d32;
-        }
-
-        .signup-header{
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            margin-bottom:10px;
-        }
-
-        .signup-close{
-            font-size:22px;
-            cursor:pointer;
-            color:#64748b;
-            margin-left:auto;
-        }
-
-        .signup-close:hover{
-            color:#2f7d32;
-        }
-
-        .signup-close:hover{
-        color:#f1f5f9;
-        }
-
-        /* 단계 */
-        .signup-steps{
-        display:flex;
-        gap:20px;
-        margin-bottom:24px;
-        font-size:14px;
-        }
-
-        .step{
-            color:#94a3b8;
-        }
-
-        .step.active{
-            color:#2f7d32;
-            font-weight:600;
-        }
-
-
-        /* 약관 박스 */
-        .agree-box{
-        background:#f8fafc;
-        border-radius:10px;
-        padding:14px;
-        margin-bottom:12px;
-        border:1px solid #e2e8f0;
-        transition:0.2s;
-        }
-
-        .agree-box:hover{
-        border-color:#3b82f6;
-        }
-
-        /* 약관 헤더 */
-        .agree-header{
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        }
-
-        /* 체크 */
-        .agree-header label{
-        display:flex;
-        align-items:center;
-        gap:8px;
-        color:#334155;
-        font-weight:500;
-        font-size:14px;
-        cursor:pointer;
-        }
-
-        /* 체크박스 */
-        .agree-header input{
-        width:16px;
-        height:16px;
-        accent-color:#3b82f6;
-        }
-
-        /* 펼치기 */
-        .toggle-btn{
-        color:#2f7d32;
-        font-size:13px;
-        cursor:pointer;
-        }
-
-        /* 약관 내용 */
-        .terms-content{
-        display:none;
-        margin-top:10px;
-        font-size:13px;
-        color:#94a3b8;
-        max-height:180px;
-        overflow:auto;
-        line-height:1.5;
-        padding-right:4px;
-        }
-
-        /* 전체동의 */
-       .agree-all{
-            display:flex;
-            align-items:center;
-            gap:8px;
-            margin-bottom:16px;
-
-            color:#1e293b;
-
-            font-size:15px;
-            font-weight:600;
-
-            cursor:pointer;
-        }
-
-        /* 버튼 */
-        .next-btn{
-            width:100%;
-            padding:12px;
-
-            background:#2f7d32;
-
-            border:none;
-            border-radius:8px;
-
-            color:white;
-            font-size:15px;
-
-            cursor:pointer;
-        }
-
-        .next-btn:hover{
-            background:#256528;
-        }
-
-        /* 완료 텍스트 */
-        .complete{
-            text-align:center;
-            font-size:18px;
-            margin-top:30px;
-            color:#3b82f6;
-        }
-
-        .terms-content{
-        display:none;
-        margin-top:10px;
-        font-size:13px;
-        color:#475569;
-        max-height:220px;
-        overflow:auto;
-        line-height:1.6;
-        padding-right:6px;
-        }
-
-        .terms-content::-webkit-scrollbar{
-        width:6px;
-        }
-
-        .terms-content::-webkit-scrollbar-thumb{
-        background:#3b82f6;
-        border-radius:3px;
-        }
-
-        .phone-row{
-        display:flex;
-        gap:8px;
-        margin-top:10px;
-        }
-
-        .verify-btn{
-        background:#2f7d32;
-        border:none;
-        color:white;
-        padding:10px;
-        border-radius:6px;
-        cursor:pointer;
-        }
-
-        .verify-btn:hover{
-            background:#256528;
-        }
-
-        .timer{
-        font-size:13px;
-        color:#94a3b8;
-        margin-top:5px;
-        }
-
-        .agree-row{
-        display:flex;
-        gap:8px;
-        margin-bottom:10px;
-        }
-
-        .verify-status{
-
-        margin-left:8px;
-        font-size:14px;
-        color:#22c55e;
-
-        }
-
-        .verify-success{
-
-        color:#22c55e;
-
-        }
-
-        .verify-fail{
-
-        color:#ef4444;
-
-        }
-
-        .verify-btn:disabled{
-
-        background:#475569;
-        cursor:not-allowed;
-
-        }
-
-        .signup-step{
-            display:none;
-            animation:fadeUp 0.25s ease;
-        }
-
-        .signup-step.active{
-            display:block;
-        }
-
-        .signup-container input{
-            width:100%;
-            padding:12px;
-            margin-top:8px;
-
-            border:1px solid #d1d5db;
-            border-radius:8px;
-
-            font-size:14px;
-        }
-
-        .signup-container input:focus{
-            outline:none;
-            border-color:#2f7d32;
-        }
-
-        .agree-all{
-            display:flex;
-            align-items:center;
-            justify-content:flex-start;
-            gap:10px;
-
-            padding:10px 0;
-
-            font-size:16px;
-        }
-
-        html{
-            scroll-behavior:smooth;
-        }
-
-        /* 견적요청 카드 */
-        .estimate-card{
-
-            background:#eef2f1;
-
-            padding:26px;
-            margin:12px auto;
-            width:70%;
-
-            border-radius:15px;
-
-            box-shadow:0 4px 12px rgba(0,0,0,0.08);
-
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-
-            cursor:pointer;
-        }
-
-        .estimate-card:hover{
-
-            transform: translateY(-3px);
-
-            box-shadow:0 8px 20px rgba(0,0,0,0.12);
-
-            background:#e4e9e7;
-
-        }
+<link rel="preload" as="image"
+      href="{{ url_for('static', filename='images/logo-hero.png') }}">
+
+<style>
+
+:root{
+    --main-green:#2f7d32;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    font-family:'Noto Sans KR', sans-serif;
+    background:#f0f2f5;
+    color:#333;
+    overflow-x:hidden;
+}
+
+
+/* =========================
+   SECTION
+========================= */
+
+section{
+    padding:28px 20px;
+    text-align:center;
+}
+
+
+/* =========================
+   CARD
+========================= */
+
+.card{
+    background:white;
+    padding:26px;
+    margin:12px auto;
+    width:70%;
+    border-radius:15px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover{
+    transform: translateY(-3px);
+    box-shadow:0 8px 20px rgba(0,0,0,0.12);
+}
+
+
+/* =========================
+   INPUT
+========================= */
+
+input, textarea{
+    width:80%;
+    padding:10px;
+    margin:10px 0;
+    border-radius:5px;
+    border:1px solid #ccc;
+}
+
+button{
+    padding:10px 20px;
+    background:var(--main-green);
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+
+/* =========================
+   SLIDER
+========================= */
+
+.slider{
+    position:relative;
+    max-width:1000px;
+    margin:auto;
+    overflow:hidden;
+}
+
+.slides{
+    display:flex;
+    transition:transform 0.5s ease;
+}
+
+.slide{
+    flex:0 0 calc(33.33% - 20px);
+    margin:0 10px;
+    opacity:0.7;
+}
+
+.slide img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.prev,.next{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    background:rgba(0,0,0,0.5);
+    color:white;
+    border:none;
+    font-size:28px;
+    padding:10px;
+    cursor:pointer;
+    border-radius:50%;
+}
+
+.prev{ left:10px; }
+.next{ right:10px; }
+
+
+/* =========================
+   ESTIMATE CARD
+========================= */
+
+.estimate-card{
+    background:#eef2f1;
+    padding:26px;
+    margin:12px auto;
+    width:70%;
+    border-radius:15px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    transition:0.2s;
+}
+
+.estimate-card:hover{
+    transform: translateY(-3px);
+    box-shadow:0 8px 20px rgba(0,0,0,0.12);
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.6);
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+}
+
+.modal img{
+    max-width:90%;
+    max-height:90%;
+}
+
+.modal-box{
+    background:white;
+    padding:30px;
+    border-radius:15px;
+}
+
+
+/* =========================
+   SIGNUP MODAL
+========================= */
+
+.signup-modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.35);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+}
+
+.signup-container{
+    width:460px;
+    max-width:90%;
+    background:white;
+    border-radius:16px;
+    padding:30px;
+}
+
+.signup-title{
+    font-size:22px;
+    font-weight:700;
+    color:#2f7d32;
+}
+
+.signup-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.signup-close{
+    font-size:22px;
+    cursor:pointer;
+}
+
+
+/* =========================
+   TERMS
+========================= */
+
+.agree-box{
+    background:#f8fafc;
+    border-radius:10px;
+    padding:14px;
+    margin-bottom:12px;
+}
+
+.terms-content{
+    display:none;
+    margin-top:10px;
+    font-size:13px;
+    max-height:220px;
+    overflow:auto;
+}
+
+.next-btn{
+    width:100%;
+    padding:12px;
+    background:#2f7d32;
+    color:white;
+    border:none;
+    border-radius:8px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:768px){
+
+    .card,
+    .estimate-card{
+        width:90%;
+    }
+
+    .slide{
+        flex:0 0 90%;
+    }
+
+}
 
 </style>
+
 {% endblock %}
+
 
 {% block content %}
 
-<section class="hero">
+<!-- hero는 base.html로 이동 예정 -->
 
-    <div class="hero-inner">
-
-        <img src="{{ url_for('static', filename='images/logo-hero.png') }}"
-             class="hero-logo-img">
-
-        <p class="hero-sub">
-            GUNJIN Co.
-            30년 경력 창호 전문 시공
-        </p>
-
-    </div>
-
-    <div class="scroll-indicator">
-        <div class="scroll-line"></div>
-    </div>
-
-</section>
 
 <section id="about">
-    <div class="card">
-        <h2>회사소개</h2>
-        <p>
-            30년 경력의 전문가가 직접 시공합니다.<br>
-            최고의 단열, 방음, 내구성 보장
-        </p>
-    </div>
+
+<div class="card">
+
+<h2>회사소개</h2>
+
+<p>
+
+30년 경력의 전문가가 직접 시공합니다.<br>
+최고의 단열, 방음, 내구성 보장
+
+</p>
+
+</div>
+
 </section>
+
 
 
 <section id="service">
-    <div class="card">
-        <h2>시공 분야</h2>
-        <p>
-            ✔ 아파트 샷시 교체<br>
-            ✔ 단독주택 창호<br>
-            ✔ 상가 유리 시공<br>
-            ✔ 베란다 확장
-        </p>
-    </div>
+
+<div class="card">
+
+<h2>시공 분야</h2>
+
+<p>
+
+✔ 아파트 샷시 교체<br>
+✔ 단독주택 창호<br>
+✔ 상가 유리 시공<br>
+✔ 베란다 확장
+
+</p>
+
+</div>
+
 </section>
+
 
 
 <section id="portfolio">
 
-    <div class="card">
+<div class="card">
 
-        <h2>🛠 시공 사례</h2>
+<h2>🛠 시공 사례</h2>
 
-        <a href="/portfolio">
+<a href="/portfolio">
 
-            <button style="
-                margin-top:-10px;
-                margin-bottom:30px;
-                padding:12px 20px;
-                font-size:16px;
-                border-radius:10px;
-                cursor:pointer;">
+<button>
 
-                전체 시공 사례 보기 →
+전체 시공 사례 보기 →
 
-            </button>
+</button>
 
-        </a>
+</a>
 
-        <div class="slider">
 
-            <button class="prev">&#10094;</button>
+<div class="slider">
 
-            <div class="slides" id="slides">
+<button class="prev">&#10094;</button>
 
-            {% for img in images %}
-            <div class="slide">
-            <img src="{{ img }}" loading="lazy">
-            </div>
-            {% endfor %}
+<div class="slides" id="slides">
 
-            {% for img in images %}
-            <div class="slide clone">
-            <img src="{{ img }}" loading="lazy">
-            </div>
-            {% endfor %}
+{% for img in images %}
+<div class="slide">
+<img src="{{ img }}" loading="lazy">
+</div>
+{% endfor %}
 
-            </div>
+{% for img in images %}
+<div class="slide clone">
+<img src="{{ img }}" loading="lazy">
+</div>
+{% endfor %}
 
-            <button class="next">&#10095;</button>
+</div>
 
-        </div>
+<button class="next">&#10095;</button>
 
-    </div>
+</div>
+
+</div>
 
 </section>
+
+
 
 <section>
 
-    <div class="estimate-card" id="contact">
+<div class="estimate-card" id="contact">
 
-        <h2>무료 견적 요청</h2>
+<h2>무료 견적 요청</h2>
 
-        <p>
-            무료 견적 상담을 받아보세요<br>
-            빠르고 정확하게 안내드립니다
-        </p>
+<p>
 
-        <form id="contactForm"
-              enctype="multipart/form-data"
-              style="margin-top:20px;">
+무료 견적 상담을 받아보세요<br>
+빠르고 정확하게 안내드립니다
 
-            <input type="text"
-                   name="name"
-                   placeholder="이름"
-                   required>
+</p>
 
-            <input type="text"
-                   name="phone"
-                   placeholder="연락처"
-                   required>
 
-            <textarea name="message"
-                      placeholder="문의 내용"></textarea>
+<form id="contactForm" enctype="multipart/form-data">
 
-            <input type="file"
-                   name="image">
+<input type="text" name="name" placeholder="이름" required>
 
-            <button type="submit">
-                견적 요청하기
-            </button>
+<input type="text" name="phone" placeholder="연락처" required>
 
-        </form>
+<textarea name="message" placeholder="문의 내용"></textarea>
 
-    </div>
+<input type="file" name="image">
+
+<button type="submit">
+
+견적 요청하기
+
+</button>
+
+</form>
+
+</div>
 
 </section>
 
-<!-- 모바일 고정 전화 버튼 -->
+
+
+<!-- 전화 버튼 -->
+
 <a href="tel:01071372313"
-   style="
-   position:fixed;
-   bottom:20px;
-   right:20px;
-   background:#22c55e;
-   color:white;
-   padding:15px 20px;
-   border-radius:50px;
-   font-weight:bold;
-   text-decoration:none;
-   box-shadow:0 4px 10px rgba(0,0,0,0.3);
-   z-index:999;">
+
+style="
+
+position:fixed;
+bottom:20px;
+right:20px;
+background:#22c55e;
+color:white;
+padding:15px 20px;
+border-radius:50px;
+text-decoration:none;
+box-shadow:0 4px 10px rgba(0,0,0,0.3);
+
+">
+
 📞 바로 전화
+
 </a>
 
+
+
+<!-- 모달 -->
+
 <div id="successModal" class="modal">
-    <div class="modal-box">
-        <div class="check">✔</div>
-        <h3>문의가 접수되었습니다</h3>
-        <p>빠르게 연락드리겠습니다.</p>
-        <button onclick="closeModal()">확인</button>
-    </div>
+
+<div class="modal-box">
+
+<h3>문의가 접수되었습니다</h3>
+
+<button onclick="closeModal()">확인</button>
+
 </div>
 
-<div class="modal" id="imageModal">
-    <img id="modalImage">
 </div>
+
+
+
+<div class="modal" id="imageModal">
+
+<img id="modalImage">
+
+</div>
+
+
+
+<!-- 회원가입 모달 -->
+
+<div id="signupModal" class="signup-modal">
+
+<div class="signup-container">
+
+<!-- 기존 내용 그대로 유지 -->
+
+</div>
+
+</div>
+
+
+
+{% endblock %}
 
 <script>
 

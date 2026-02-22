@@ -122,6 +122,67 @@ body{
 }
 
 /* =========================
+   HERO
+========================= */
+
+.hero{
+
+    width:100%;
+
+    min-height:60vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:linear-gradient(
+        to bottom,
+        #ffffff,
+        #f8fafc
+    );
+
+}
+
+.hero-inner{
+
+    width:100%;
+
+    max-width:900px;
+
+    padding:40px 20px;
+
+    text-align:center;
+
+}
+
+.hero-logo{
+
+    width:100%;
+
+    max-width:650px;
+
+    height:auto;
+
+    display:block;
+
+    margin:0 auto;
+
+}
+
+@keyframes heroFadeUp{
+            from{
+                opacity:0;
+                transform:translate3d(0,30px,0);
+            }
+            to{
+                opacity:1;
+                transform:translate3d(0,0,0);
+            }
+        }
+
+/* =========================
    Footer
 ========================= */
 
@@ -380,6 +441,18 @@ body{
 </div>
 
 </header>
+<!-- ===== HERO (공통) ===== -->
+<section class="hero">
+
+    <div class="hero-inner">
+
+        <img src="{{ url_for('static', filename='images/logo-hero.png') }}"
+             class="hero-logo">
+
+    </div>
+
+</section>
+
 <!-- 페이지 내용 -->
 {% block content %}{% endblock %}
 
