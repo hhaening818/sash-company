@@ -263,11 +263,18 @@ button{
 
 {% endblock %}
 
+{% block hero %}
+<section class="hero">
+    <div class="hero-inner">
+
+        <img src="{{ url_for('static', filename='images/logo-hero.png') }}"
+             class="hero-logo">
+
+    </div>
+</section>
+{% endblock %}
 
 {% block content %}
-
-<!-- hero는 base.html로 이동 예정 -->
-
 
 <section id="about">
 

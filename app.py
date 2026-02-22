@@ -96,6 +96,7 @@ def home():
         print("Template error:", e)
         return f"Template error: {e}"
 
+
 # =========================
 # ABOUT
 # =========================

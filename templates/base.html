@@ -441,21 +441,32 @@ body{
 </div>
 
 </header>
-<!-- ===== HERO (공통) ===== -->
-<section class="hero">
 
-    <div class="hero-inner">
-
-        <img src="{{ url_for('static', filename='images/logo-hero.png') }}"
-             class="hero-logo">
-
-    </div>
-
-</section>
 
 <!-- 페이지 내용 -->
 {% block content %}{% endblock %}
 
+<!-- ===== HERO ===== -->
+{% block hero %}
+
+{% if hero_image %}
+<section class="hero"
+style="
+background:
+linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
+url('{{ hero_image }}');
+background-size:cover;
+background-position:center;
+">
+
+    <div class="hero-inner">
+        <!-- 필요시 페이지 제목 -->
+    </div>
+
+</section>
+{% endif %}
+
+{% endblock %}
 
 <!-- 공통 footer -->
 <div class="footer fade-up">
