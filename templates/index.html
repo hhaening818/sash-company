@@ -815,15 +815,6 @@
 
     <div class="header-buttons">
 
-        <div class="left-buttons">
-            {% if session.get('admin') %}
-                <a href="/admin" class="admin-btn">관리자 페이지</a>
-                <a href="/logout" class="admin-btn">관리자 로그아웃</a>
-            {% else %}
-                <a href="/login" class="admin-btn">관리자 로그인</a>
-            {% endif %}
-        </div>
-
         <div class="right-buttons">
             {% if session.get('user') %}
                 <span class="user-name">{{ session.get('user') }}님</span>

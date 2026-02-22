@@ -24,6 +24,121 @@ body{
     overflow:hidden;
 }
 
+/* ===== 상단 헤더 ===== */
+.top-header{
+
+    height:40px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:0 60px;
+
+    background:#f8faf9;
+
+    font-size:14px;
+
+}
+
+.top-header a{
+
+    text-decoration:none;
+
+    color:#374151;
+
+    margin-left:20px;
+
+}
+
+/* ===== 중앙 로고 ===== */
+.main-header{
+
+    height:100px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:white;
+
+    border-bottom:1px solid #e5ece9;
+
+}
+
+.logo-center{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    cursor:pointer;
+
+}
+
+.logo-center img{
+
+    height:40px;
+
+}
+
+.logo-center span{
+
+    font-size:26px;
+
+    font-weight:700;
+
+    color:#2f7d32;
+
+}
+
+/* ===== 메뉴 헤더 ===== */
+.menu-header{
+
+    height:60px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:white;
+
+    border-bottom:1px solid #e5ece9;
+
+}
+
+.menu-header .nav{
+
+    display:flex;
+
+    gap:60px;
+
+}
+
+.menu-header .nav a{
+
+    font-size:16px;
+
+    font-weight:500;
+
+    color:#374151;
+
+}
+
+.menu-header .nav a:hover{
+
+    color:#2f7d32;
+
+}
+
 /* 헤더 */
 .header{
     background:white;  /*헤더 배경색을 흰색으로 설정*/
@@ -479,19 +594,52 @@ body{
 <div class="scale-wrapper">
 
 <!-- 공통 헤더 -->
-<div class="header">
+<div class="top-header">
 
-    <div class="logo" onclick="location.href='/'">
-        <img src="{{ url_for('static', filename='logo-header.png') }}" alt="logo">
+    <div class="top-left">
+        🌐 KOR
+    </div>
+
+    <div class="top-right">
+        <a href="/user_login">로그인</a>
+        <a href="#">회원가입</a>
+        <a href="/inquiries">문의조회</a>
+    </div>
+
+</div>
+
+
+<!-- ===== 중앙 로고 ===== -->
+<div class="main-header">
+
+    <div class="logo-center" onclick="location.href='/'">
+
+        <img src="{{ url_for('static', filename='logo-header.png') }}">
+
         <span>SASH COMPANY</span>
+
     </div>
+
+</div>
+
+
+<!-- ===== 하단 메뉴 ===== -->
+<div class="menu-header">
+
     <div class="nav">
+
         <a href="/about">회사소개</a>
+
         <a href="/construction">시공 분야</a>
+
         <a href="/portfolio">시공 사례</a>
+
         <a href="/inquiries">문의 목록</a>
+
         <a href="/#contact">문의하기</a>
+
     </div>
+
 </div>
 
 </header>
