@@ -38,11 +38,9 @@ body{
     position:sticky;
     top:0;
     z-index:1000;
-
     transform:translateZ(0);           
     backface-visibility:hidden;
     will-change:transform;   
-    
     opacity:0;
     animation:headerFadeDown 0.6s ease forwards;
 }
@@ -53,6 +51,7 @@ body{
     gap:10px;
     cursor:pointer;
     flex-direction:row-reverse;
+    flex-shrink:0;
     transform:translateZ(0);
     opacity:0;
     animation:headerFadeDown 0.6s ease forwards;
@@ -78,20 +77,54 @@ body{
 }
 
 .nav{
+    margin-left:auto;
     display:flex;
-    gap:35px;
+    gap:40px;
     white-space:nowrap;
 }
 
-.nav a{
-    text-decoration:none;
-    color:#4a6358;
+.nav a,
+.header > a{
+
+    text-decoration:none !important;  /* 밑줄 제거 */
+
+    color:#4a6358;                   /* 일반 텍스트 색 */
+
+    font-size:16px;
+
     font-weight:500;
-    white-space:nowrap;
+
+    padding:6px 0;
+
+    border:none;
+
+    outline:none;
+
 }
 
-.nav a:hover{
+
+/* hover 시 링크 느낌 제거 */
+.nav a:hover,
+.header > a:hover{
+
+    text-decoration:none !important;
+
     color:#2f7d32;
+
+}
+
+.nav a:visited,
+.header > a:visited{
+
+    color:#374151;
+
+}
+
+.nav a:active,
+.header > a:active{
+
+    color:#374151;
+
 }
 
 .inquiry-btn{
@@ -456,23 +489,16 @@ body{
 <div class="header">
 
 <div class="logo" onclick="location.href='/'">
-
     <img src="{{ url_for('static', filename='logo-header.png') }}" alt="logo">
-
     <span>SASH COMPANY</span>
-
+</div>
+    <div class="nav"></div>
+        <a href="/about">회사소개</a>
+        <a href="/construction">시공 분야</a>
+        <a href="/portfolio">시공 사례</a>
+        <a href="/inquiries">문의 목록</a>
+        <a href="/#contact">문의하기</a>
     </div>
-
-<a href="/about">회사소개</a>
-
-<a href="/construction">시공 분야</a>
-
-<a href="/portfolio">시공 사례</a>
-
-<a href="/inquiries">문의 목록</a>
-
-<a href="/#contact">문의하기</a>
-
 </div>
 
 </div>
