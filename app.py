@@ -1,332 +1,146 @@
+# Note: This code requires Flask and Flask-SQLAlchemy to be installed in your environment.
+# You can install them with: pip install flask flask-sqlalchemy
+# Run this script with Python 3.12 (as 3.13.12 might be a typo; Python versions are like 3.12.3).
+# Save this as app.py and run: python app.py
+# Access the site at http://127.0.0.1:5000/
+# For production, use a proper WSGI server like Gunicorn.
+
+from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
 import os
-import random
-import psycopg2
-import cloudinary
-import cloudinary.uploader
 
-from flask import Flask, render_template, request, redirect
-from flask_wtf import CSRFProtect
-from psycopg2.pool import SimpleConnectionPool
-from flask import url_for
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'your_secret_key_here'  # Change this to a secure random key
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
 
-# =========================
-# Flask 설정
-# =========================
+# Models
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(150), unique=True, nullable=False)
+    password = db.Column(db.String(150), nullable=False)
+    is_admin = db.Column(db.Boolean, default=False)
 
-app = Flask(__name__,
-            static_folder='static',
-            template_folder='templates')
-app.secret_key = "super_secret_key"
+class Inquiry(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(150), nullable=False)
+    message = db.Column(db.Text, nullable=False)
+    quote_request = db.Column(db.Boolean, default=False)
 
-app.config['WTF_CSRF_ENABLED'] = False
-csrf = CSRFProtect(app)
+# Create DB if not exists
+with app.app_context():
+    db.create_all()
+    # Add default admin if not exists
+    if not User.query.filter_by(username='admin').first():
+        admin = User(username='admin', password=generate_password_hash('adminpass'), is_admin=True)
+        db.session.add(admin)
+        db.session.commit()
 
-DATABASE_URL = os.getenv("DATABASE_URL")
-db_pool = SimpleConnectionPool(
-    minconn=1,
-    maxconn=10,
-    dsn=DATABASE_URL
-)
+# Helper to check if user is logged in and admin
+def is_admin():
+    return session.get('user_id') and User.query.get(session['user_id']).is_admin
 
-cloudinary.config(
-    cloud_name=os.getenv("CLOUD_NAME"),
-    api_key=os.getenv("API_KEY"),
-    api_secret=os.getenv("API_SECRET")
-)
+# Common template context for hero logo (assume you have a logo.jpg in static folder)
+# Create folders: templates/ and static/
+# In templates, create base.html with hero logo header
 
-
-# =========================
-# DB 연결
-# =========================
-
-def get_connection():
-    try:
-        return db_pool.getconn()
-    except Exception as e:
-        print("DB pool error:", e)
-        return None
-
-# =========================
-# Hero 자동 선택 (페이지별 폴더 지원)
-# =========================
-
-# 샷시 회사 전용 hero 이미지
-HERO_DEFAULT = [
-
-    "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600",
-    "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=1600",
-    "https://images.unsplash.com/photo-1600566752355-35792bedcfea?q=80&w=1600",
-    "https://images.unsplash.com/photo-1600047509358-9dc75507daeb?q=80&w=1600",
-    "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?q=80&w=1600",
-    "https://images.unsplash.com/photo-1600585152915-d208bec867a1?q=80&w=1600",
-
-]
-
-
-def get_random_hero(page=None, fallback_url=None):
-
-    # ✅ 1순위: 샷시 회사 전용 이미지
-    if HERO_DEFAULT:
-        return random.choice(HERO_DEFAULT)
-
-
-    # ✅ 2순위: static 폴더 이미지
-    if page:
-        hero_folder = os.path.join(app.static_folder, "hero", page)
-
-        if os.path.exists(hero_folder):
-
-            files = [
-                f for f in os.listdir(hero_folder)
-                if f.lower().endswith((".jpg",".jpeg",".png",".webp"))
-            ]
-
-            if files:
-                selected = random.choice(files)
-                return url_for(
-                    'static',
-                    filename=f'hero/{page}/{selected}'
-                )
-
-
-    # ✅ 3순위: fallback
-    return fallback_url
-
-
-# =========================
-# HOME
-# =========================
-
-@app.route("/")
+@app.route('/')
 def home():
-    try:
-        hero_image = get_random_hero(
-            "about",
-            "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600"
-        )
-    except Exception as e:
-        print("get_random_hero error:", e)
-        hero_image = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600"
+    return render_template('home.html')
 
-    try:
-        return render_template(
-            "index.html",
-            hero_image=hero_image
-        )
-    except Exception as e:
-        print("Template error:", e)
-        return f"Template error: {e}"
-
-
-# =========================
-# ABOUT
-# =========================
-
-@app.route("/about")
+@app.route('/about')
 def about():
+    return render_template('about.html')
 
-    hero_image = get_random_hero(
-        "about",
-        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600"
-    )
+@app.route('/fields')
+def fields():
+    return render_template('fields.html')
 
-    conn = get_connection()
-    if not conn:
-        return render_template("about.html")
+@app.route('/cases')
+def cases():
+    return render_template('cases.html')
 
-    cur = conn.cursor()
-
-    cur.execute("SELECT id, image_url FROM portfolio ORDER BY id DESC")
-
-    images = cur.fetchall()
-
-    cur.close()
-    db_pool.putconn(conn)
-
-    return render_template(
-        "about.html",
-        images=images,
-        hero_image=hero_image
-    )
-
-
-# =========================
-# CONSTRUCTION
-# =========================
-
-@app.route("/construction")
-def construction():
-
-    hero_image = get_random_hero(
-        "construction",
-        "https://images.unsplash.com/photo-1600566752355-35792bedcfea?q=80&w=1600"
-    )
-
-    conn = get_connection()
-    cur = conn.cursor()
-
-    cur.execute("SELECT id, image_url FROM portfolio ORDER BY id DESC")
-
-    images = cur.fetchall()
-
-    cur.close()
-    db_pool.putconn(conn)
-
-    return render_template(
-        "construction.html",
-        images=images,
-        hero_image=hero_image
-    )
-
-# =========================
-# PORTFOLIO (시공 사례 페이지)
-# =========================
-
-@app.route("/portfolio")
-def portfolio():
-
-    conn = get_connection()
-    cur = conn.cursor()
-
-    cur.execute("""
-        SELECT id, image_url, date, location, category, type
-        FROM portfolio
-        ORDER BY id DESC
-    """)
-
-    images = cur.fetchall()
-
-    cur.close()
-    db_pool.putconn(conn)
-
-    return render_template(
-        "portfolio.html",
-        images=images,
-        is_admin=False
-    )
-
-# =========================
-# INQUIRIES (문의 목록 페이지)
-# =========================
-
-@app.route("/inquiries")
+@app.route('/inquiries')
 def inquiries():
+    if not session.get('user_id'):
+        flash('Please login to view inquiries.')
+        return redirect(url_for('login'))
+    inquiries = Inquiry.query.all()
+    return render_template('inquiries.html', inquiries=inquiries)
 
-    page = request.args.get("page", 1, type=int)
-    search = request.args.get("search", "", type=str)
+@app.route('/quote', methods=['GET', 'POST'])
+def quote():
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        message = request.form['message']
+        inquiry = Inquiry(name=name, email=email, message=message, quote_request=True)
+        db.session.add(inquiry)
+        db.session.commit()
+        flash('Quote request submitted successfully!')
+        return redirect(url_for('home'))
+    return render_template('quote.html')
 
-    per_page = 10
-    offset = (page - 1) * per_page
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = generate_password_hash(request.form['password'])
+        user = User(username=username, password=password)
+        db.session.add(user)
+        db.session.commit()
+        flash('Registration successful! Please login.')
+        return redirect(url_for('login'))
+    return render_template('register.html')
 
-    conn = get_connection()
-    cur = conn.cursor()
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        user = User.query.filter_by(username=request.form['username']).first()
+        if user and check_password_hash(user.password, request.form['password']):
+            session['user_id'] = user.id
+            flash('Login successful!')
+            return redirect(url_for('home'))
+        flash('Invalid credentials.')
+    return render_template('login.html')
 
-    # 검색 조건
-    if search:
-        cur.execute("""
-            SELECT COUNT(*)
-            FROM inquiries
-            WHERE message ILIKE %s
-        """, ("%" + search + "%",))
-    else:
-        cur.execute("SELECT COUNT(*) FROM inquiries")
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None)
+    flash('Logged out.')
+    return redirect(url_for('home'))
 
-    total = cur.fetchone()[0]
+@app.route('/admin')
+def admin():
+    if not is_admin():
+        flash('Access denied. Admins only.')
+        return redirect(url_for('login'))
+    users = User.query.all()
+    inquiries = Inquiry.query.all()
+    return render_template('admin.html', users=users, inquiries=inquiries)
 
-    total_pages = (total + per_page - 1) // per_page
+@app.route('/admin/delete_inquiry/<int:id>')
+def delete_inquiry(id):
+    if not is_admin():
+        return redirect(url_for('login'))
+    inquiry = Inquiry.query.get_or_404(id)
+    db.session.delete(inquiry)
+    db.session.commit()
+    flash('Inquiry deleted.')
+    return redirect(url_for('admin'))
 
+@app.route('/admin/delete_user/<int:id>')
+def delete_user(id):
+    if not is_admin():
+        return redirect(url_for('login'))
+    user = User.query.get_or_404(id)
+    db.session.delete(user)
+    db.session.commit()
+    flash('User deleted.')
+    return redirect(url_for('admin'))
 
-    # 목록 조회
-    if search:
-        cur.execute("""
-            SELECT id, name, phone, message, image, status, created_at
-            FROM inquiries
-            WHERE message ILIKE %s
-            ORDER BY id DESC
-            LIMIT %s OFFSET %s
-        """, ("%" + search + "%", per_page, offset))
-    else:
-        cur.execute("""
-            SELECT id, name, phone, message, image, status, created_at
-            FROM inquiries
-            ORDER BY id DESC
-            LIMIT %s OFFSET %s
-        """, (per_page, offset))
-
-    inquiries = cur.fetchall()
-
-    cur.close()
-    db_pool.putconn(conn)
-
-    return render_template(
-        "inquiries.html",
-        inquiries=inquiries,
-        page=page,
-        total_pages=total_pages,
-        search=search
-    )
-
-# =========================
-# 문의 등록
-# =========================
-
-@app.route("/contact", methods=["POST"])
-def contact():
-
-    name = request.form.get("name")
-    phone = request.form.get("phone")
-    message = request.form.get("message")
-
-    file = request.files.get("image")
-
-    image_url = None
-
-    if file and file.filename:
-
-        result = cloudinary.uploader.upload(file)
-
-        image_url = result["secure_url"]
-
-    conn = get_connection()
-    cur = conn.cursor()
-
-    cur.execute("""
-    INSERT INTO inquiries (name, phone, message, image)
-    VALUES (%s, %s, %s, %s)
-    """,(name, phone, message, image_url))
-
-    conn.commit()
-
-    cur.close()
-    db_pool.putconn(conn)
-
-    return redirect("/")
-
-@app.route("/debug_hero/<page>")
-def debug_hero(page):
-    import os
-
-    hero_folder = f"static/hero/{page}"
-
-    result = f"<h2>Checking hero folder: {hero_folder}</h2>"
-
-    if os.path.exists(hero_folder):
-        files = os.listdir(hero_folder)
-        result += f"<p>Files found: {files}</p>"
-    else:
-        result += "<p>Folder does not exist</p>"
-
-    return result
-
-if __name__ == "__main__":
-
-    port = int(os.environ.get("PORT", 10000))
-
-    print("Starting Flask on port", port)
-
-    app.run(
-        host="0.0.0.0",
-        port=port,
-        debug=False
-    )
-
+if __name__ == '__main__':
+    app.run(debug=True)

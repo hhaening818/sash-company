@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}견적 요청{% endblock %}
+{% block content %}
+    <h1>견적 요청</h1>
+    <form method="POST">
+        <label>이름: <input type="text" name="name" required></label><br>
+        <label>이메일: <input type="email" name="email" required></label><br>
+        <label>메시지: <textarea name="message" required></textarea></label><br>
+        <input type="submit" value="제출">
+    </form>
+{% endblock %}
