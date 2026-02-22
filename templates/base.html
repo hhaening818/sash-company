@@ -138,7 +138,7 @@ body{
 
 .menu-header .nav a:hover{
 
-    color:#2f7d32;
+    color:#162516;
 
 }
 
@@ -195,28 +195,30 @@ body{
 }
 
 .nav{
-    margin-left:auto;  /* 메뉴를 오른쪽 끝으로 이동 */
-    display:flex;  /*gap은 display:flex;,grid와 같이 써야함*/
-    gap:40px;             /* ← 메뉴 간격 증가 */
-    white-space:nowrap;
+
+    margin-left:auto;   /* ← 핵심 (오른쪽 이동) */
+
+    display:flex;
+
+    gap:50px;
+
 }
 
-.nav a,
-.header > a{
-    text-decoration:none !important;  /* 밑줄 제거 */
-    color:#4a6358;                   /* 일반 텍스트 색 */
+.nav a{
+
+    text-decoration:none;
+
+    color:#374151;
+
     font-size:16px;
+
     font-weight:500;
-    padding:8px 0;
-    border:none;
-    outline:none;
-    letter-spacing:0.5px;   /* 글자 간격 */
+
 }
 
 
 /* hover 시 링크 느낌 제거 */
-.nav a:hover,
-.header > a:hover{
+.nav a:hover{
 
     text-decoration:none !important;
 
@@ -628,13 +630,19 @@ body{
 <!-- ===== 하단 메뉴 ===== -->
 <div class="menu-header">
 
+    <!-- 왼쪽 로고 -->
+    <div class="logo-left" onclick="location.href='/'">
+        SASH COMPANY
+    </div>
+
+    <!-- 오른쪽 메뉴 -->
     <div class="nav">
 
         <a href="/about">회사소개</a>
 
-        <a href="/construction">시공 분야</a>
+        <a href="/construction">시공분야</a>
 
-        <a href="/portfolio">시공 사례</a>
+        <a href="/portfolio">시공사례</a>
 
         <a href="/inquiries">문의 목록</a>
 
@@ -1039,8 +1047,8 @@ document.addEventListener('mousemove', function(e){
     /* 화면 밖까지 이동 가능 */
     let newX = e.clientX - dragOffsetX;
     let newY = e.clientY - dragOffsetY;
-    
-    draggedModal.style.left = newX + 'px';
+
+       draggedModal.style.left = newX + 'px';
     draggedModal.style.top = newY + 'px';
 });
 
