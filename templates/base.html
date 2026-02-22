@@ -16,6 +16,7 @@
     --scale:min(calc(100vw / var(--base-width)), calc(100vh / var(--base-height)));
 }
 
+/* 기본 */
 html{
     overflow-y:auto;
 }
@@ -24,7 +25,10 @@ body{
     overflow:hidden;
 }
 
-/* ===== 상단 헤더 ===== */
+/* =========================
+   상단 헤더
+========================= */
+
 .top-header{
 
     height:40px;
@@ -53,61 +57,21 @@ body{
 
 }
 
-/* ===== 중앙 로고 ===== */
-.main-header{
+/* =========================
+   메뉴 헤더
+========================= */
 
-    height:100px;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    background:white;
-    
-    padding:0 60px;
-
-}
-
-.logo-center{
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-    cursor:pointer;
-
-}
-
-.logo-center img{
-
-    height:40px;
-
-}
-
-.logo-center span{
-
-    font-size:26px;
-
-    font-weight:700;
-
-    color:#2f7d32;
-
-}
-
-/* ===== 메뉴 헤더 ===== */
 .menu-header{
 
     height:60px;
 
     display:flex;
 
-    justify-content:space-between;
-
     align-items:center;
+
+    padding:0 60px;
+
+    justify-content:space-between;
 
     background:white;
 
@@ -117,91 +81,25 @@ body{
 
 }
 
-.menu-header .nav{
+.logo-left{
 
-    display:flex;
+    font-size:24px;
 
-    gap:60px;
-
-    margin-left:0;   /* 중요 */
-
-}
-
-.menu-header .nav a{
-
-    font-size:16px;
-
-    font-weight:500;
-
-    color:#374151;
-
-}
-
-.menu-header .nav a:hover{
+    font-weight:700;
 
     color:#2f7d32;
 
-}
-
-/* 헤더 */
-.header{
-    background:white;  /*헤더 배경색을 흰색으로 설정*/
-    height:80px;  /*헤더 높이를 70픽셀로 고정*/
-    display:flex;  /*헤더 내부 요소를 가로 정렬 모드로 변경*/
-    align-items:center;  /*세로 방향 가운데 정렬*/
-    justify-content:space-between;  /*좌우 끝으로 자동 정렬*/
-    padding:0 60px;  /*좌우 여백 추가*/
-    border-bottom:1px solid #e5ece9;  /*헤더 아래에 얇은 선 추가*/
-    box-shadow:0 2px 8px rgba(0,0,0,0.04);  /*헤더 아래 그림자 추가*/
-    white-space:nowrap;  /*줄바꿈 금지*/
-    position:sticky;  /*스크롤해도 헤더 고정*/
-    top:0;  /*화면 위에서 0px 위치에 고정*/
-    z-index:1000;  /*겹칠 때 맨 위로 표시*/
-    transform:translateZ(0);  /*GPU 가속 활성화*/     
-    backface-visibility:hidden;  /*렌더링 깜빡임 방지*/
-    will-change:transform;  /*브라우저에게 미리 알려줌 "이 요소는 transform 변경 예정" */  
-    opacity:0; /*초기 상태 투명*/
-    animation:headerFadeDown 0.6s ease forwards;  /*헤더 등장 애니메이션 실행*/
-}
-
-.logo{
-    display:flex;
-    align-items:center;
-    gap:10px;
     cursor:pointer;
-    flex-direction:row-reverse;
-    flex-shrink:0;
-    transform:translateZ(0);
-    opacity:0;
-    animation:headerFadeDown 0.6s ease forwards;
-    animation-delay:0.2s;
-}
 
-.logo img{
-    height:22px;           /* 이모지 크기처럼 작게 */
-    width:auto;
-    display:inline-block;  /* inline처럼 동작 */
-    vertical-align:middle; /* 텍스트와 정확히 맞춤 */
-    margin-left:6px;       /* 텍스트와 간격 */
-    transform:translateY(-1px); /* 미세 정렬 */
-    opacity:0.95;
-}
-
-.logo span{
-    font-size:22px;
-    font-weight:700;
-    color:var(--main);
-    display:flex;
-    align-items:center;
 }
 
 .nav{
 
-    margin-left:auto;   /* ← 핵심 (오른쪽 이동) */
-
     display:flex;
 
     gap:50px;
+
+    margin-left:auto;
 
 }
 
@@ -217,378 +115,202 @@ body{
 
 }
 
-
-/* hover 시 링크 느낌 제거 */
 .nav a:hover{
-
-    text-decoration:none !important;
 
     color:#2f7d32;
 
 }
 
-.nav a:visited,
-.header > a:visited{
+/* =========================
+   Footer
+========================= */
 
-    color:#374151;
-
-}
-
-.nav a:active,
-.header > a:active{
-
-    color:#374151;
-
-}
-
-.inquiry-btn{
-    background:var(--main);
-    color:white !important;
-    padding:8px 16px;
-    border-radius:8px;
-}
-
-/* footer */
 .footer{
+
     background:#f8faf9;
+
     border-top:1px solid #e5ece9;
+
     margin-top:80px;
-}
 
-.footer-logo{
-    font-size:18px;
-    font-weight:700;
-    color:var(--main);
-    margin-bottom:18px;
-}
-
-.footer-info{
-    font-size:14px;
-    color:#666;
-    line-height:1.8;
-    margin-bottom:15px;
-}
-
-.footer-line{
-    margin-bottom:3px;
-}
-
-.footer-links{
-    margin:15px 0;
-}
-
-.footer-links a{
-    color:#555;
-    text-decoration:none;
-    font-size:14px;
-    margin:0 8px;
-}
-
-.footer-links a:hover{
-    color:var(--main);
-}
-
-.footer-copy{
-    font-size:13px;
-    color:#999;
-    margin-top:10px;
 }
 
 .footer-inner{
+
     max-width:1100px;
+
     margin:0 auto;
+
     padding:40px 20px;
-    white-space:nowrap;
+
     display:flex;
+
     justify-content:space-between;
-    align-items:flex-start;
 
-    gap:40px;
-}
-/* 브랜드 영역 */
-.footer-brand{
-    display:flex;
-    align-items:center;
-    gap:12px;
-
-    margin-bottom:15px;
 }
 
-.footer-brand-logo{
-    height:28px;
-    width:auto;
-}
+.footer-logo{
 
-.footer-brand-text{
     font-size:18px;
+
     font-weight:700;
-    color:var(--main);
-}
-/* 왼쪽 영역 */
-.footer-left{
-    flex:1;
-}
-/* 정보 */
-.footer-info{
-    font-size:14px;
-    color:#666;
-    line-height:1.8;
-    margin-bottom:15px;
+
 }
 
-.footer-line{
-    margin-bottom:3px;
+.footer-info{
+
+    font-size:14px;
+
+    color:#666;
+
+    line-height:1.8;
+
 }
 
 .footer-copy{
+
     font-size:13px;
+
     color:#999;
+
 }
-/* 오른쪽 영역 */
-.footer-right{
-    text-align:right;
-}
+
 .footer-links{
+
     display:flex;
+
     flex-direction:column;
+
     gap:10px;
+
 }
 
 .footer-links a{
+
     color:#555;
+
     text-decoration:none;
-    font-size:14px;
+
 }
 
 .footer-links a:hover{
-    color:var(--main);
+
+    color:#2f7d32;
+
 }
 
 /* =========================
-   애니메이션 (아래 → 위)
+   Modal
 ========================= */
 
-/* 애플 스타일 fade-up */
-.fade-up{
-    opacity:0;
-
-    transform:
-        translate3d(0,30px,0)
-        scale(0.96);
-
-    transition:
-        opacity 0.8s cubic-bezier(0.22,1,0.36,1),
-        transform 0.8s cubic-bezier(0.22,1,0.36,1);
-
-    will-change:opacity, transform;
-}
-
-.fade-up.show{
-    opacity:1;
-
-    transform:
-        translate3d(0,0,0)
-        scale(1);
-}
-
-.card{
-    transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease;
-}
-
-.card:hover{
-    transform:
-        translateY(-6px)
-        scale(1.02);
-
-    box-shadow:
-        0 12px 30px rgba(0,0,0,0.12);
-}
-
 .modal{
+
     display:none;
+
     position:fixed;
+
     top:0;
+
     left:0;
+
     width:100%;
+
     height:100%;
+
     background:rgba(255,255,255,0.6);
 
     z-index:2147483647;
 
-    justify-content:flex-start;
-    align-items:flex-start;
-
-    padding:0;
 }
 
 .modal-content{
-    background:white !important;
+
+    background:white;
 
     position:fixed;
 
     width:700px;
+
     max-width:90vw;
 
-    /* 높이 자동 */
-    height:auto;
     max-height:90vh;
 
     top:50%;
+
     left:50%;
 
     transform:translate(-50%, -50%);
 
     display:flex;
-    flex-direction:column;
 
-    overflow:visible;
+    flex-direction:column;
 
     border:6px solid #78dd7c;
 
-    box-shadow:0 20px 60px rgba(0,0,0,0.25);
-
-    box-sizing:border-box;
 }
 
 .modal-header{
+
     background:#78dd7c;
+
     color:white;
 
     height:50px;
 
     display:flex;
+
     align-items:center;
+
     justify-content:space-between;
 
     padding:0 15px;
 
-    font-size:18px;
     font-weight:700;
 
     cursor:move;
 
-    width:100%;
-    box-sizing:border-box;
-
-    flex-shrink:0;
-}
-
-.modal-header > div:first-child{
-    display:flex;
-    align-items:center;
-    height:100%;
-}
-
-.modal-buttons{
-    display:flex;
-    gap:12px;
-}
-
-.modal-btn{
-    cursor:pointer;
-    font-size:16px;
-    padding:4px 8px;
-    border-radius:4px;
-    background:transparent;
-    border:none;
-    color:white;
-}
-
-.modal-btn:hover{
-    background:rgba(255,255,255,0.2);
-}
-
-.close-btn{
-    background:transparent !important;
-}
-
-.close-btn:hover{
-    background:#ff4444 !important;
-}
-
-.modal-content.minimized .modal-body{
-    display:none;
-}
-
-.modal-content.maximized{
-    width:700px;
-    height:500px;
 }
 
 .modal-body{
-    position:relative;
 
     padding:20px;
 
-    font-size:14px;
-    line-height:1.7;
-
-    color:#1b3a2f;
-
-    overflow:auto;  /* 내부 스크롤 제거 */
-    flex:1; 
-    min-height:0; 
-    width:100%;
-    height:auto;
-
-    box-sizing:border-box;
-}
-
-.modal-close{
-    cursor:pointer;
-
-    font-size:22px;
-
-    color:white;
-
-    transition:0.2s;
-}
-
-.modal-close:hover{
-    opacity:0.7;
-}
-
-@keyframes headerFadeDown{
-    from{
-        opacity:0;
-        transform:translate3d(0,-20px,0);
-    }
-    to{
-        opacity:1;
-        transform:translate3d(0,0,0);
-    }
-}
-
-@media (max-width:768px){
-
-    .footer-inner{
-        flex-direction:column;
-        text-align:center;
-    }
-
-    .footer-brand{
-        justify-content:center;
-    }
-
-    .footer-right{
-        text-align:center;
-        margin-top:20px;
-    }
-
-    .footer-links{
-        flex-direction:row;
-        justify-content:center;
-        gap:20px;
-    }
+    overflow:auto;
 
 }
+
+/* =========================
+   애니메이션
+========================= */
+
+.fade-up{
+
+    opacity:0;
+
+    transform:translate3d(0,30px,0);
+
+    transition:0.8s;
+
+}
+
+.fade-up.show{
+
+    opacity:1;
+
+    transform:none;
+
+}
+
+/* wrapper */
 
 .scale-wrapper{
+
     width:100%;
+
     max-width:1600px;
+
     margin:0 auto;
+
 }
 
 </style>
