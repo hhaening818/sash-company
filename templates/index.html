@@ -813,22 +813,6 @@
 
 <section class="hero">
 
-    <div class="header-buttons">
-
-        <div class="right-buttons">
-            {% if session.get('user') %}
-                <span class="user-name">{{ session.get('user') }}님</span>
-                <a href="/logout" class="user-btn">로그아웃</a>
-            {% else %}
-                <a href="/user_login" class="user-btn">로그인</a>
-                <a href="#" onclick="openSignup(); return false;" class="user-btn">
-                    회원가입
-                </a>
-            {% endif %}
-        </div>
-
-    </div>
-
     <div class="hero-inner">
 
         <img src="{{ url_for('static', filename='images/logo-hero.png') }}"
