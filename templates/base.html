@@ -126,12 +126,19 @@ body{
 ========================= */
 
 .hero{
+
     width:100%;
-    height:calc(100vh - 85px); /* 헤더 제외 전체 화면 */
+
+    height:calc(100vh - 85px); /* 헤더 높이 제외 */
+
+    min-height:420px;
 
     display:flex;
+
     justify-content:center;
+
     align-items:center;
+
 }
 
 .hero-inner{
@@ -375,10 +382,12 @@ body{
 .scale-wrapper{
 
     width:100%;
-
     max-width:1600px;
-
     margin:0 auto;
+
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
 
 }
 
