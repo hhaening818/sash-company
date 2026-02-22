@@ -86,13 +86,17 @@ button{
 
 .slider{
     position:relative;
+    width:100%;            /* 중요 */
     max-width:1000px;
-    margin:auto;
-    overflow:hidden;
+    margin:0 auto;
+    overflow:hidden;       /* 중요 */
 }
 
 .slides{
     display:flex;
+    flex-direction:row;
+    flex-wrap:nowrap;
+    width:max-content;     /* 핵심 */
     transition:transform 0.5s ease;
 }
 
@@ -106,8 +110,7 @@ button{
     width:100%;
     height:220px;
     object-fit:cover;
-    border-radius:10px;
-    cursor:pointer;
+    display:block;
 }
 
 .prev,.next{
