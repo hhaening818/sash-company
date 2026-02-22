@@ -50,25 +50,46 @@ def get_connection():
 # Hero 자동 선택 (페이지별 폴더 지원)
 # =========================
 
-def get_random_hero(page, fallback_url=None):
+# 샷시 회사 전용 hero 이미지
+HERO_DEFAULT = [
 
-    hero_folder = os.path.join(app.static_folder, "hero", page)
+    "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600",
+    "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=1600",
+    "https://images.unsplash.com/photo-1600566752355-35792bedcfea?q=80&w=1600",
+    "https://images.unsplash.com/photo-1600047509358-9dc75507daeb?q=80&w=1600",
+    "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?q=80&w=1600",
+    "https://images.unsplash.com/photo-1600585152915-d208bec867a1?q=80&w=1600",
 
-    # 1순위: static/hero/page/
-    if os.path.exists(hero_folder):
+]
 
-        files = [
-            f for f in os.listdir(hero_folder)
-            if f.lower().endswith((".jpg", ".jpeg", ".png", ".webp"))
-        ]
 
-        if files:
-            selected = random.choice(files)
+def get_random_hero(page=None, fallback_url=None):
 
-            # 중요: static/ 제거하고 반환
-            return url_for('static', filename=f'hero/{page}/{selected}')
+    # ✅ 1순위: 샷시 회사 전용 이미지
+    if HERO_DEFAULT:
+        return random.choice(HERO_DEFAULT)
 
-    # 2순위: fallback URL
+
+    # ✅ 2순위: static 폴더 이미지
+    if page:
+        hero_folder = os.path.join(app.static_folder, "hero", page)
+
+        if os.path.exists(hero_folder):
+
+            files = [
+                f for f in os.listdir(hero_folder)
+                if f.lower().endswith((".jpg",".jpeg",".png",".webp"))
+            ]
+
+            if files:
+                selected = random.choice(files)
+                return url_for(
+                    'static',
+                    filename=f'hero/{page}/{selected}'
+                )
+
+
+    # ✅ 3순위: fallback
     return fallback_url
 
 
