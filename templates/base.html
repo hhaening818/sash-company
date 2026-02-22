@@ -24,6 +24,11 @@ html{
 body{
     margin:0;
     overflow-x:hidden;
+
+    display:flex;
+    flex-direction:column;
+
+    min-height:100vh;
 }
 
 /* =========================
@@ -130,17 +135,15 @@ body{
 
     width:100%;
 
-    min-height:420px;
+    flex:1;
 
-    height:auto;
+    min-height:420px;
 
     display:flex;
 
     justify-content:center;
 
     align-items:center;
-
-    padding:60px 0;
 
 }
 
@@ -385,7 +388,6 @@ body{
 .scale-wrapper{
 
     width:100%;
-    max-width:1600px;
     margin:0 auto;
 
     display:flex;
